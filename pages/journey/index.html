@@ -17,7 +17,7 @@
         <div class="nav-container">
             <div class="nav-logo">
                 <div class="avatar-small">
-                    <img src="../../images/avatar-small.png" alt="头像" onerror="this.outerHTML='<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"#4ECDC4\" opacity=\"0.3\"/><circle cx=\"16\" cy=\"12\" r=\"5\" fill=\"#4ECDC4\"/><path d=\"M6 26 C6 22, 10 18, 16 18 C22 18, 26 22, 26 26\" fill=\"#4ECDC4\"/></svg>
+                    <img src="../../images/icons/avatar-small.png" alt="头像" onerror="this.outerHTML='<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"#4ECDC4\" opacity=\"0.3\"/><circle cx=\"16\" cy=\"12\" r=\"5\" fill=\"#4ECDC4\"/><path d=\"M6 26 C6 22, 10 18, 16 18 C22 18, 26 22, 26 26\" fill=\"#4ECDC4\"/></svg>
                 </div>
                 <span class="logo-text"><a href="../../main.html" style="text-decoration: none; color: inherit;">晨昏故人</a></span>
             </div>
@@ -43,32 +43,32 @@
         <aside class="sidebar">
             <div class="profile-card">
                 <div class="profile-avatar">
-                    <img src="../../images/avatar-card.png" alt="个人头像" onerror="this.outerHTML='<svg width=\"100\" height=\"100\" viewBox=\"0 0 100 100\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"50\" cy=\"50\" r=\"50\" fill=\"#4ECDC4\" opacity=\"0.3\"/><circle cx=\"50\" cy=\"38\" r=\"15\" fill=\"#4ECDC4\"/><path d=\"M20 78 C20 65, 32 55, 50 55 C68 55, 80 65, 80 78\" fill=\"#4ECDC4\"/></svg>
+                    <img src="../../images/icons/avatar-card.png" alt="个人头像" onerror="this.outerHTML='<svg width=\"100\" height=\"100\" viewBox=\"0 0 100 100\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"50\" cy=\"50\" r=\"50\" fill=\"#4ECDC4\" opacity=\"0.3\"/><circle cx=\"50\" cy=\"38\" r=\"15\" fill=\"#4ECDC4\"/><path d=\"M20 78 C20 65, 32 55, 50 55 C68 55, 80 65, 80 78\" fill=\"#4ECDC4\"/></svg>
                 </div>
                 
                 <div class="profile-info">
                     <h3 class="profile-name">晨昏故人</h3>
                     <div class="profile-details">
-                        <p><span class="icon">🎂</span>22岁</p>
-                        <p><span class="icon">📍</span>深圳</p>
-                        <p><span class="icon">🎓</span>金融工程研究生在读</p>
-                        <p><span class="icon">💫</span>往前走，慢慢来</p>
+                        <p>22岁</p>
+                        <p>深圳</p>
+                        <p>金融工程研究生在读</p>
+                        
                     </div>
                 </div>
                 
                 <div class="contact-info">
                     <h4>联系方式</h4>
-                    <p><span class="icon">💬</span>微信: chgr_CarpeDiem</p>
-                    <p><span class="icon">📱</span>公众号: 晨昏故人</p>
+                    <p>微信: chgr_CarpeDiem</p>
+                    <p>公众号: 晨昏故人</p>
                 </div>
                 
                 <div class="quick-links">
                     <h4>关联主页</h4>
                     <a href="https://portfolio.chgr-cuhksz-gao.cn/" target="_blank" class="link-btn">
-                        <span class="icon">🎓</span>学术主页
+                        学术主页
                     </a>
                     <a href="https://career.chenggao.top" target="_blank" class="link-btn">
-                        <span class="icon">💼</span>求职主页（开发中）
+                        求职主页（开发中）
                     </a>
                 </div>
             </div>
@@ -85,7 +85,7 @@
             </div>
             
             <section class="section">
-                <h2 class="section-title">人生旅程 <span class="title-decoration">🏃‍♂️</span></h2>
+                <h2 class="section-title">人生旅程 </h2>
                 
                 <div class="marathon-content">
                     <!-- 统计数据 -->
@@ -99,8 +99,8 @@
                             <div class="stat-label">总距离(km)</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-number" id="best-time">-</div>
-                            <div class="stat-label">最佳成绩</div>
+                            <div class="stat-number" id="monthly-distance">-</div>
+                            <div class="stat-label">平均月跑量(km)</div>
                         </div>
                     </div>
                     
@@ -115,7 +115,7 @@
                     
                     <!-- 比赛记录 -->
                     <div class="races-section">
-                        <h3>🏆 参赛记录</h3>
+                        <h3>参赛记录</h3>
                         <div class="races-container" id="races-container">
                             <!-- 比赛记录将通过JavaScript动态加载 -->
                         </div>
@@ -123,7 +123,7 @@
                     
                     <!-- 训练日志 -->
                     <div class="training-section">
-                        <h3>📝 最近训练</h3>
+                        <h3>最近训练</h3>
                         <div class="training-container" id="training-container">
                             <!-- 训练记录将通过JavaScript动态加载 -->
                         </div>
@@ -138,6 +138,7 @@
 
     <script src="../../js/main.js"></script>
     <script src="../../js/animations.js"></script>
+    <script src="../../js/background.js"></script>
     <script>
         // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', async function() {
@@ -174,6 +175,96 @@
                 console.error('数据加载失败:', error);
                 throw error;
             }
+        }
+        
+        // 渲染马拉松内容
+        function renderMarathon() {
+            if (!marathonData) {
+                console.error('马拉松数据未加载');
+                return;
+            }
+            
+            // 显示统计数据
+            displayMarathonStats();
+            
+            // 显示比赛记录
+            displayRaces();
+            
+            // 显示训练日志
+            displayTrainingLog();
+        }
+        
+        function displayMarathonStats() {
+            const stats = marathonData.statistics;
+            document.getElementById('total-races').textContent = stats.totalRaces;
+            document.getElementById('total-distance').textContent = stats.totalDistance;
+            document.getElementById('monthly-distance').textContent = stats.monthlyDistance;
+        }
+        
+        function displayRaces() {
+            const container = document.getElementById('races-container');
+            const races = marathonData.races;
+            
+            container.innerHTML = races.map(race => `
+                <div class="race-card">
+                    <div class="race-header">
+                        <h4>${race.name}</h4>
+                        <span class="race-date">${race.date}</span>
+                    </div>
+                    <div class="race-details">
+                        <div class="race-info">
+                            <p><strong>地点：</strong>${race.location}</p>
+                            <p><strong>距离：</strong>${race.distance}</p>
+                            <p><strong>成绩：</strong>${race.time}</p>
+                            <p><strong>排名：</strong>${race.ranking}/${race.totalParticipants}</p>
+                            <p><strong>天气：</strong>${race.weather}</p>
+                        </div>
+                        ${race.certificate ? `<div class="race-images">
+                            <img src="../../${race.certificate}" alt="比赛证书" class="race-image" onerror="this.style.display='none'">
+                            ${race.medal ? `<img src="../../${race.medal}" alt="奖牌" class="race-image" onerror="this.style.display='none'">` : ''}
+                        </div>` : ''}
+                    </div>
+                    <div class="race-experience">
+                        <h5>比赛感受</h5>
+                        <p>${race.experience}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function displayTrainingLog() {
+            const container = document.getElementById('training-container');
+            const trainings = marathonData.trainingLog.slice(0, 3); // 只显示最近3次
+            
+            container.innerHTML = trainings.map(training => `
+                <div class="training-card">
+                    <div class="training-header">
+                        <span class="training-date">${training.date}</span>
+                        <span class="training-type">${training.type}</span>
+                    </div>
+                    <div class="training-details">
+                        <div class="detail-item">
+                            <span class="detail-label">距离</span>
+                            <span class="detail-value">${training.distance}km</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">用时</span>
+                            <span class="detail-value">${training.time}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">配速</span>
+                            <span class="detail-value">${training.pace}/km</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">地点</span>
+                            <span class="detail-value">${training.location}</span>
+                        </div>
+                    </div>
+                    <div class="training-feeling">
+                        <p>${training.feeling}</p>
+                    </div>
+                </div>
+            `).join('');
         }
     </script>
 </body>

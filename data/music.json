@@ -3,26 +3,26 @@
     {
       "id": 1,
       "songName": "Stay Alive",
-      "artist": "Jungkook (BTS) ft. Suga",
-      "album": "7FATES: CHAKHO OST",
-      "genre": "K-Pop/电子",
-      "releaseYear": 2022,
-      "mood": "激昂",
-      "reason": "节奏感强烈，充满力量感的歌曲。Jungkook的嗓音充满磁性，配合Suga的说唱部分，营造出紧张刺激的氛围，适合运动时听，能激发内心的斗志。",
+      "artist": "José González",
+      "album": "The Secret Life of Walter Mitty OST",
+      "genre": "独立民谣",
+      "releaseYear": 2013,
+      "mood": "温柔治愈",
+      "reason": "鼓舞人心，契合主角追寻真实自我的历程。José González温柔细腻的吉他演奏和轻柔的嗓音，为电影《白日梦想家》增添了温暖而富有力量的情感色彩，激励着每个人勇敢追寻内心的梦想。",
       "albumCover": "images/music/album-1.jpg",
       "addDate": "2024-01-28",
       "playCount": 15,
-      "language": "韩语/英语"
+      "language": "英语"
     },
     {
       "id": 2,
-      "songName": "リセット",
-      "artist": "大和田慎吾",
-      "album": "リセット",
+      "songName": "リセット（Reset）",
+      "artist": "向井太一",
+      "album": "風が強く吹いている ED Single",
       "genre": "J-Pop",
-      "releaseYear": 2020,
-      "mood": "放松",
-      "reason": "旋律优美，有种重新开始的感觉。歌曲的编曲简洁而不失精致，温柔的旋律仿佛在诉说着放下过去，拥抱新生活的勇气，很适合在安静的夜晚聆听。",
+      "releaseYear": 2018,
+      "mood": "治愈、焕新",
+      "reason": "鼓励重启人生，抚慰人心。作为动画《强风吹拂》的片尾曲，这首歌完美诠释了重新开始的勇气与希望。向井太一独特的嗓音温暖治愈，旋律轻快却不失深度，让人在迷茫时找到前进的方向。",
       "albumCover": "images/music/album-2.jpg",
       "addDate": "2024-01-26",
       "playCount": 8,
@@ -31,36 +31,16 @@
     {
       "id": 3,
       "songName": "音乐爱我",
-      "artist": "陈绮贞",
+      "artist": "常石磊",
       "album": "音乐爱我",
-      "genre": "独立流行",
+      "genre": "流行、唱作人",
       "releaseYear": 2019,
-      "mood": "开心",
-      "reason": "陈绮贞独特的嗓音，充满文艺气息。这首歌表达了对音乐纯粹的热爱，歌词朴实却深情，旋律轻快中带着一丝忧郁，体现了她一贯的音乐风格，让人感受到音乐的治愈力量。",
+      "mood": "温暖、治愈、有力量感",
+      "reason": "常石磊用其独特而温暖的嗓音诠释对音乐的热爱，歌词质朴真诚，旋律富有感染力，是一首能打动人心的中文流行佳作。歌曲表达了对音乐纯粹的热爱，让人感受到音乐的治愈力量和生命的美好。",
       "albumCover": "images/music/album-3.jpg",
       "addDate": "2024-01-24",
       "playCount": 12,
       "language": "中文"
-    }
-  ],
-  "playlists": [
-    {
-      "id": 1,
-      "name": "我的最爱",
-      "description": "收录了最打动我心的歌曲，每一首都有特殊的意义",
-      "cover": "images/music/playlist-cover.jpg",
-      "songCount": 25,
-      "createDate": "2024-01-01",
-      "updateDate": "2024-01-28"
-    },
-    {
-      "id": 2,
-      "name": "深夜电台",
-      "description": "适合夜深人静时聆听的温柔歌曲",
-      "cover": "images/music/playlist-night.jpg",
-      "songCount": 18,
-      "createDate": "2024-01-15",
-      "updateDate": "2024-01-26"
     }
   ]
 }

@@ -1,23 +1,22 @@
-/* CSS变量定义 */
+/* CSS变量定义 - 深色主题风格 */
 :root {
-    /* 主色调 */
-    --color-primary: #4ECDC4;      /* 薄荷绿 */
-    --color-secondary: #45B7D1;    /* 天空蓝 */
-    --color-accent: #FFA07A;       /* 温暖橙 */
+    /* 主色调 - 深色主题 */
+    --bg-color: #030712;
+    --text-color: #f9fafb;
+    --text-muted-color: #d1d5db;
+    --primary-color: #3b82f6;
+    --secondary-color: #ec4899;
+    --accent-color: #facc15;
     
-    /* 背景色 */
-    --bg-main: #F8FFFE;           /* 极浅薄荷色 */
-    --bg-card: #FFFFFF;           /* 纯白 */
-    --bg-hover: #E8F9F7;          /* 浅薄荷色悬停 */
+    /* 卡片和背景 */
+    --card-background: rgba(255, 255, 255, 0.08);
+    --card-hover: rgba(255, 255, 255, 0.12);
+    --border-color: rgba(255, 255, 255, 0.2);
+    --shadow-color: rgba(0, 0, 0, 0.4);
     
-    /* 文字色 */
-    --text-primary: #2C3E50;      /* 深蓝灰 */
-    --text-secondary: #7F8C8D;    /* 中灰 */
-    --text-light: #BDC3C7;       /* 浅灰 */
-    
-    /* 边框色 */
-    --border-light: #E8F4FD;      /* 浅蓝 */
-    --border-medium: #B8E6B8;     /* 薄荷绿 */
+    /* 字体 */
+    --font-sans: 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+    --font-serif: 'Noto Serif SC', 'Microsoft YaHei', serif;
     
     /* 间距 */
     --spacing-xs: 4px;
@@ -30,12 +29,17 @@
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 16px;
-    --radius-xl: 24px;
+    --radius-xl: 9999px;
     
-    /* 阴影 */
-    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-    --shadow-lg: 0 8px 25px rgba(0,0,0,0.15);
+    /* 阴影 - 深色主题 */
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+    --shadow-lg: 0 8px 25px rgba(0,0,0,0.5);
+    
+    /* 背景图片透明度控制 */
+    --bg-image-opacity: 0.95;
+    --bg-overlay-opacity: 0.3;
+    --bg-blur-strength: 3.5px;
 }
 
 /* 全局样式重置 */
@@ -46,11 +50,12 @@
 }
 
 body {
-    font-family: 'Nunito', 'Microsoft YaHei', sans-serif;
-    background: var(--bg-main);
-    color: var(--text-primary);
+    font-family: var(--font-sans);
+    background: var(--bg-color);
+    color: var(--text-color);
     line-height: 1.6;
     font-size: 16px;
+    min-height: 100vh;
 }
 
 /* 首页样式 */
@@ -392,16 +397,71 @@ body {
 }
 
 .profile-card {
-    background: var(--bg-card);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--border-light);
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.1) 0%, 
+        rgba(236, 72, 153, 0.05) 50%, 
+        rgba(250, 204, 21, 0.1) 100%);
+    backdrop-filter: blur(16px);
+    border-radius: 24px;
+    padding: 2rem;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 2px 8px rgba(59, 130, 246, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    position: relative;
+    overflow: hidden;
+    animation: fade-in-up 0.8s ease-out forwards;
+}
+
+.profile-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    animation: float 6s ease-in-out infinite;
+    z-index: -1;
+}
+
+.profile-card::after {
+    content: '';
+    position: absolute;
+    bottom: -50%;
+    left: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.08) 0%, transparent 70%);
+    animation: float 8s ease-in-out infinite reverse;
+    z-index: -1;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(10px, -10px) scale(1.05); }
 }
 
 .profile-avatar {
     text-align: center;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.profile-avatar::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    opacity: 0.2;
+    filter: blur(12px);
+    z-index: -1;
 }
 
 .profile-avatar img {
@@ -409,6 +469,21 @@ body {
     height: 100px;
     border-radius: 50%;
     object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 1;
+    box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.3),
+        0 0 0 4px rgba(255, 255, 255, 0.05);
+}
+
+.profile-avatar img:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 
+        0 12px 32px rgba(0, 0, 0, 0.4),
+        0 0 0 4px rgba(255, 255, 255, 0.1);
+    border-color: rgba(250, 204, 21, 0.5);
 }
 
 .profile-info {
@@ -417,19 +492,42 @@ body {
 }
 
 .profile-name {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: var(--spacing-md);
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--text-color) 0%, var(--text-muted-color) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 1.5rem;
+    font-family: var(--font-serif);
+    letter-spacing: 0.5px;
+    position: relative;
+}
+
+.profile-details {
+    margin-bottom: 2rem;
 }
 
 .profile-details p {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-sm);
-    font-size: 0.9rem;
-    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+    font-size: 0.95rem;
+    color: var(--text-muted-color);
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+}
+
+.profile-details p:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
 }
 
 .contact-info,
@@ -439,40 +537,89 @@ body {
 
 .contact-info h4,
 .quick-links h4 {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: var(--spacing-md);
+    color: var(--text-color);
+    margin-bottom: 1rem;
     text-align: center;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.contact-info h4::after,
+.quick-links h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    border-radius: 1px;
 }
 
 .contact-info p {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-sm);
-    font-size: 0.9rem;
-    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+    font-size: 0.95rem;
+    color: var(--text-muted-color);
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+}
+
+.contact-info p:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
 }
 
 .link-btn {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: var(--spacing-sm);
     text-decoration: none;
-    color: var(--text-primary);
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border-light);
-    margin-bottom: var(--spacing-sm);
-    transition: all 0.3s ease;
-    font-size: 0.9rem;
+    color: var(--text-color);
+    padding: 12px 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    margin-bottom: var(--spacing-md);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-size: 0.95rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    position: relative;
+    overflow: hidden;
+}
+
+.link-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.link-btn:hover::before {
+    left: 100%;
 }
 
 .link-btn:hover {
-    background: var(--bg-hover);
-    border-color: var(--color-primary);
-    color: var(--color-primary);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .icon {
@@ -487,20 +634,25 @@ body {
 .section {
     margin-bottom: var(--spacing-xl);
     padding: var(--spacing-xl);
-    background: var(--bg-card);
+    background: var(--card-background);
+    backdrop-filter: blur(12px);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
-    border: 1px solid var(--border-light);
+    border: 1px solid var(--border-color);
 }
 
 .section-title {
     font-size: 1.8rem;
-    font-weight: 600;
-    color: var(--text-primary);
+    font-weight: 700;
+    background: linear-gradient(to bottom right, var(--text-color), var(--text-muted-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
     margin-bottom: var(--spacing-lg);
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
+    font-family: var(--font-serif);
 }
 
 .title-decoration {
@@ -613,7 +765,8 @@ body {
 }
 
 .books-section h3,
-.movies-section h3 {
+.movies-section h3,
+.music-section h3 {
     font-size: 1.3rem;
     font-weight: 600;
     color: var(--text-primary);
@@ -629,24 +782,39 @@ body {
 }
 
 /* 卡片样式 */
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .book-card,
 .movie-card,
 .music-card {
     display: flex;
     gap: var(--spacing-md);
     padding: var(--spacing-lg);
-    background: var(--bg-card);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-light);
-    transition: all 0.3s ease;
+    background: var(--card-background);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: var(--shadow-md);
+    animation: fade-in-up 0.8s ease-out forwards;
 }
 
 .book-card:hover,
 .movie-card:hover,
 .music-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--color-primary);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--shadow-lg);
+    background: var(--card-hover);
+    border-color: var(--accent-color);
 }
 
 .book-cover,
@@ -695,20 +863,22 @@ body {
 }
 
 .nav-card {
-    background: var(--bg-card);
+    background: var(--card-background);
+    backdrop-filter: blur(12px);
     border-radius: var(--radius-lg);
     padding: var(--spacing-xl);
     text-align: center;
     cursor: pointer;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-    box-shadow: var(--shadow-sm);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
 }
 
 .nav-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) scale(1.02);
     box-shadow: var(--shadow-lg);
-    border-color: var(--color-primary);
+    background: var(--card-hover);
+    border-color: var(--accent-color);
 }
 
 .nav-icon {
@@ -718,39 +888,99 @@ body {
 }
 
 .nav-card h3 {
-    color: var(--text-primary);
+    color: var(--text-color);
     margin-bottom: var(--spacing-sm);
     font-size: 1.3rem;
     font-weight: 600;
+    background: linear-gradient(to bottom right, var(--text-color), var(--text-muted-color));
+    -webkit-background-clip: text;
+    background-clip: text;
 }
 
 .nav-card p {
-    color: var(--text-secondary);
+    color: var(--text-muted-color);
     font-size: 0.95rem;
     line-height: 1.5;
 }
 
 /* 个人简介页面样式 */
-.about-detailed .personality-card,
+.about-detailed .about-me-card,
 .about-detailed .education-card,
 .about-detailed .life-philosophy-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
     margin-bottom: var(--spacing-xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.about-detailed .about-me-card h3,
+.about-detailed .education-card h3,
+.about-detailed .life-philosophy-card h3 {
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.education-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+    align-items: stretch;
 }
 
 .education-item {
-    margin-bottom: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: var(--spacing-md);
+}
+
+.education-content {
+    flex: 1;
+}
+
+.education-logo {
+    flex-shrink: 0;
+}
+
+.university-logo {
+    width: 96px;
+    height: 96px;
+    object-fit: contain;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.education-item:hover .university-logo {
+    opacity: 1;
+}
+
+.education-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
 .education-item h4 {
     color: var(--text-primary);
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
     font-size: 1.2rem;
+    font-weight: 600;
 }
 
 .degree {
     color: var(--color-primary);
     font-weight: 600;
     margin-bottom: var(--spacing-xs);
+    font-size: 1rem;
 }
 
 .location {
@@ -760,11 +990,21 @@ body {
 
 .life-philosophy-card blockquote {
     font-style: italic;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     color: var(--color-primary);
     border-left: 4px solid var(--color-primary);
     padding-left: var(--spacing-md);
-    margin: var(--spacing-md) 0;
+    margin: var(--spacing-sm) 0 var(--spacing-md) 0;
+    font-weight: 500;
+    background: rgba(59, 130, 246, 0.05);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-sm);
+}
+
+.life-philosophy-card p {
+    line-height: 1.7;
+    color: var(--text-secondary);
+    font-size: 1rem;
 }
 
 /* 人生旅程页面样式 */
@@ -907,6 +1147,65 @@ body {
 
 .back-btn:hover .back-arrow {
     transform: translateX(-2px);
+}
+
+/* 背景图片系统 */
+.page-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    filter: blur(var(--bg-blur-strength));
+    transition: opacity 0.8s ease, filter 0.5s ease;
+}
+
+.page-background.fade-in {
+    opacity: var(--bg-image-opacity);
+}
+
+.page-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: rgba(3, 7, 18, var(--bg-overlay-opacity));
+    backdrop-filter: blur(1px);
+}
+
+/* 不同页面的背景图片 */
+.bg-main {
+    background-image: url('../images/backgrounds/main-bg.jpg');
+}
+
+.bg-about {
+    background-image: url('../images/backgrounds/about-bg.jpg');
+}
+
+.bg-interests {
+    background-image: url('../images/backgrounds/interests-bg.jpg');
+}
+
+.bg-journey {
+    background-image: url('../images/backgrounds/journey-bg.jpg');
+}
+
+.bg-contact {
+    background-image: url('../images/backgrounds/contact-bg.jpg');
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .page-background {
+        filter: blur(2px);
+    }
 }
 
 .book-info,
@@ -1129,19 +1428,23 @@ body {
 
 .race-card,
 .training-card {
-    background: var(--bg-card);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-light);
+    background: var(--card-background);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
     padding: var(--spacing-lg);
     margin-bottom: var(--spacing-lg);
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: var(--shadow-md);
+    animation: fade-in-up 0.8s ease-out forwards;
 }
 
 .race-card:hover,
 .training-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--color-primary);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--shadow-lg);
+    background: var(--card-hover);
+    border-color: var(--accent-color);
 }
 
 .race-header,
@@ -1216,4 +1519,85 @@ body {
 .fade-out {
     opacity: 0;
     transition: opacity 0.8s ease;
+}
+
+/* 马拉松图片样式 */
+.race-images {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.race-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+}
+
+.race-image:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent-color);
+}
+
+.race-details {
+    display: flex;
+    gap: var(--spacing-lg);
+    align-items: flex-start;
+    margin-top: var(--spacing-md);
+}
+
+.race-info {
+    flex: 1;
+}
+
+.race-info p {
+    color: var(--text-muted-color);
+    margin-bottom: var(--spacing-sm);
+}
+
+.race-info strong {
+    color: var(--text-color);
+}
+
+.race-experience {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--accent-color);
+}
+
+.race-experience h5 {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+}
+
+.race-experience p {
+    color: var(--text-muted-color);
+    line-height: 1.6;
+}
+
+.race-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.race-header h4 {
+    color: var(--text-color);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.race-date {
+    color: var(--text-muted-color);
+    font-size: 0.9rem;
 }

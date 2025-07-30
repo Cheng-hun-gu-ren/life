@@ -2,60 +2,81 @@
   "races": [
     {
       "id": 1,
-      "name": "深圳马拉松",
-      "date": "2023-12-17",
-      "location": "深圳",
-      "distance": "半马",
-      "time": "2:15:30",
-      "ranking": 856,
-      "totalParticipants": 3000,
+      "name": "烟台长岛马拉松",
+      "date": "2023-05-03",
+      "location": "烟台",
+      "distance": "环岛马拉松（31公里）",
+      "time": "2:31:49",
+      "ranking": 35,
+      "totalParticipants": 2000,
       "weather": "晴天，18°C",
-      "experience": "人生第一次半马，虽然准备不是很充分，但坚持跑完了全程。深圳湾的赛道风景很美，海风习习，观众的加油声给了我很大的动力。",
-      "certificate": "images/marathon/certificate-shenzhen-2023.jpg",
-      "medal": "images/marathon/medal-shenzhen-2023.jpg",
+      "experience": "人生第一次长距离跑，环岛马拉松，绕着美丽的小岛跑一圈，欣赏海景。长岛的特色美食鲅鱼水饺也非常好吃，后半程补给点就有！美味",
+      "certificate": "images/marathon/长岛证书.jpg",
+      "medal": "images/marathon/scene-长岛-1.jpg",
       "photos": [
-        "images/marathon/scene-shenzhen-1.jpg",
-        "images/marathon/scene-shenzhen-2.jpg"
+        "images/marathon/scene-长岛-1.jpg",
+        "images/marathon/scene-长岛-2.jpg"
+      ]
+    },
+
+    {
+      "id": 2,
+      "name": "半马线上赛",
+      "date": "2023-06-06",
+      "location": "威海",
+      "distance": "半马（操场跑圈）",
+      "time": "1:28:56",
+      "ranking": 3,
+      "totalParticipants": 9,
+      "weather": "阴，22°C",
+      "experience": "在工大的第一次半马，跟随“威风吹拂”田径队一起跑完半马全程，绕操场50多圈，达到个人PB，爽！",
+      "certificate": "images/marathon/certificate-半马-2023.jpg",
+      "medal": "images/marathon/scene-长岛-2.jpg",
+      "photos": [
+        "images/marathon/scene-2023-1.jpg",
+        "images/marathon/scene-2023-2.jpg"
       ]
     }
   ],
+
+  
   "statistics": {
-    "totalRaces": 1,
-    "totalDistance": 21.1,
-    "bestTime": "2:15:30",
+    "totalRaces": 2,
+    "totalDistance": 52.2,
+    "monthlyDistance": "60",
     "averageTime": "2:15:30",
     "favoriteDistance": "半马"
   },
   "trainingLog": [
     {
-      "date": "2024-01-30",
-      "distance": 10.5,
-      "time": "52:30",
-      "pace": "5:00",
-      "location": "深圳湾公园",
+      "date": "2025-07-27",
+      "distance": 5.01,
+      "time": "24:58",
+      "pace": "4:58",
+      "location": "红树林公园",
       "weather": "多云",
-      "feeling": "状态不错，配速稳定。今天沿着海边跑，心情很舒畅，跑完后感觉神清气爽。",
-      "type": "日常训练"
+      "feeling": "状态不错，配速稳定。公园里蛮多人的，也有很多一起训练的伙伴，心情很舒畅，跑完后感觉神清气爽。",
+      "type": "夜跑训练"
     },
     {
-      "date": "2024-01-27",
-      "distance": 8.0,
-      "time": "42:00",
-      "pace": "5:15",
-      "location": "莲花山公园",
+      "date": "2025-07-24",
+      "distance": 5.01,
+      "time": "25:27",
+      "pace": "5:04",
+      "location": "田径场+上下园",
       "weather": "晴天",
-      "feeling": "第一次在莲花山跑步，坡度有点挑战性，但风景很美。跑到山顶时看到了整个深圳的景色。",
+      "feeling": "五公里夜跑，十点钟田径场熄灯时刚刚跑完四公里。最后一公里从下园跑到上园。",
       "type": "爬坡训练"
     },
     {
-      "date": "2024-01-24",
-      "distance": 5.0,
-      "time": "25:30",
-      "pace": "5:06",
-      "location": "小区周边",
+      "date": "2025-07-13",
+      "distance": 5.03,
+      "time": "29:03",
+      "pace": "5:46",
+      "location": "红树林公园+机场路",
       "weather": "阴天",
-      "feeling": "轻松跑，主要是恢复训练。腿部感觉还不错，明天可以增加一些强度。",
-      "type": "恢复跑"
+      "feeling": "穿过小房子，后面是一条没有走过的路，好像直连机场高速了。后来迷路了，没有从原来的入口出去，而是找到了一个新出口。",
+      "type": "自由跑"
     }
   ]
 }
