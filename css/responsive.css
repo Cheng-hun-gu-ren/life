@@ -144,6 +144,21 @@
     }
     
     /* 首页小平板适配 */
+    .landing-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+        text-align: center;
+    }
+    
+    .poetry-image img {
+        width: 250px;
+        height: 167px;
+    }
+    
+    .poetry-line {
+        font-size: 1.3rem;
+    }
+    
     .name {
         font-size: 2.2rem;
     }
@@ -452,6 +467,25 @@
     
     /* 首页移动端适配 */
     .landing-page {
+        padding: var(--spacing-md);
+    }
+    
+    .landing-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+        text-align: center;
+    }
+    
+    .poetry-image img {
+        width: 200px;
+        height: 133px;
+    }
+    
+    .poetry-line {
+        font-size: 1.1rem;
+    }
+    
+    .poetry-text {
         padding: var(--spacing-md);
     }
     

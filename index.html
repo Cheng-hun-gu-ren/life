@@ -6,45 +6,224 @@
     <title>晨昏故人的小世界</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/animations.css">
-</head>
-<body class="landing-page">
-    <div class="landing-container">
-        <!-- 背景装饰 -->
-        <div class="bg-decoration">
-            <div class="cloud cloud-1"></div>
-            <div class="cloud cloud-2"></div>
-            <div class="cloud cloud-3"></div>
-            <div class="star star-1"></div>
-            <div class="star star-2"></div>
-            <div class="star star-3"></div>
-            <div class="star star-4"></div>
-        </div>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #030712;
+            --text-color: #f9fafb;
+            --text-muted-color: #d1d5db;
+            --font-sans: 'Noto Sans SC', sans-serif;
+            --font-serif: 'Noto Serif SC', serif;
+        }
 
-        <!-- 主要内容 -->
-        <div class="landing-content">
-            <div class="avatar-container">
-                <div class="avatar-placeholder">
-                    <img src="images/avatar-main.png" alt="主头像" onerror="this.outerHTML='<svg width=\"120\" height=\"120\" viewBox=\"0 0 120 120\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"60\" cy=\"60\" r=\"60\" fill=\"#4ECDC4\" opacity=\"0.3\"/><circle cx=\"60\" cy=\"45\" r=\"20\" fill=\"#4ECDC4\"/><path d=\"M25 95 C25 75, 40 65, 60 65 C80 65, 95 75, 95 95\" fill=\"#4ECDC4\"/></svg>
-                </div>
-            </div>
-            
-            <h1 class="name">晨昏故人</h1>
-            <p class="intro">22岁 | 深圳 | 金融工程研究生</p>
-            <p class="welcome">欢迎来到我的小世界 ✨</p>
-            
-            <button class="enter-btn" onclick="enterSite()">
-                <span>ENTER</span>
-                <div class="btn-decoration">
-                    <div class="heart">♡</div>
-                </div>
-            </button>
-        </div>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            transition: opacity 0.8s ease-out; /* For fade-out effect */
+        }
+
+        body.fade-out {
+            opacity: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        /* Background Aurora Effect */
+        .background-aurora {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .aurora-shape {
+            position: absolute;
+            border-radius: 9999px;
+            filter: blur(100px);
+            opacity: 0.2;
+            animation: float 20s infinite ease-in-out alternate;
+        }
+
+        .shape-1 {
+            top: 15%;
+            left: 20%;
+            width: 24rem;
+            height: 24rem;
+            background-color: #3b82f6; /* blue-500 */
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            bottom: 15%;
+            right: 20%;
+            width: 24rem;
+            height: 24rem;
+            background-color: #ec4899; /* pink-500 */
+            animation-delay: -10s;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(20px, 40px) scale(1.1); }
+        }
+
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Content Styles */
+        .avatar {
+            width: 128px;
+            height: 128px;
+            border-radius: 9999px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+            animation: fade-in-up 0.8s ease-out forwards;
+            opacity: 0;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            object-fit: cover;
+        }
+        .avatar:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        h1 {
+            font-size: 3.75rem; /* 60px */
+            line-height: 1;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            background-image: linear-gradient(to bottom right, #ffffff, #9ca3af);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 0;
+            animation: fade-in-up 0.8s 0.2s ease-out forwards;
+            opacity: 0;
+        }
+
+        .subtitle {
+            font-family: var(--font-serif);
+            font-size: 1.125rem; /* 18px */
+            color: var(--text-muted-color);
+            max-width: 36rem; /* md */
+            margin-top: 1rem;
+            animation: fade-in-up 0.8s 0.4s ease-out forwards;
+            opacity: 0;
+        }
+
+        .welcome-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1.25rem; /* 20px */
+            color: var(--text-color);
+            margin-top: 1.5rem;
+            animation: fade-in-up 0.8s 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .welcome-text .sparkle {
+            color: #facc15; /* yellow-400 */
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .enter-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2.5rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 9999px;
+            padding: 1rem 2rem;
+            font-size: 1.125rem; /* 18px */
+            text-decoration: none;
+            backdrop-filter: blur(4px);
+            transition: background-color 0.3s ease;
+            animation: fade-in-up 0.8s 0.8s ease-out forwards;
+            opacity: 0;
+            cursor: pointer;
+            font-family: var(--font-sans);
+        }
+
+        .enter-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .enter-button .arrow {
+            margin-left: 0.5rem;
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem; /* 48px */
+            }
+            .subtitle, .welcome-text, .enter-button {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-aurora">
+        <div class="aurora-shape shape-1"></div>
+        <div class="aurora-shape shape-2"></div>
     </div>
 
-    <script src="js/animations.js"></script>
+    <div class="container">
+        <img src="images/avatar-main.png" alt="晨昏故人 头像" class="avatar">
+
+        <h1>晨昏故人</h1>
+
+        <p class="subtitle">书卷多情似故人，晨昏忧乐每相亲</p>
+
+        <p class="welcome-text">
+            <svg class="sparkle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            <span>欢迎来到我的小世界</span>
+            <svg class="sparkle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        </p>
+
+        <button class="enter-button" onclick="enterSite()">
+            进入世界
+            <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+    </div>
+
     <script>
         function enterSite() {
             document.body.classList.add('fade-out');
@@ -52,11 +231,7 @@
                 window.location.href = 'main.html';
             }, 800);
         }
-
-        // 初始化页面动画
-        document.addEventListener('DOMContentLoaded', function() {
-            initLandingAnimations();
-        });
     </script>
+
 </body>
 </html>

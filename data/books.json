@@ -1,7 +1,7 @@
 {
   "currentReading": [
     {
-      "id": 3,
+      "id": 1,
       "title": "追风筝的人",
       "author": "[美] 卡勒德·胡赛尼",
       "isbn": "978-7-5327-3024-7",
@@ -9,7 +9,7 @@
       "startDate": "2024-01-10",
       "thoughts": "关于友谊、背叛与救赎的深刻故事，让人反思人性的复杂",
       "rating": 4.8,
-      "cover": "images/books/book-3.jpg",
+      "cover": "images/books/book-1.jpg",
       "status": "reading",
       "genre": "文学小说",
       "pages": 362
@@ -17,25 +17,25 @@
   ],
   "recentlyFinished": [
     {
-      "id": 1,
+      "id": 2,
       "title": "亲密关系",
       "author": "[美] 罗兰·米勒",
       "finishDate": "2024-01-15",
       "review": "这本书深入浅出地解析了人际关系的心理学原理，从科学角度分析了爱情、友谊和家庭关系的本质。特别是对于亲密关系中的沟通技巧和冲突处理有很实用的指导意义。",
       "rating": 4.5,
-      "cover": "images/books/book-1.jpg",
+      "cover": "images/books/book-2.jpg",
       "status": "finished",
       "genre": "心理学",
       "pages": 540
     },
     {
-      "id": 2,
+      "id": 3,
       "title": "怦然心动的人生整理魔法",
       "author": "[日] 近藤麻理惠",
       "finishDate": "2024-01-20",
       "review": "近藤麻理惠的整理法则不仅仅是收纳技巧，更是一种生活哲学。'只留下让你心动的物品'这个原则让我重新审视了自己与物品的关系，学会了断舍离的智慧。",
       "rating": 4.0,
-      "cover": "images/books/book-2.jpg",
+      "cover": "images/books/book-3.jpg",
       "status": "finished",
       "genre": "生活方式",
       "pages": 288

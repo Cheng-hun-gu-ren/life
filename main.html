@@ -23,10 +23,10 @@
             </div>
             
             <ul class="nav-menu">
-                <li><a href="#about" class="nav-link active">关于我</a></li>
-                <li><a href="#recent" class="nav-link">最近动态</a></li>
-                <li><a href="#marathon" class="nav-link">马拉松之路</a></li>
-                <li><a href="#contact" class="nav-link">联系我</a></li>
+                <li><a href="pages/about/index.html" class="nav-link">个人简介</a></li>
+                <li><a href="pages/interests/index.html" class="nav-link">兴趣爱好</a></li>
+                <li><a href="pages/journey/index.html" class="nav-link">人生旅程</a></li>
+                <li><a href="pages/contact/index.html" class="nav-link">联系方式</a></li>
             </ul>
             
             <div class="mobile-menu-toggle">
@@ -64,11 +64,11 @@
                 
                 <div class="quick-links">
                     <h4>关联主页</h4>
-                    <a href="https://academic.chenggao.top" target="_blank" class="link-btn">
+                    <a href="https://portfolio.chgr-cuhksz-gao.cn/" target="_blank" class="link-btn">
                         <span class="icon">🎓</span>学术主页
                     </a>
                     <a href="https://career.chenggao.top" target="_blank" class="link-btn">
-                        <span class="icon">💼</span>求职主页
+                        <span class="icon">💼</span>求职主页（开发中）
                     </a>
                 </div>
             </div>
@@ -76,131 +76,30 @@
 
         <!-- 右侧主内容区 -->
         <main class="content">
-            <!-- 关于我 Section -->
-            <section id="about" class="section about-section">
-                <h2 class="section-title">关于我 <span class="title-decoration">✨</span></h2>
-                <div class="about-content">
-                    <div class="personality-card">
-                        <h3>性格特点</h3>
-                        <p>偏内向，待人接物温和，有进取心。喜欢在安静的环境中思考和学习，对新知识保持着旺盛的好奇心。</p>
-                    </div>
-                    
-                    <div class="interests-grid">
-                        <div class="interest-item">
-                            <div class="interest-icon">📚</div>
-                            <h4>阅读爱好者</h4>
-                            <p>喜欢文学、心理学、自我提升类书籍</p>
-                        </div>
-                        <div class="interest-item">
-                            <div class="interest-icon">🏃‍♂️</div>
-                            <h4>马拉松跑者</h4>
-                            <p>享受跑步带来的身心愉悦和挑战</p>
-                        </div>
-                        <div class="interest-item">
-                            <div class="interest-icon">🎬</div>
-                            <h4>电影爱好者</h4>
-                            <p>热爱各种类型的电影，享受光影艺术</p>
-                        </div>
-                        <div class="interest-item">
-                            <div class="interest-icon">🎵</div>
-                            <h4>音乐爱好者</h4>
-                            <p>喜欢不同风格的音乐，音乐是生活的调味剂</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
-            <!-- 最近动态 Section -->
-            <section id="recent" class="section recent-section">
-                <h2 class="section-title">最近动态 <span class="title-decoration">🌟</span></h2>
-                
-                <!-- 标签页切换 -->
-                <div class="tabs">
-                    <button class="tab-btn active" data-tab="books">书籍</button>
-                    <button class="tab-btn" data-tab="movies">电影</button>
-                    <button class="tab-btn" data-tab="music">音乐</button>
-                </div>
-                
-                <!-- 书籍内容 -->
-                <div class="tab-content active" id="books-content">
-                    <div class="books-section">
-                        <h3>📚 最近在读</h3>
-                        <div class="books-grid" id="books-container">
-                            <!-- 书籍卡片将通过JavaScript动态加载 -->
-                        </div>
+            <!-- 子页面导航提示 -->
+            <section class="section welcome-section">
+                <h2 class="section-title">欢迎来到我的小世界 <span class="title-decoration">✨</span></h2>
+                <div class="navigation-cards">
+                    <div class="nav-card" onclick="window.location.href='pages/about/index.html'">
+                        <div class="nav-icon">👤</div>
+                        <h3>个人简介</h3>
+                        <p>了解我的基本信息和成长经历</p>
                     </div>
-                </div>
-                
-                <!-- 电影内容 -->
-                <div class="tab-content" id="movies-content">
-                    <div class="movies-section">
-                        <h3>🎬 最近观影</h3>
-                        <div class="movies-grid" id="movies-container">
-                            <!-- 电影卡片将通过JavaScript动态加载 -->
-                        </div>
+                    <div class="nav-card" onclick="window.location.href='pages/interests/index.html'">
+                        <div class="nav-icon">🎯</div>
+                        <h3>兴趣爱好</h3>
+                        <p>书籍、电影、音乐分享</p>
                     </div>
-                </div>
-                
-                <!-- 音乐内容 -->
-                <div class="tab-content" id="music-content">
-                    <div class="music-section">
-                        <h3>🎵 最近在听</h3>
-                        <div class="music-controls">
-                            <button class="mood-filter active" data-mood="all">全部</button>
-                            <button class="mood-filter" data-mood="开心">开心</button>
-                            <button class="mood-filter" data-mood="放松">放松</button>
-                            <button class="mood-filter" data-mood="激昂">激昂</button>
-                        </div>
-                        
-                        <div class="music-grid" id="music-container">
-                            <!-- 音乐卡片将通过JavaScript动态加载 -->
-                        </div>
-                        
-                        <div class="playlists-section">
-                            <h3>🎵 播放列表</h3>
-                            <div class="playlists-container" id="playlists-container">
-                                <!-- 播放列表将通过JavaScript动态加载 -->
-                            </div>
-                        </div>
+                    <div class="nav-card" onclick="window.location.href='pages/journey/index.html'">
+                        <div class="nav-icon">🏃‍♂️</div>
+                        <h3>人生旅程</h3>
+                        <p>马拉松记录与人生感悟</p>
                     </div>
-                </div>
-            </section>
-
-            <!-- 马拉松之路 Section -->
-            <section id="marathon" class="section marathon-section">
-                <h2 class="section-title">马拉松之路 <span class="title-decoration">🏃‍♂️</span></h2>
-                
-                <div class="marathon-content">
-                    <!-- 统计数据 -->
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-number" id="total-races">-</div>
-                            <div class="stat-label">参赛次数</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="total-distance">-</div>
-                            <div class="stat-label">总距离(km)</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="best-time">-</div>
-                            <div class="stat-label">最佳成绩</div>
-                        </div>
-                    </div>
-                    
-                    <!-- 比赛记录 -->
-                    <div class="races-section">
-                        <h3>🏆 参赛记录</h3>
-                        <div class="races-container" id="races-container">
-                            <!-- 比赛记录将通过JavaScript动态加载 -->
-                        </div>
-                    </div>
-                    
-                    <!-- 训练日志 -->
-                    <div class="training-section">
-                        <h3>📝 最近训练</h3>
-                        <div class="training-container" id="training-container">
-                            <!-- 训练记录将通过JavaScript动态加载 -->
-                        </div>
+                    <div class="nav-card" onclick="window.location.href='pages/contact/index.html'">
+                        <div class="nav-icon">📧</div>
+                        <h3>联系方式</h3>
+                        <p>与我取得联系，分享交流</p>
                     </div>
                 </div>
             </section>
