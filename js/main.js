@@ -141,6 +141,8 @@ function initTabs() {
             
             if (targetTab === 'books') {
                 document.getElementById('books-content').classList.add('active');
+            } else if (targetTab === 'movies') {
+                document.getElementById('movies-content').classList.add('active');
             } else if (targetTab === 'music') {
                 document.getElementById('music-content').classList.add('active');
             }

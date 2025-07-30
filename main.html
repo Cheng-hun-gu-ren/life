@@ -17,11 +17,7 @@
         <div class="nav-container">
             <div class="nav-logo">
                 <div class="avatar-small">
-                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="16" cy="16" r="16" fill="#4ECDC4" opacity="0.3"/>
-                        <circle cx="16" cy="12" r="5" fill="#4ECDC4"/>
-                        <path d="M6 26 C6 22, 10 18, 16 18 C22 18, 26 22, 26 26" fill="#4ECDC4"/>
-                    </svg>
+                    <img src="images/avatar-small.png" alt="头像" onerror="this.outerHTML='<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"#4ECDC4\" opacity=\"0.3\"/><circle cx=\"16\" cy=\"12\" r=\"5\" fill=\"#4ECDC4\"/><path d=\"M6 26 C6 22, 10 18, 16 18 C22 18, 26 22, 26 26\" fill=\"#4ECDC4\"/></svg>
                 </div>
                 <span class="logo-text">晨昏故人</span>
             </div>
@@ -47,11 +43,7 @@
         <aside class="sidebar">
             <div class="profile-card">
                 <div class="profile-avatar">
-                    <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="50" cy="50" r="50" fill="#4ECDC4" opacity="0.3"/>
-                        <circle cx="50" cy="38" r="15" fill="#4ECDC4"/>
-                        <path d="M20 78 C20 65, 32 55, 50 55 C68 55, 80 65, 80 78" fill="#4ECDC4"/>
-                    </svg>
+                    <img src="images/avatar-card.png" alt="个人头像" onerror="this.outerHTML='<svg width=\"100\" height=\"100\" viewBox=\"0 0 100 100\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"50\" cy=\"50\" r=\"50\" fill=\"#4ECDC4\" opacity=\"0.3\"/><circle cx=\"50\" cy=\"38\" r=\"15\" fill=\"#4ECDC4\"/><path d=\"M20 78 C20 65, 32 55, 50 55 C68 55, 80 65, 80 78\" fill=\"#4ECDC4\"/></svg>
                 </div>
                 
                 <div class="profile-info">
@@ -59,8 +51,8 @@
                     <div class="profile-details">
                         <p><span class="icon">🎂</span>22岁</p>
                         <p><span class="icon">📍</span>深圳</p>
-                        <p><span class="icon">🎓</span>金融工程研究生</p>
-                        <p><span class="icon">💫</span>内向温和，有进取心</p>
+                        <p><span class="icon">🎓</span>金融工程研究生在读</p>
+                        <p><span class="icon">💫</span>往前走，慢慢来</p>
                     </div>
                 </div>
                 
@@ -124,48 +116,51 @@
                 
                 <!-- 标签页切换 -->
                 <div class="tabs">
-                    <button class="tab-btn active" data-tab="books">最近在看</button>
-                    <button class="tab-btn" data-tab="music">最近在听</button>
+                    <button class="tab-btn active" data-tab="books">书籍</button>
+                    <button class="tab-btn" data-tab="movies">电影</button>
+                    <button class="tab-btn" data-tab="music">音乐</button>
                 </div>
                 
-                <!-- 书籍和电影内容 -->
+                <!-- 书籍内容 -->
                 <div class="tab-content active" id="books-content">
-                    <div class="content-grid">
-                        <!-- 书籍区域 -->
-                        <div class="books-section">
-                            <h3>📚 书籍</h3>
-                            <div class="books-grid" id="books-container">
-                                <!-- 书籍卡片将通过JavaScript动态加载 -->
-                            </div>
+                    <div class="books-section">
+                        <h3>📚 最近在读</h3>
+                        <div class="books-grid" id="books-container">
+                            <!-- 书籍卡片将通过JavaScript动态加载 -->
                         </div>
-                        
-                        <!-- 电影区域 -->
-                        <div class="movies-section">
-                            <h3>🎬 电影</h3>
-                            <div class="movies-grid" id="movies-container">
-                                <!-- 电影卡片将通过JavaScript动态加载 -->
-                            </div>
+                    </div>
+                </div>
+                
+                <!-- 电影内容 -->
+                <div class="tab-content" id="movies-content">
+                    <div class="movies-section">
+                        <h3>🎬 最近观影</h3>
+                        <div class="movies-grid" id="movies-container">
+                            <!-- 电影卡片将通过JavaScript动态加载 -->
                         </div>
                     </div>
                 </div>
                 
                 <!-- 音乐内容 -->
                 <div class="tab-content" id="music-content">
-                    <div class="music-controls">
-                        <button class="mood-filter active" data-mood="all">全部</button>
-                        <button class="mood-filter" data-mood="开心">开心</button>
-                        <button class="mood-filter" data-mood="放松">放松</button>
-                        <button class="mood-filter" data-mood="激昂">激昂</button>
-                    </div>
-                    
-                    <div class="music-grid" id="music-container">
-                        <!-- 音乐卡片将通过JavaScript动态加载 -->
-                    </div>
-                    
-                    <div class="playlists-section">
-                        <h3>🎵 播放列表</h3>
-                        <div class="playlists-container" id="playlists-container">
-                            <!-- 播放列表将通过JavaScript动态加载 -->
+                    <div class="music-section">
+                        <h3>🎵 最近在听</h3>
+                        <div class="music-controls">
+                            <button class="mood-filter active" data-mood="all">全部</button>
+                            <button class="mood-filter" data-mood="开心">开心</button>
+                            <button class="mood-filter" data-mood="放松">放松</button>
+                            <button class="mood-filter" data-mood="激昂">激昂</button>
+                        </div>
+                        
+                        <div class="music-grid" id="music-container">
+                            <!-- 音乐卡片将通过JavaScript动态加载 -->
+                        </div>
+                        
+                        <div class="playlists-section">
+                            <h3>🎵 播放列表</h3>
+                            <div class="playlists-container" id="playlists-container">
+                                <!-- 播放列表将通过JavaScript动态加载 -->
+                            </div>
                         </div>
                     </div>
                 </div>
