@@ -1,0 +1,61 @@
+{
+  "races": [
+    {
+      "id": 1,
+      "name": "深圳马拉松",
+      "date": "2023-12-17",
+      "location": "深圳",
+      "distance": "半马",
+      "time": "2:15:30",
+      "ranking": 856,
+      "totalParticipants": 3000,
+      "weather": "晴天，18°C",
+      "experience": "人生第一次半马，虽然准备不是很充分，但坚持跑完了全程。深圳湾的赛道风景很美，海风习习，观众的加油声给了我很大的动力。",
+      "certificate": "images/marathon/certificate-shenzhen-2023.jpg",
+      "medal": "images/marathon/medal-shenzhen-2023.jpg",
+      "photos": [
+        "images/marathon/scene-shenzhen-1.jpg",
+        "images/marathon/scene-shenzhen-2.jpg"
+      ]
+    }
+  ],
+  "statistics": {
+    "totalRaces": 1,
+    "totalDistance": 21.1,
+    "bestTime": "2:15:30",
+    "averageTime": "2:15:30",
+    "favoriteDistance": "半马"
+  },
+  "trainingLog": [
+    {
+      "date": "2024-01-30",
+      "distance": 10.5,
+      "time": "52:30",
+      "pace": "5:00",
+      "location": "深圳湾公园",
+      "weather": "多云",
+      "feeling": "状态不错，配速稳定。今天沿着海边跑，心情很舒畅，跑完后感觉神清气爽。",
+      "type": "日常训练"
+    },
+    {
+      "date": "2024-01-27",
+      "distance": 8.0,
+      "time": "42:00",
+      "pace": "5:15",
+      "location": "莲花山公园",
+      "weather": "晴天",
+      "feeling": "第一次在莲花山跑步，坡度有点挑战性，但风景很美。跑到山顶时看到了整个深圳的景色。",
+      "type": "爬坡训练"
+    },
+    {
+      "date": "2024-01-24",
+      "distance": 5.0,
+      "time": "25:30",
+      "pace": "5:06",
+      "location": "小区周边",
+      "weather": "阴天",
+      "feeling": "轻松跑，主要是恢复训练。腿部感觉还不错，明天可以增加一些强度。",
+      "type": "恢复跑"
+    }
+  ]
+}

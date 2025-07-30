@@ -1,0 +1,64 @@
+{
+  "recentWatched": [
+    {
+      "id": 1,
+      "title": "哈尔的移动城堡",
+      "originalTitle": "ハウルの動く城",
+      "director": "宫崎骏",
+      "year": 2004,
+      "genre": ["动画", "奇幻", "冒险"],
+      "rating": 4.8,
+      "watchDate": "2024-01-25",
+      "review": "宫崎骏的经典之作，浪漫与奇幻完美结合。苏菲与哈尔的爱情超越了外表的束缚，传递出'因为爱你，只要你一个肯定，我就足够勇敢'的深刻情感。画面精美，音乐动人，是一部探讨战争与和平、爱与勇气的杰作。",
+      "poster": "images/movies/movie-1.jpg",
+      "duration": 119,
+      "country": "日本",
+      "language": "日语"
+    },
+    {
+      "id": 2,
+      "title": "土拨鼠之日",
+      "originalTitle": "Groundhog Day",
+      "director": "哈罗德·雷米斯",
+      "year": 1993,
+      "genre": ["喜剧", "奇幻"],
+      "rating": 4.5,
+      "watchDate": "2024-01-18",
+      "review": "关于时间循环的经典喜剧，深刻又幽默。比尔·默里的精彩演技展现了从绝望到成长的心路历程。影片通过重复的一天，探讨了人生意义、自我完善和真爱的主题，既有笑料又富含哲理。",
+      "poster": "images/movies/movie-2.jpg",
+      "duration": 101,
+      "country": "美国",
+      "language": "英语"
+    },
+    {
+      "id": 3,
+      "title": "白日梦想家",
+      "originalTitle": "The Secret Life of Walter Mitty",
+      "director": "本·斯蒂勒",
+      "year": 2013,
+      "genre": ["剧情", "冒险", "喜剧"],
+      "rating": 4.3,
+      "watchDate": "2024-01-22",
+      "review": "鼓励人们勇敢追求梦想的励志佳作。本·斯蒂勒将一个平凡的杂志管理员的内心世界展现得淋漓尽致，从幻想到现实的转变令人感动。影片的视觉效果绚丽，配乐优美，传递着'生活就是一场冒险'的积极信念。",
+      "poster": "images/movies/movie-3.jpg",
+      "duration": 114,
+      "country": "美国",
+      "language": "英语"
+    },
+    {
+      "id": 4,
+      "title": "蝴蝶效应",
+      "originalTitle": "The Butterfly Effect",
+      "director": "埃里克·布雷斯 / J·马凯·格鲁伯",
+      "year": 2004,
+      "genre": ["科幻", "悬疑", "惊悚"],
+      "rating": 4.6,
+      "watchDate": "2024-01-12",
+      "review": "烧脑的时间旅行题材，结局令人深思。阿什顿·库彻的表演层次丰富，将角色的痛苦与挣扎表现得很到位。影片探讨了改变过去可能带来的意想不到的后果，传达了'有些伤痛注定要承受'的深刻哲理。",
+      "poster": "images/movies/movie-4.jpg",
+      "duration": 113,
+      "country": "美国",
+      "language": "英语"
+    }
+  ]
+}

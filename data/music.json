@@ -1,0 +1,66 @@
+{
+  "currentListening": [
+    {
+      "id": 1,
+      "songName": "Stay Alive",
+      "artist": "Jungkook (BTS) ft. Suga",
+      "album": "7FATES: CHAKHO OST",
+      "genre": "K-Pop/电子",
+      "releaseYear": 2022,
+      "mood": "激昂",
+      "reason": "节奏感强烈，充满力量感的歌曲。Jungkook的嗓音充满磁性，配合Suga的说唱部分，营造出紧张刺激的氛围，适合运动时听，能激发内心的斗志。",
+      "albumCover": "images/music/album-1.jpg",
+      "addDate": "2024-01-28",
+      "playCount": 15,
+      "language": "韩语/英语"
+    },
+    {
+      "id": 2,
+      "songName": "リセット",
+      "artist": "大和田慎吾",
+      "album": "リセット",
+      "genre": "J-Pop",
+      "releaseYear": 2020,
+      "mood": "放松",
+      "reason": "旋律优美，有种重新开始的感觉。歌曲的编曲简洁而不失精致，温柔的旋律仿佛在诉说着放下过去，拥抱新生活的勇气，很适合在安静的夜晚聆听。",
+      "albumCover": "images/music/album-2.jpg",
+      "addDate": "2024-01-26",
+      "playCount": 8,
+      "language": "日语"
+    },
+    {
+      "id": 3,
+      "songName": "音乐爱我",
+      "artist": "陈绮贞",
+      "album": "音乐爱我",
+      "genre": "独立流行",
+      "releaseYear": 2019,
+      "mood": "开心",
+      "reason": "陈绮贞独特的嗓音，充满文艺气息。这首歌表达了对音乐纯粹的热爱，歌词朴实却深情，旋律轻快中带着一丝忧郁，体现了她一贯的音乐风格，让人感受到音乐的治愈力量。",
+      "albumCover": "images/music/album-3.jpg",
+      "addDate": "2024-01-24",
+      "playCount": 12,
+      "language": "中文"
+    }
+  ],
+  "playlists": [
+    {
+      "id": 1,
+      "name": "我的最爱",
+      "description": "收录了最打动我心的歌曲，每一首都有特殊的意义",
+      "cover": "images/music/playlist-cover.jpg",
+      "songCount": 25,
+      "createDate": "2024-01-01",
+      "updateDate": "2024-01-28"
+    },
+    {
+      "id": 2,
+      "name": "深夜电台",
+      "description": "适合夜深人静时聆听的温柔歌曲",
+      "cover": "images/music/playlist-night.jpg",
+      "songCount": 18,
+      "createDate": "2024-01-15",
+      "updateDate": "2024-01-26"
+    }
+  ]
+}

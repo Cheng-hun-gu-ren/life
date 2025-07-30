@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>晨昏故人 - 个人主页</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="avatar-small">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="16" cy="16" r="16" fill="#4ECDC4" opacity="0.3"/>
+                        <circle cx="16" cy="12" r="5" fill="#4ECDC4"/>
+                        <path d="M6 26 C6 22, 10 18, 16 18 C22 18, 26 22, 26 26" fill="#4ECDC4"/>
+                    </svg>
+                </div>
+                <span class="logo-text">晨昏故人</span>
+            </div>
+            
+            <ul class="nav-menu">
+                <li><a href="#about" class="nav-link active">关于我</a></li>
+                <li><a href="#recent" class="nav-link">最近动态</a></li>
+                <li><a href="#marathon" class="nav-link">马拉松之路</a></li>
+                <li><a href="#contact" class="nav-link">联系我</a></li>
+            </ul>
+            
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区域 -->
+    <div class="main-container">
+        <!-- 左侧边栏 -->
+        <aside class="sidebar">
+            <div class="profile-card">
+                <div class="profile-avatar">
+                    <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="50" fill="#4ECDC4" opacity="0.3"/>
+                        <circle cx="50" cy="38" r="15" fill="#4ECDC4"/>
+                        <path d="M20 78 C20 65, 32 55, 50 55 C68 55, 80 65, 80 78" fill="#4ECDC4"/>
+                    </svg>
+                </div>
+                
+                <div class="profile-info">
+                    <h3 class="profile-name">晨昏故人</h3>
+                    <div class="profile-details">
+                        <p><span class="icon">🎂</span>22岁</p>
+                        <p><span class="icon">📍</span>深圳</p>
+                        <p><span class="icon">🎓</span>金融工程研究生</p>
+                        <p><span class="icon">💫</span>内向温和，有进取心</p>
+                    </div>
+                </div>
+                
+                <div class="contact-info">
+                    <h4>联系方式</h4>
+                    <p><span class="icon">💬</span>微信: chgr_CarpeDiem</p>
+                    <p><span class="icon">📱</span>公众号: 晨昏故人</p>
+                </div>
+                
+                <div class="quick-links">
+                    <h4>关联主页</h4>
+                    <a href="https://academic.chenggao.top" target="_blank" class="link-btn">
+                        <span class="icon">🎓</span>学术主页
+                    </a>
+                    <a href="https://career.chenggao.top" target="_blank" class="link-btn">
+                        <span class="icon">💼</span>求职主页
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 右侧主内容区 -->
+        <main class="content">
+            <!-- 关于我 Section -->
+            <section id="about" class="section about-section">
+                <h2 class="section-title">关于我 <span class="title-decoration">✨</span></h2>
+                <div class="about-content">
+                    <div class="personality-card">
+                        <h3>性格特点</h3>
+                        <p>偏内向，待人接物温和，有进取心。喜欢在安静的环境中思考和学习，对新知识保持着旺盛的好奇心。</p>
+                    </div>
+                    
+                    <div class="interests-grid">
+                        <div class="interest-item">
+                            <div class="interest-icon">📚</div>
+                            <h4>阅读爱好者</h4>
+                            <p>喜欢文学、心理学、自我提升类书籍</p>
+                        </div>
+                        <div class="interest-item">
+                            <div class="interest-icon">🏃‍♂️</div>
+                            <h4>马拉松跑者</h4>
+                            <p>享受跑步带来的身心愉悦和挑战</p>
+                        </div>
+                        <div class="interest-item">
+                            <div class="interest-icon">🎬</div>
+                            <h4>电影爱好者</h4>
+                            <p>热爱各种类型的电影，享受光影艺术</p>
+                        </div>
+                        <div class="interest-item">
+                            <div class="interest-icon">🎵</div>
+                            <h4>音乐爱好者</h4>
+                            <p>喜欢不同风格的音乐，音乐是生活的调味剂</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 最近动态 Section -->
+            <section id="recent" class="section recent-section">
+                <h2 class="section-title">最近动态 <span class="title-decoration">🌟</span></h2>
+                
+                <!-- 标签页切换 -->
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="books">最近在看</button>
+                    <button class="tab-btn" data-tab="music">最近在听</button>
+                </div>
+                
+                <!-- 书籍和电影内容 -->
+                <div class="tab-content active" id="books-content">
+                    <div class="content-grid">
+                        <!-- 书籍区域 -->
+                        <div class="books-section">
+                            <h3>📚 书籍</h3>
+                            <div class="books-grid" id="books-container">
+                                <!-- 书籍卡片将通过JavaScript动态加载 -->
+                            </div>
+                        </div>
+                        
+                        <!-- 电影区域 -->
+                        <div class="movies-section">
+                            <h3>🎬 电影</h3>
+                            <div class="movies-grid" id="movies-container">
+                                <!-- 电影卡片将通过JavaScript动态加载 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 音乐内容 -->
+                <div class="tab-content" id="music-content">
+                    <div class="music-controls">
+                        <button class="mood-filter active" data-mood="all">全部</button>
+                        <button class="mood-filter" data-mood="开心">开心</button>
+                        <button class="mood-filter" data-mood="放松">放松</button>
+                        <button class="mood-filter" data-mood="激昂">激昂</button>
+                    </div>
+                    
+                    <div class="music-grid" id="music-container">
+                        <!-- 音乐卡片将通过JavaScript动态加载 -->
+                    </div>
+                    
+                    <div class="playlists-section">
+                        <h3>🎵 播放列表</h3>
+                        <div class="playlists-container" id="playlists-container">
+                            <!-- 播放列表将通过JavaScript动态加载 -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 马拉松之路 Section -->
+            <section id="marathon" class="section marathon-section">
+                <h2 class="section-title">马拉松之路 <span class="title-decoration">🏃‍♂️</span></h2>
+                
+                <div class="marathon-content">
+                    <!-- 统计数据 -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="total-races">-</div>
+                            <div class="stat-label">参赛次数</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="total-distance">-</div>
+                            <div class="stat-label">总距离(km)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="best-time">-</div>
+                            <div class="stat-label">最佳成绩</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 比赛记录 -->
+                    <div class="races-section">
+                        <h3>🏆 参赛记录</h3>
+                        <div class="races-container" id="races-container">
+                            <!-- 比赛记录将通过JavaScript动态加载 -->
+                        </div>
+                    </div>
+                    
+                    <!-- 训练日志 -->
+                    <div class="training-section">
+                        <h3>📝 最近训练</h3>
+                        <div class="training-container" id="training-container">
+                            <!-- 训练记录将通过JavaScript动态加载 -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 移动端侧边栏遮罩 -->
+    <div class="sidebar-overlay"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/music.js"></script>
+    <script>
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initPage();
+        });
+    </script>
+</body>
+</html>
