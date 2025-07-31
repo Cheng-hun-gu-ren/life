@@ -179,7 +179,7 @@ function renderBooks() {
     const allBooks = [...(booksData.currentReading || []), ...(booksData.recentlyFinished || [])].sort((a, b) => a.id - b.id);
     
     container.innerHTML = allBooks.map(book => `
-        <div class="book-card hover-lift animate-in">
+        <div class="book-card hover-lift animate-in" data-id="${book.id}">
             <div class="book-cover">
                 <img src="${book.cover}" alt="${book.title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTA3IiB2aWV3Qm94PSIwIDAgODAgMTA3IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSIxMDciIGZpbGw9IiM0RUNEQzQiIG9wYWNpdHk9IjAuMyIvPjx0ZXh0IHg9IjQwIiB5PSI1NCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM0RUNEQzQiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuS5puexuzwvdGV4dD48L3N2Zz4='" />
             </div>
@@ -211,7 +211,7 @@ function renderMovies() {
     if (!container) return;
     
     container.innerHTML = moviesData.recentWatched.sort((a, b) => a.id - b.id).map(movie => `
-        <div class="movie-card hover-lift animate-in">
+        <div class="movie-card hover-lift animate-in" data-id="${movie.id}">
             <div class="movie-poster">
                 <img src="${movie.poster}" alt="${movie.title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgODAgMTIwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiM0NUI3RDEiIG9wYWNpdHk9IjAuMyIvPjx0ZXh0IHg9IjQwIiB5PSI2MCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM0NUI3RDEiIHRleHQtYW5jaG9yPSJtaWRkbGUiPueUteW9sTwvdGV4dD48L3N2Zz4='" />
             </div>
@@ -237,7 +237,7 @@ function renderMusic() {
     if (!container) return;
     
     container.innerHTML = musicData.currentListening.sort((a, b) => a.id - b.id).map(song => `
-        <div class="music-card hover-lift animate-in" data-mood="${song.mood}">
+        <div class="music-card hover-lift animate-in" data-id="${song.id}" data-mood="${song.mood}">
             <div class="album-cover">
                 <img src="${song.albumCover}" alt="${song.album}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSI0MCIgZmlsbD0iI0ZGQTcwQSIgb3BhY2l0eT0iMC4zIi8+PHRleHQgeD0iNDAiIHk9IjQ0IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZmlsbD0iI0ZGQTcwQSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+6Z+z5LmQPC90ZXh0Pjwvc3ZnPg=='" />
             </div>

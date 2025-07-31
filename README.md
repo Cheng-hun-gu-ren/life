@@ -70,11 +70,11 @@ life-homepage/
 
 ```bash
 # 使用简单的HTTP服务器
-python -m http.server 8000
+python -m http.server 8001
 
 #本地浏览器预览
-http://localhost:8000/index.html
-http://localhost:8000/main.html
+http://localhost:8001/index.html
+http://localhost:8001/main.html
 
 
 # 或者使用Node.js

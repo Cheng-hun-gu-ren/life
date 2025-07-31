@@ -131,10 +131,33 @@
     <!-- 移动端侧边栏遮罩 -->
     <div class="sidebar-overlay"></div>
 
+    <!-- 详情弹窗 -->
+    <div class="detail-modal" id="detailModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">×</button>
+            
+            <!-- 左侧图片区域 -->
+            <div class="modal-left">
+                <img id="modalDetailImage" class="modal-detail-image" alt="详情图片">
+            </div>
+            
+            <!-- 右侧内容区域 -->
+            <div class="modal-right">
+                <h2 id="modalTitle" class="modal-title"></h2>
+                <div id="modalMeta" class="modal-meta"></div>
+                <div class="modal-thoughts">
+                    <h3 class="thoughts-title">我的感想</h3>
+                    <p id="modalThoughts" class="thoughts-content"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="../../js/main.js"></script>
     <script src="../../js/animations.js"></script>
     <script src="../../js/music.js"></script>
     <script src="../../js/background.js"></script>
+    <script src="../../js/details.js"></script>
     <script>
         // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', async function() {

@@ -842,16 +842,254 @@ body {
     height: 128px; /* 1:1 aspect ratio */
 }
 
+.book-cover,
+.movie-poster,
+.album-cover {
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
 .book-cover img,
 .movie-poster img,
 .album-cover img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.album-cover:hover {
+.book-cover:hover img {
+    transform: scale(1.08) rotate(-2deg);
+}
+
+.movie-poster:hover img {
+    transform: scale(1.06);
+}
+
+.album-cover:hover img {
     transform: rotate(5deg) scale(1.05);
+}
+
+.book-cover:hover,
+.movie-poster:hover,
+.album-cover:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+.book-cover::after,
+.movie-poster::after,
+.album-cover::after {
+    content: '点击查看详情';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.book-cover:hover::after,
+.movie-poster:hover::after,
+.album-cover:hover::after {
+    opacity: 1;
+}
+
+/* 详情弹窗样式 */
+.detail-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.detail-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.1), 
+        rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: 1200px;
+    width: 100%;
+    max-height: 90vh;
+    position: relative;
+    transform: scale(0.7) translateY(50px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    overflow: hidden;
+}
+
+.detail-modal.active .modal-content {
+    transform: scale(1) translateY(0);
+}
+
+.modal-left {
+    flex: 0 0 45%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+}
+
+.modal-detail-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    animation: fadeInImage 1s ease-out 0.2s forwards;
+}
+
+.modal-right {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.modal-close:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: scale(1.1);
+}
+
+.modal-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeInText 0.8s ease-out 0.6s forwards;
+}
+
+.modal-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeInText 0.8s ease-out 0.8s forwards;
+}
+
+.meta-item {
+    background: rgba(59, 130, 246, 0.1);
+    padding: 0.4rem 0.8rem;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    color: var(--color-primary);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.modal-thoughts {
+    opacity: 0;
+    animation: fadeInText 0.8s ease-out 1s forwards;
+}
+
+.thoughts-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.thoughts-content {
+    line-height: 1.8;
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+@keyframes fadeInImage {
+    from {
+        opacity: 0;
+        transform: scale(1.1);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeInText {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .modal-content {
+        flex-direction: column;
+        max-width: 95%;
+        max-height: 95vh;
+    }
+    
+    .modal-left {
+        flex: none;
+        height: 50vh;
+        padding: 1rem;
+    }
+    
+    .modal-right {
+        flex: 1;
+        padding: 1.5rem;
+    }
+    
+    .modal-title {
+        font-size: 1.5rem;
+    }
+    
+    .thoughts-content {
+        font-size: 0.9rem;
+    }
 }
 
 /* 导航卡片样式 */
