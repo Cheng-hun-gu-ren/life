@@ -169,12 +169,166 @@ npx serve .
 
 ## 🔄 内容更新
 
+### 快速添加新记录指南
+
+本框架支持轻松添加新的书籍、电影、音乐和马拉松记录。每种类型的记录需要3个步骤：
+
+#### 📚 添加新书籍
+
+**步骤1：准备图片素材**
+```
+images/books/book-X.jpg          # 封面图 (建议尺寸: 200x267px)
+images/details/书名.png          # 详情展示图 (建议尺寸: 600x400px)
+```
+
+**步骤2：编辑 `data/books.json`**
+```json
+{
+  "id": 5,                       # 新的唯一ID
+  "title": "书名",
+  "author": "作者",
+  "finishDate": "2024-02-01",    # 完成日期
+  "review": "读后感...",         # 简短评价
+  "rating": 4.5,                 # 评分 (1-5)
+  "cover": "images/books/book-5.jpg",
+  "status": "finished",          # reading/finished
+  "genre": "文学小说",
+  "pages": 300
+}
+```
+
+**步骤3：添加详情弹窗数据到 `js/details.js`**
+```javascript
+5: {
+    title: '书名',
+    detailImage: '../../images/details/书名.png',
+    meta: ['个性化标签1', '个性化标签2', '个性化标签3'],
+    thoughts: '散文风格的个人感悟和回忆...'
+}
+```
+
+#### 🎬 添加新电影
+
+**步骤1：准备图片素材**
+```
+images/movies/movie-X.jpg        # 海报图
+images/details/电影名.png        # 详情展示图
+```
+
+**步骤2：编辑 `data/movies.json`**
+```json
+{
+  "id": 5,
+  "title": "电影名",
+  "originalTitle": "Original Title",
+  "director": "导演",
+  "year": 2024,
+  "genre": ["剧情", "冒险"],
+  "rating": 4.5,
+  "watchDate": "2024-02-01",
+  "review": "观影感受...",
+  "poster": "images/movies/movie-5.jpg",
+  "duration": 120,
+  "country": "国家",
+  "language": "语言"
+}
+```
+
+**步骤3：添加详情弹窗数据到 `js/details.js`**
+```javascript
+movies: {
+    5: {
+        title: '电影名',
+        detailImage: '../../images/details/电影名.png',
+        meta: ['个性化标签1', '个性化标签2', '个性化标签3'],
+        thoughts: '散文风格的观影感悟...'
+    }
+}
+```
+
+#### 🎵 添加新音乐
+
+**步骤1：准备图片素材**
+```
+images/music/album-X.jpg         # 专辑封面
+images/details/歌名.png          # 详情展示图
+```
+
+**步骤2：编辑 `data/music.json`**
+```json
+{
+  "id": 4,
+  "songName": "歌名",
+  "artist": "艺术家",
+  "album": "专辑名",
+  "genre": "音乐类型",
+  "releaseYear": 2024,
+  "mood": "心情标签",
+  "reason": "推荐理由...",
+  "albumCover": "images/music/album-4.jpg",
+  "addDate": "2024-02-01",
+  "playCount": 0,
+  "language": "语言"
+}
+```
+
+**步骤3：添加详情弹窗数据到 `js/details.js`**
+```javascript
+music: {
+    4: {
+        title: '歌名',
+        detailImage: '../../images/details/歌名.png',
+        meta: ['个性化标签1', '个性化标签2', '个性化标签3'],
+        thoughts: '散文风格的音乐感悟...'
+    }
+}
+```
+
+#### 🏃‍♂️ 添加新马拉松记录
+
+**步骤1：准备图片素材**
+```
+images/marathon/证书名.jpg       # 完赛证书
+images/marathon/scene-赛事-X.jpg # 现场照片
+```
+
+**步骤2：编辑 `data/marathon.json`**
+```json
+{
+  "id": 3,
+  "name": "赛事名称",
+  "date": "2024-02-01",
+  "location": "城市",
+  "distance": "距离描述",
+  "time": "2:30:00",
+  "ranking": 50,
+  "totalParticipants": 1000,
+  "weather": "天气描述",
+  "experience": "参赛体验和感想...",
+  "certificate": "images/marathon/证书名.jpg",
+  "photos": [
+    "images/marathon/scene-赛事-1.jpg",
+    "images/marathon/scene-赛事-2.jpg"
+  ]
+}
+```
+
+### 💡 添加技巧
+
+1. **ID管理**：每种类型使用独立的ID序列，新记录使用下一个可用ID
+2. **图片优化**：建议压缩图片以提高加载速度
+3. **路径检查**：确保所有图片路径正确无误
+4. **内容风格**：
+   - JSON中的review/reason：简洁客观的介绍
+   - details.js中的thoughts：散文风格的个人感悟
+   - meta标签：避免通用信息，使用个性化标签
+
 ### 更新流程
 
-1. 添加新的图片到相应目录
-2. 编辑对应的JSON数据文件
-3. 确保图片路径正确
-4. 测试页面显示效果
+1. 按照上述步骤添加相应文件和数据
+2. 在浏览器中测试页面显示效果
+3. 确认详情弹窗功能正常工作
+4. 提交更改到Git仓库
 
 ### 数据格式
 
