@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>晨昏故人的小世界 - 最终增强版</title>
+    <title>晨昏故人的小世界 - 微动效增强版</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
@@ -14,6 +14,8 @@
             --text-muted-color: #d1d5db;
             --font-sans: 'Noto Sans SC', sans-serif;
             --font-serif: 'Noto Serif SC', serif;
+            --glow-color: #60a5fa;
+            --accent-color: #facc15;
         }
 
         *, *::before, *::after {
@@ -45,7 +47,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1; /* Particles in front of aurora */
+            z-index: 1;
         }
 
         .container {
@@ -63,7 +65,7 @@
         .background-aurora {
             position: absolute;
             inset: 0;
-            z-index: 0; /* Aurora at the very back */
+            z-index: 0;
             overflow: hidden;
         }
 
@@ -105,7 +107,30 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Content Styles */
+        @keyframes pulse-glow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(96, 165, 250, 0.5),
+                            0 0 40px rgba(96, 165, 250, 0.3),
+                            0 0 60px rgba(96, 165, 250, 0.1);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(96, 165, 250, 0.6),
+                            0 0 50px rgba(96, 165, 250, 0.4),
+                            0 0 70px rgba(96, 165, 250, 0.2);
+            }
+        }
+
+        @keyframes sparkle-rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes text-shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* Enhanced Content Styles */
         .avatar {
             width: 128px;
             height: 128px;
@@ -113,10 +138,36 @@
             border: 4px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             margin-bottom: 1.5rem;
-            animation: fade-in-up 0.8s ease-out forwards;
+            animation: fade-in-up 0.8s ease-out forwards, pulse-glow 3s ease-in-out infinite;
             opacity: 0;
-            transition: transform 0.2s ease-out, box-shadow 0.3s ease;
+            transition: transform 0.2s ease-out, box-shadow 0.3s ease, border-color 0.3s ease;
             object-fit: cover;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .avatar:hover {
+            border-color: rgba(96, 165, 250, 0.5);
+            transform: scale(1.05);
+        }
+
+        .avatar::after {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 9999px;
+            padding: 2px;
+            background: linear-gradient(45deg, #3b82f6, #ec4899, #8b5cf6);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .avatar:hover::after {
+            opacity: 1;
+            animation: sparkle-rotate 3s linear infinite;
         }
         
         h1 {
@@ -127,12 +178,32 @@
             cursor: default;
             animation: fade-in-up 0.8s 0.2s ease-out forwards;
             opacity: 0;
-            /* New glossy effect */
-            background: linear-gradient(180deg, #ffffff 50%, #d1d5db 100%);
+            background: linear-gradient(180deg, #ffffff 0%, #ffffff 50%, #d1d5db 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 3px 15px rgba(0, 0, 0, 0.3), 0 0 5px rgba(255, 255, 255, 0.1);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        h1::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, var(--glow-color) 50%, transparent 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            opacity: 0;
+            animation: text-shimmer 3s ease-in-out infinite;
+            transition: opacity 0.3s ease;
+        }
+
+        h1:hover::before {
+            opacity: 0.5;
         }
 
         .subtitle {
@@ -144,6 +215,23 @@
             animation: fade-in-up 0.8s 0.4s ease-out forwards;
             opacity: 0;
             text-shadow: 0 1px 5px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subtitle::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--glow-color), transparent);
+            transition: width 0.8s ease;
+        }
+
+        .container:hover .subtitle::after {
+            width: 100%;
         }
 
         .welcome-text {
@@ -159,10 +247,17 @@
         }
 
         .welcome-text .sparkle {
-            color: #facc15;
+            color: var(--accent-color);
             width: 1.25rem;
             height: 1.25rem;
-            filter: drop-shadow(0 0 5px #facc15);
+            filter: drop-shadow(0 0 5px var(--accent-color));
+            animation: sparkle-rotate 5s linear infinite;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .welcome-text:hover .sparkle {
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 10px var(--accent-color));
         }
 
         .enter-button {
@@ -181,7 +276,7 @@
             text-decoration: none;
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
+            transition: all 0.3s ease;
             animation: fade-in-up 0.8s 0.8s ease-out forwards;
             opacity: 0;
             cursor: pointer;
@@ -191,6 +286,8 @@
         .enter-button:hover {
             background-color: rgba(255, 255, 255, 0.1);
             border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(96, 165, 250, 0.25);
         }
         
         .enter-button::before {
@@ -198,15 +295,34 @@
             position: absolute;
             top: 0;
             left: -100%;
-            width: 50%;
+            width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transform: skewX(-30deg);
             transition: left 0.7s ease-in-out;
         }
 
         .enter-button:hover::before {
-            left: 150%;
+            left: 100%;
+        }
+
+        .enter-button::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 9999px;
+            padding: 1px;
+            background: linear-gradient(45deg, transparent, var(--glow-color), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .enter-button:hover::after {
+            opacity: 1;
+            animation: sparkle-rotate 2s linear infinite;
         }
 
         .enter-button .arrow {
@@ -218,6 +334,33 @@
         
         .enter-button:hover .arrow {
             transform: translateX(4px);
+        }
+
+        /* Floating particles */
+        .floating-particle {
+            position: fixed;
+            pointer-events: none;
+            opacity: 0;
+            animation: float-particle 10s ease-in-out infinite;
+        }
+
+        @keyframes float-particle {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0);
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(10vh) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(0vh) scale(0);
+            }
         }
 
         @media (max-width: 768px) {
@@ -239,7 +382,7 @@
     <div class="container">
         <img src="images/icons/avatar-main.png" alt="晨昏故人 头像" class="avatar">
 
-        <h1>晨昏故人</h1>
+        <h1 data-text="晨昏故人">晨昏故人</h1>
 
         <p class="subtitle">书卷多情似故人，晨昏忧乐每相亲</p>
 
@@ -265,10 +408,27 @@
             }, 800);
         }
 
+        // Create floating particles
+        function createFloatingParticles() {
+            const particleCount = 5;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'floating-particle';
+                particle.innerHTML = '✨';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.fontSize = Math.random() * 10 + 10 + 'px';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (Math.random() * 5 + 10) + 's';
+                document.body.appendChild(particle);
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+            createFloatingParticles();
+
             // --- 1. 3D Parallax effect for the container ---
             const container = document.querySelector('.container');
-            if (window.innerWidth > 768) { // Only enable on larger screens
+            if (window.innerWidth > 768) {
                 document.body.addEventListener('mousemove', (e) => {
                     const { clientX, clientY } = e;
                     const { innerWidth, innerHeight } = window;
@@ -294,18 +454,30 @@
 
                 const particlesCount = 7000;
                 const positions = new Float32Array(particlesCount * 3);
+                const colors = new Float32Array(particlesCount * 3);
+                
                 for (let i = 0; i < particlesCount * 3; i++) {
                     positions[i] = (Math.random() - 0.5) * 10;
                 }
+                
+                // Add subtle color variation
+                for (let i = 0; i < particlesCount; i++) {
+                    const i3 = i * 3;
+                    colors[i3] = 0.5 + Math.random() * 0.5;
+                    colors[i3 + 1] = 0.5 + Math.random() * 0.5;
+                    colors[i3 + 2] = 1;
+                }
+                
                 const particlesGeometry = new THREE.BufferGeometry();
                 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
                 
                 material = new THREE.PointsMaterial({
                     size: 0.015,
                     sizeAttenuation: true,
                     depthWrite: false,
                     blending: THREE.AdditiveBlending,
-                    vertexColors: false
+                    vertexColors: true
                 });
                 points = new THREE.Points(particlesGeometry, material);
                 scene.add(points);
@@ -328,11 +500,9 @@
             function animateParticles() {
                 requestAnimationFrame(animateParticles);
                 const time = Date.now() * 0.0005;
-                
-                const hue = (time * 0.05) % 1;
-                material.color.setHSL(hue, 0.7, 0.6);
 
                 points.rotation.y = time * 0.1;
+                points.rotation.x = time * 0.05;
                 
                 camera.position.x += (mouseX - camera.position.x) * 0.05;
                 camera.position.y += (-mouseY - camera.position.y) * 0.05;
