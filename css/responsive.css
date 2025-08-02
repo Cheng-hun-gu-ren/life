@@ -93,18 +93,26 @@
     
     .sidebar {
         position: static;
-        order: -1;
+        order: 1; /* 移动到主内容下方 */
     }
     
+    /* 小平板端侧边栏优化为水平紧凑布局 */
     .profile-card {
         display: grid;
-        grid-template-columns: auto 1fr;
+        grid-template-columns: auto 1fr auto;
         gap: var(--spacing-lg);
-        align-items: start;
+        align-items: center;
+        margin-top: var(--spacing-lg);
+        border-top: 2px solid var(--primary-color);
     }
     
     .profile-avatar {
         margin-bottom: 0;
+    }
+    
+    .profile-avatar img {
+        width: 80px;
+        height: 80px;
     }
     
     .profile-info {
@@ -112,15 +120,42 @@
         margin-bottom: 0;
     }
     
-    .contact-info,
-    .quick-links {
-        grid-column: 1 / -1;
-        margin-bottom: var(--spacing-md);
+    .profile-details {
+        display: flex;
+        gap: var(--spacing-sm);
+        flex-wrap: wrap;
+        margin-top: var(--spacing-xs);
     }
     
-    .contact-info h4,
+    .profile-details p {
+        background: var(--primary-color);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 16px;
+        font-size: 0.9rem;
+        margin: 0;
+    }
+    
+    /* 小平板端显示简化的快速链接 */
+    .contact-info {
+        display: none;
+    }
+    
+    .quick-links {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-xs);
+        margin-bottom: 0;
+    }
+    
     .quick-links h4 {
-        text-align: left;
+        display: none;
+    }
+    
+    .link-btn {
+        font-size: 0.8rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        text-align: center;
     }
     
     .content-grid {
@@ -205,48 +240,62 @@
     
     .sidebar {
         position: static;
-        order: -1;
+        order: 1; /* 移动到主内容下方 */
     }
     
-    /* 移动端侧边栏样式 */
+    /* 移动端侧边栏样式 - 优化为紧凑布局 */
     .profile-card {
         padding: var(--spacing-md);
+        margin-top: var(--spacing-lg);
+        border-top: 2px solid var(--primary-color);
+    }
+    
+    /* 移动端侧边栏采用水平布局 */
+    .profile-card {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: var(--spacing-md);
+        align-items: center;
+    }
+    
+    .profile-avatar {
+        margin-bottom: 0;
+    }
+    
+    .profile-avatar img {
+        width: 60px;
+        height: 60px;
     }
     
     .profile-info {
-        text-align: center;
-        margin-bottom: var(--spacing-md);
+        text-align: left;
+        margin-bottom: 0;
     }
     
     .profile-name {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .profile-details {
+        display: flex;
+        gap: var(--spacing-sm);
+        flex-wrap: wrap;
     }
     
     .profile-details p {
-        font-size: 0.85rem;
-        justify-content: center;
+        font-size: 0.8rem;
+        margin: 0;
+        background: var(--primary-color);
+        color: white;
+        padding: 2px 8px;
+        border-radius: 12px;
     }
     
+    /* 隐藏联系信息和快速链接，避免过度拥挤 */
     .contact-info,
     .quick-links {
-        margin-bottom: var(--spacing-md);
-    }
-    
-    .contact-info h4,
-    .quick-links h4 {
-        font-size: 0.9rem;
-        text-align: center;
-    }
-    
-    .contact-info p {
-        font-size: 0.85rem;
-        justify-content: center;
-    }
-    
-    .link-btn {
-        font-size: 0.85rem;
-        padding: var(--spacing-sm);
-        justify-content: center;
+        display: none;
     }
     
     /* 主内容区移动端适配 */

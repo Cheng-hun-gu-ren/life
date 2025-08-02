@@ -2044,3 +2044,38 @@ body {
     color: var(--text-muted-color);
     font-size: 0.9rem;
 }
+/* 动态背景系统支持 */
+.background-transition {
+    transition: background-image 0.5s ease-in-out;
+}
+
+/* 背景切换按钮样式 */
+.bg-switch-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    font-size: 20px;
+    color: white;
+}
+
+.bg-switch-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+/* 确保动态背景优先级 */
+body[style*="background-image"] {
+    /* JS设置的内联样式会自动覆盖CSS类 */
+}
