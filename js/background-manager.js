@@ -1,4 +1,4 @@
-// 自动背景管理器 - 基于时间戳自动选择背景
+// 自动背景管理器 - 基于时间戳自动选择背景，带淡入淡出效果
 class BackgroundManager {
     constructor() {
         this.backgrounds = {
@@ -11,6 +11,8 @@ class BackgroundManager {
         
         this.sessionTimestamp = this.getSessionTimestamp();
         this.currentPage = this.getCurrentPage();
+        this.backgroundElement = null;
+        this.overlayElement = null;
     }
     
     // 获取或创建会话时间戳（仅在会话开始时创建一次）
@@ -59,18 +61,96 @@ class BackgroundManager {
         }
     }
     
+    // 创建背景元素
+    createBackgroundElements() {
+        // 创建背景图片层
+        this.backgroundElement = document.createElement('div');
+        this.backgroundElement.className = 'page-background';
+        this.backgroundElement.id = 'page-background';
+        
+        // 创建覆盖层
+        this.overlayElement = document.createElement('div');
+        this.overlayElement.className = 'page-overlay';
+        this.overlayElement.id = 'page-overlay';
+        
+        // 添加到页面
+        document.body.prepend(this.overlayElement);
+        document.body.prepend(this.backgroundElement);
+        
+        // 添加CSS样式
+        this.addBackgroundStyles();
+    }
+    
+    // 添加背景样式
+    addBackgroundStyles() {
+        const styleId = 'background-manager-styles';
+        if (document.getElementById(styleId)) return;
+        
+        const style = document.createElement('style');
+        style.id = styleId;
+        style.textContent = `
+            .page-background {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-size: cover;
+                background-position: center;
+                background-attachment: fixed;
+                background-repeat: no-repeat;
+                z-index: -2;
+                opacity: 0;
+                transition: opacity 0.8s ease-in-out;
+            }
+            
+            .page-background.fade-in {
+                opacity: 1;
+            }
+            
+            .page-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.3);
+                z-index: -1;
+                opacity: 0;
+                transition: opacity 0.8s ease-in-out;
+            }
+            
+            .page-overlay.fade-in {
+                opacity: 1;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
     // 应用背景到页面
     applyBackground() {
+        // 创建背景元素（如果还没有）
+        if (!this.backgroundElement) {
+            this.createBackgroundElements();
+        }
+        
         const pageType = this.currentPage;
         const selectedBg = this.selectBackgroundByTimestamp(pageType);
         const backgroundPath = this.getBackgroundPath(selectedBg);
         
-        // 应用背景
-        document.body.style.backgroundImage = `url('${backgroundPath}')`;
-        document.body.style.backgroundSize = 'cover';
-        document.body.style.backgroundPosition = 'center';
-        document.body.style.backgroundAttachment = 'fixed';
-        document.body.style.backgroundRepeat = 'no-repeat';
+        // 设置背景图片
+        this.backgroundElement.style.backgroundImage = `url('${backgroundPath}')`;
+        
+        // 预加载图片，然后淡入
+        const img = new Image();
+        img.onload = () => {
+            // 图片加载完成后，开始淡入效果
+            setTimeout(() => {
+                this.backgroundElement.classList.add('fade-in');
+                this.overlayElement.classList.add('fade-in');
+            }, 100);
+        };
+        img.src = backgroundPath;
         
         // 存储当前选择的背景（用于调试）
         sessionStorage.setItem(`background_${pageType}`, selectedBg);
@@ -84,6 +164,16 @@ class BackgroundManager {
             timestamp: this.sessionTimestamp,
             index: this.sessionTimestamp % this.backgrounds[pageType].length
         };
+    }
+    
+    // 淡出背景（页面切换时使用）
+    fadeOut() {
+        if (this.backgroundElement) {
+            this.backgroundElement.classList.remove('fade-in');
+        }
+        if (this.overlayElement) {
+            this.overlayElement.classList.remove('fade-in');
+        }
     }
     
     // 预加载背景图片
@@ -116,7 +206,11 @@ function initDynamicBackground() {
         document.addEventListener('DOMContentLoaded', () => {
             const bgManager = new BackgroundManager();
             bgManager.preloadBackgrounds();
-            bgManager.applyBackground();
+            
+            // 延迟应用背景，确保页面完全加载
+            setTimeout(() => {
+                bgManager.applyBackground();
+            }, 200);
             
             // 将管理器实例挂载到全局，便于调试
             window.backgroundManager = bgManager;
@@ -124,11 +218,32 @@ function initDynamicBackground() {
     } else {
         const bgManager = new BackgroundManager();
         bgManager.preloadBackgrounds();
-        bgManager.applyBackground();
+        
+        setTimeout(() => {
+            bgManager.applyBackground();
+        }, 200);
         
         window.backgroundManager = bgManager;
     }
 }
+
+// 页面切换时的背景淡出处理
+window.addEventListener('beforeunload', function() {
+    if (window.backgroundManager) {
+        window.backgroundManager.fadeOut();
+    }
+});
+
+// 处理页面链接点击的平滑过渡
+document.addEventListener('click', function(e) {
+    const link = e.target.closest('a[href]');
+    if (link && link.href && !link.target && !link.href.startsWith('http')) {
+        // 如果是内部链接，先淡出背景
+        if (window.backgroundManager) {
+            window.backgroundManager.fadeOut();
+        }
+    }
+});
 
 // 自动初始化（基于时间戳自动选择背景）
 if (typeof window !== 'undefined') {

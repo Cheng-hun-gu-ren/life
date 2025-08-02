@@ -96,7 +96,7 @@
                     <div class="education-card">
                         <h3>教育背景</h3>
                         <div class="education-grid">
-                            <div class="education-item">
+                            <div class="education-item clickable" data-school="cuhk" onclick="openSchoolModal('cuhk')">
                                 <div class="education-content">
                                     <h4>香港中文大学（深圳）</h4>
                                     <p class="degree">金融工程（26届）</p>
@@ -106,7 +106,7 @@
                                     <img src="../../images/icons/cuhk-logo.png" alt="香港中文大学校徽" class="university-logo">
                                 </div>
                             </div>
-                            <div class="education-item">
+                            <div class="education-item clickable" data-school="hitwh" onclick="openSchoolModal('hitwh')">
                                 <div class="education-content">
                                     <h4>哈尔滨工业大学（威海）</h4>
                                     <p class="degree">国际经济与贸易</p>
@@ -134,8 +134,35 @@
     <!-- 移动端侧边栏遮罩 -->
     <div class="sidebar-overlay"></div>
 
+    <!-- 学校详情弹窗 -->
+    <div class="detail-modal" id="schoolModal">
+        <div class="modal-content">
+            <button class="modal-close" id="schoolModalClose">×</button>
+            
+            <!-- 左侧图片区域 -->
+            <div class="modal-left">
+                <img id="schoolModalImage" class="modal-detail-image" alt="学校图片">
+                <div class="image-source" id="schoolImageSource"></div>
+            </div>
+            
+            <!-- 右侧内容区域 -->
+            <div class="modal-right">
+                <div class="school-motto">
+                    <p id="schoolMotto" class="motto-content"></p>
+                </div>
+                <div class="school-experience">
+                    <div id="schoolExperience" class="experience-content"></div>
+                </div>
+                <div class="school-website">
+                    <a id="schoolWebsite" href="#" target="_blank" class="website-link">查看学校官网</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="../../js/animations.js"></script>
     <script src="../../js/background.js"></script>
     <script src="../../js/background-manager.js"></script>
+    <script src="../../js/school.js"></script>
 </body>
 </html>

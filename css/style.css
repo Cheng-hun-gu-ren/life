@@ -2049,6 +2049,187 @@ body {
     transition: background-image 0.5s ease-in-out;
 }
 
+/* 学校信息弹窗样式 */
+.image-source {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    opacity: 0.8;
+    text-align: center;
+}
+
+.school-motto {
+    margin-bottom: var(--spacing-lg);
+}
+
+/* .motto-title 已移除，不再显示标题 */
+
+.motto-content {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin: 0;
+    cursor: default;
+    background: linear-gradient(180deg, #ffffff 0%, #ffffff 50%, #d1d5db 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    transition: all 0.3s ease;
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+}
+
+.school-experience {
+    margin-bottom: var(--spacing-lg);
+}
+
+/* .experience-title 已移除，不再显示标题 */
+
+.experience-content {
+    color: var(--text-muted-color);
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+.experience-content p {
+    margin-bottom: var(--spacing-md);
+}
+
+.experience-content p:last-child {
+    margin-bottom: 0;
+}
+
+.school-website {
+    text-align: center;
+    margin-top: var(--spacing-lg);
+}
+
+.website-link {
+    display: inline-block;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(78, 205, 196, 0.3);
+}
+
+.website-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(78, 205, 196, 0.4);
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+}
+
+.education-item.clickable {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.education-item.clickable:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* 二维码弹窗样式 */
+.qr-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.qr-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.qr-modal-content {
+    position: relative;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 400px;
+    width: 100%;
+    transform: scale(0.8) translateY(20px);
+    transition: all 0.3s ease;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.qr-modal.active .qr-modal-content {
+    transform: scale(1) translateY(0);
+}
+
+.qr-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-muted-color);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+}
+
+.qr-modal-close:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--text-color);
+}
+
+.qr-code-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 联系方式项样式 */
+.contact-item.clickable {
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+    padding: 4px 0;
+}
+
+.contact-item.clickable:hover {
+    color: var(--accent-color);
+    transform: translateX(5px);
+}
+
+@media (max-width: 768px) {
+    .qr-modal-content {
+        max-width: 90%;
+        padding: 1.5rem;
+    }
+}
+
 /* 背景切换按钮样式 */
 .bg-switch-btn {
     position: fixed;
