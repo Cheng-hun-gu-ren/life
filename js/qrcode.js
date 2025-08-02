@@ -1,11 +1,11 @@
 // 二维码弹窗功能
 const qrCodeData = {
     'wechat': {
-        image: 'images/qrcodes/wechat-qr.png',
+        image: 'images/qrcodes/wechat-qr.jpg',
         alt: '微信二维码'
     },
     'wechat-official': {
-        image: 'images/qrcodes/wechat-official-qr.png',
+        image: 'images/qrcodes/wechat-official-qr.jpg',
         alt: '公众号二维码'
     }
 };
