@@ -5,9 +5,27 @@
 
 // API配置
 const API_CONFIG = {
-    // 生产环境：使用你的域名
-    // 开发环境：使用IP地址
-    baseURL: 'http://47.115.72.85:3001',
+    // 智能API地址选择 - 解决Mixed Content问题
+    baseURL: (() => {
+        const isHTTPS = window.location.protocol === 'https:';
+        const isDomain = window.location.hostname === 'life.chenggao.top';
+        
+        console.log(`🌐 检测到访问环境: ${window.location.protocol}//${window.location.hostname}`);
+        
+        if (isHTTPS && isDomain) {
+            // HTTPS域名环境: 由于服务器暂不支持SSL，使用协议降级策略
+            console.log('⚠️ HTTPS环境检测到Mixed Content限制，建议在浏览器中允许不安全内容');
+            // 注意：这里会触发Mixed Content警告，需要用户手动允许
+            return 'http://47.115.72.85:3001';
+        } else if (isDomain) {
+            // HTTP域名环境: 使用相对路径
+            return '/api';  
+        } else {
+            // 本地开发环境: 直接使用HTTP
+            console.log('💻 本地开发环境: 使用HTTP API');
+            return 'http://47.115.72.85:3001';
+        }
+    })(),
     timeout: 10000, // 10秒超时
     retryTimes: 3   // 重试次数
 };
