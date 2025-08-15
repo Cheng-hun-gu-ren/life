@@ -107,6 +107,19 @@ const DetailsDataManager = {
         movies: new Map(),
         music: new Map()
     },
+
+    // 获取API基础URL
+    getApiBaseUrl() {
+        const isDomain = window.location.hostname === 'life.chenggao.top';
+        
+        if (isDomain) {
+            console.log('🔄 Details: 使用相对路径API');
+            return '';  // 相对路径，无需base URL
+        } else {
+            console.log('💻 Details: 本地开发环境');
+            return 'http://47.115.72.85:3001';
+        }
+    },
     
     // 从API获取详情数据
     async fetchDetailData(type, id) {
@@ -117,7 +130,8 @@ const DetailsDataManager = {
         
         try {
             let apiEndpoint = '';
-            const baseUrl = window.API_BASE_URL || 'http://47.115.72.85:3001';
+            // 使用与api.js相同的智能API地址选择逻辑
+            const baseUrl = this.getApiBaseUrl();
             
             switch (type) {
                 case 'books':

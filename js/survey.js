@@ -1,8 +1,21 @@
 // 问卷调查功能
 class SurveyManager {
     constructor() {
-        this.apiBaseUrl = 'http://47.115.72.85:3001';
+        // 使用与api.js相同的智能API地址选择逻辑
+        this.apiBaseUrl = this.getApiBaseUrl();
         this.init();
+    }
+
+    getApiBaseUrl() {
+        const isDomain = window.location.hostname === 'life.chenggao.top';
+        
+        if (isDomain) {
+            console.log('🔄 Survey: 使用相对路径API');
+            return '';  // 相对路径，无需base URL
+        } else {
+            console.log('💻 Survey: 本地开发环境');
+            return 'http://47.115.72.85:3001';
+        }
     }
 
     init() {

@@ -13,9 +13,9 @@ const API_CONFIG = {
         console.log(`🌐 检测到访问环境: ${window.location.protocol}//${window.location.hostname}`);
         
         if (isDomain) {
-            // 域名环境: 使用相对路径，通过Nginx代理到后端
-            console.log('🔄 使用Nginx代理模式，API路径: /api');
-            return '/api';  
+            // 域名环境: 使用相对路径，通过Cloudflare/Nginx代理到后端
+            console.log('🔄 使用代理模式，API路径: 空字符串');
+            return '';  // 空字符串，因为端点已包含/api
         } else {
             // 本地开发环境: 直接使用HTTP
             console.log('💻 本地开发环境: 使用HTTP API');
