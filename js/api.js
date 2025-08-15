@@ -12,13 +12,9 @@ const API_CONFIG = {
         
         console.log(`🌐 检测到访问环境: ${window.location.protocol}//${window.location.hostname}`);
         
-        if (isHTTPS && isDomain) {
-            // HTTPS域名环境: 由于服务器暂不支持SSL，使用协议降级策略
-            console.log('⚠️ HTTPS环境检测到Mixed Content限制，建议在浏览器中允许不安全内容');
-            // 注意：这里会触发Mixed Content警告，需要用户手动允许
-            return 'http://47.115.72.85:3001';
-        } else if (isDomain) {
-            // HTTP域名环境: 使用相对路径
+        if (isDomain) {
+            // 域名环境: 使用相对路径，通过Nginx代理到后端
+            console.log('🔄 使用Nginx代理模式，API路径: /api');
             return '/api';  
         } else {
             // 本地开发环境: 直接使用HTTP
