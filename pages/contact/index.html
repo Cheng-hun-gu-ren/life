@@ -26,6 +26,7 @@
                 <li><a href="../about/index.html" class="nav-link">个人简介</a></li>
                 <li><a href="../interests/index.html" class="nav-link">兴趣爱好</a></li>
                 <li><a href="../journey/index.html" class="nav-link">人生旅程</a></li>
+                <li><a href="../webdev/index.html" class="nav-link">Web开发</a></li>
                 <li><a href="../contact/index.html" class="nav-link active">联系方式</a></li>
             </ul>
             
@@ -106,9 +107,9 @@
                         
                         <div class="contact-method">
                             
-                            <h3>学术主页</h3>
-                            <a href="https://portfolio.chgr-cuhksz-gao.cn/" target="_blank">portfolio.chgr-cuhksz-gao.cn</a>
-                            <small>查看我的学术成果和项目经历</small>
+                            <h3>网站调查</h3>
+                            <button onclick="openSurvey()" class="survey-link-btn">参与问卷调查</button>
+                            <small>帮助我了解你对网站的看法，你的反馈很重要</small>
                         </div>
                     </div>
                     
@@ -170,9 +171,84 @@
     <!-- 移动端侧边栏遮罩 -->
     <div class="sidebar-overlay"></div>
 
+    <!-- 问卷调查弹窗 -->
+    <div id="surveyModal" class="survey-modal">
+        <div class="survey-content">
+            <div class="survey-header">
+                <h3>网站反馈调查</h3>
+                <button class="survey-close" onclick="closeSurvey()">&times;</button>
+            </div>
+            
+            <form id="surveyForm" class="survey-form">
+                <!-- 问题1：网站评分 -->
+                <div class="survey-question">
+                    <label class="question-label">1. 你喜欢这个网站吗？请为网站打分 <span class="required">*</span></label>
+                    <div class="rating-group">
+                        <input type="radio" id="rating1" name="rating" value="1" required>
+                        <label for="rating1">1分 😞</label>
+                        <input type="radio" id="rating2" name="rating" value="2" required>
+                        <label for="rating2">2分 😐</label>
+                        <input type="radio" id="rating3" name="rating" value="3" required>
+                        <label for="rating3">3分 🙂</label>
+                        <input type="radio" id="rating4" name="rating" value="4" required>
+                        <label for="rating4">4分 😊</label>
+                        <input type="radio" id="rating5" name="rating" value="5" required>
+                        <label for="rating5">5分 😍</label>
+                    </div>
+                </div>
+
+                <!-- 问题2：建议 -->
+                <div class="survey-question">
+                    <label class="question-label" for="suggestions">2. 你对网站有什么建议吗？（选填）</label>
+                    <textarea id="suggestions" name="suggestions" rows="3" placeholder="请分享你的想法和建议..."></textarea>
+                </div>
+
+                <!-- 问题3：制作个人网站意愿 -->
+                <div class="survey-question">
+                    <label class="question-label">3. 个人网站是小白上手全栈开发的很好的项目，你是否也想制作一款属于自己的个性化网站？ <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <input type="radio" id="interest_yes" name="website_interest" value="是" required>
+                        <label for="interest_yes">是，很想制作</label>
+                        <input type="radio" id="interest_maybe" name="website_interest" value="我还在考虑" required>
+                        <label for="interest_maybe">我还在考虑</label>
+                        <input type="radio" id="interest_no" name="website_interest" value="否" required>
+                        <label for="interest_no">暂时不感兴趣</label>
+                    </div>
+                </div>
+
+                <!-- 问题4：联系信息 -->
+                <div class="survey-question">
+                    <label class="question-label">4. 可以留下你的昵称和联系方式吗？（选填）</label>
+                    <div class="contact-inputs">
+                        <input type="text" id="user_nickname" name="nickname" placeholder="你的昵称">
+                        <input type="text" id="user_contact" name="contact" placeholder="微信/QQ/邮箱等联系方式">
+                    </div>
+                </div>
+
+                <!-- 提交按钮 -->
+                <div class="survey-actions">
+                    <button type="button" onclick="closeSurvey()" class="btn-cancel">取消</button>
+                    <button type="submit" class="btn-submit">
+                        <span class="btn-text">提交问卷</span>
+                        <span class="btn-loading" style="display: none;">提交中...</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- 提交成功提示 -->
+            <div id="surveySuccess" class="survey-success" style="display: none;">
+                <div class="success-icon">✅</div>
+                <h4>感谢你的反馈！</h4>
+                <p>你的建议对我来说很宝贵，我会认真考虑并不断改进网站。</p>
+                <button onclick="closeSurvey()" class="btn-close">关闭</button>
+            </div>
+        </div>
+    </div>
+
     <script src="../../js/animations.js"></script>
     <script src="../../js/background.js"></script>
     <script src="../../js/contact.js"></script>
     <script src="../../js/background-manager.js"></script>
+    <script src="../../js/survey.js"></script>
 </body>
 </html>

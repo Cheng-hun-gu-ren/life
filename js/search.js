@@ -1,0 +1,678 @@
+/**
+ * 搜索和筛选功能模块
+ */
+
+// 搜索状态管理
+const SearchState = {
+    currentQuery: '',
+    currentSort: 'id-asc',
+    currentFilter: 'all',
+    currentTab: 'books',
+    isSearching: false,
+    
+    // 分页状态
+    pagination: {
+        books: { currentPage: 1, pageSize: 8 },
+        movies: { currentPage: 1, pageSize: 8 },
+        music: { currentPage: 1, pageSize: 8 }
+    },
+    
+    // 原始数据缓存
+    originalData: {
+        books: [],
+        movies: [],
+        music: []
+    },
+    
+    // 过滤后的数据
+    filteredData: {
+        books: [],
+        movies: [],
+        music: []
+    }
+};
+
+/**
+ * 搜索管理器
+ */
+const SearchManager = {
+    
+    /**
+     * 初始化搜索功能
+     */
+    init() {
+        this.initPageSizes();
+        this.bindEvents();
+        this.updateCounts();
+    },
+    
+    /**
+     * 初始化分页大小，从HTML的selected属性读取
+     */
+    initPageSizes() {
+        ['books', 'movies', 'music'].forEach(type => {
+            const pageSizeSelect = document.getElementById(`${type}PageSize`);
+            if (pageSizeSelect) {
+                const selectedOption = pageSizeSelect.querySelector('option[selected]');
+                if (selectedOption) {
+                    SearchState.pagination[type].pageSize = parseInt(selectedOption.value);
+                }
+            }
+        });
+    },
+    
+    /**
+     * 绑定事件
+     */
+    bindEvents() {
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const clearBtn = document.getElementById('clearSearchBtn');
+        const sortSelect = document.getElementById('sortSelect');
+        const statusFilter = document.getElementById('statusFilter');
+        
+        // 搜索输入事件（防抖）
+        if (searchInput) {
+            searchInput.addEventListener('input', debounce((e) => {
+                this.handleSearch(e.target.value);
+            }, 300));
+            
+            // 回车搜索
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    this.handleSearch(e.target.value);
+                }
+            });
+        }
+        
+        // 搜索按钮
+        if (searchBtn) {
+            searchBtn.addEventListener('click', () => {
+                const query = searchInput ? searchInput.value : '';
+                this.handleSearch(query);
+            });
+        }
+        
+        // 清除搜索
+        if (clearBtn) {
+            clearBtn.addEventListener('click', () => {
+                this.clearSearch();
+            });
+        }
+        
+        // 排序变化
+        if (sortSelect) {
+            sortSelect.addEventListener('change', (e) => {
+                SearchState.currentSort = e.target.value;
+                this.resetPagination();
+                this.applyFilters();
+            });
+        }
+        
+        // 状态筛选
+        if (statusFilter) {
+            statusFilter.addEventListener('change', (e) => {
+                SearchState.currentFilter = e.target.value;
+                this.resetPagination();
+                this.applyFilters();
+            });
+        }
+        
+        // 标签页切换
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                SearchState.currentTab = btn.getAttribute('data-tab');
+                this.updateTabState();
+            });
+        });
+        
+        // 分页大小选择器
+        ['books', 'movies', 'music'].forEach(type => {
+            const pageSizeSelect = document.getElementById(`${type}PageSize`);
+            if (pageSizeSelect) {
+                pageSizeSelect.addEventListener('change', (e) => {
+                    SearchState.pagination[type].pageSize = parseInt(e.target.value);
+                    SearchState.pagination[type].currentPage = 1;
+                    this.renderCurrentTab();
+                });
+            }
+        });
+    },
+    
+    /**
+     * 设置原始数据
+     */
+    setData(books, movies, music) {
+        SearchState.originalData.books = this.normalizeBooks(books);
+        SearchState.originalData.movies = this.normalizeMovies(movies);
+        SearchState.originalData.music = this.normalizeMusic(music);
+        
+        // 初始化过滤数据
+        SearchState.filteredData = JSON.parse(JSON.stringify(SearchState.originalData));
+        
+        this.updateCounts();
+    },
+    
+    /**
+     * 标准化书籍数据
+     */
+    normalizeBooks(booksData) {
+        if (!booksData) return [];
+        
+        const currentReading = booksData.currentReading || [];
+        const recentlyFinished = booksData.recentlyFinished || [];
+        
+        return [...currentReading, ...recentlyFinished].map(book => ({
+            ...book,
+            type: 'book',
+            searchText: `${book.title} ${book.author} ${book.genre || ''} ${book.thoughts || book.review || ''}`.toLowerCase()
+        }));
+    },
+    
+    /**
+     * 标准化电影数据
+     */
+    normalizeMovies(moviesData) {
+        if (!moviesData || !moviesData.recentWatched) return [];
+        
+        return moviesData.recentWatched.map(movie => ({
+            ...movie,
+            type: 'movie',
+            searchText: `${movie.title} ${movie.director} ${Array.isArray(movie.genre) ? movie.genre.join(' ') : (movie.genre || '')} ${movie.review || movie.comment || ''}`.toLowerCase()
+        }));
+    },
+    
+    /**
+     * 标准化音乐数据
+     */
+    normalizeMusic(musicData) {
+        if (!musicData || !musicData.currentListening) return [];
+        
+        return musicData.currentListening.map(song => ({
+            ...song,
+            type: 'music',
+            searchText: `${song.songName || song.song_name} ${song.artist} ${song.album || ''} ${song.genre || ''} ${song.mood || ''} ${song.reason || ''}`.toLowerCase()
+        }));
+    },
+    
+    /**
+     * 处理搜索
+     */
+    handleSearch(query) {
+        SearchState.currentQuery = query.trim();
+        this.resetPagination();
+        
+        // 显示/隐藏清除按钮
+        const clearBtn = document.getElementById('clearSearchBtn');
+        if (clearBtn) {
+            clearBtn.style.display = SearchState.currentQuery ? 'block' : 'none';
+        }
+        
+        this.applyFilters();
+    },
+    
+    /**
+     * 重置分页
+     */
+    resetPagination() {
+        SearchState.pagination.books.currentPage = 1;
+        SearchState.pagination.movies.currentPage = 1;
+        SearchState.pagination.music.currentPage = 1;
+    },
+    
+    /**
+     * 清除搜索
+     */
+    clearSearch() {
+        SearchState.currentQuery = '';
+        SearchState.currentPage = 1;
+        
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearSearchBtn');
+        
+        if (searchInput) searchInput.value = '';
+        if (clearBtn) clearBtn.style.display = 'none';
+        
+        this.applyFilters();
+    },
+    
+    /**
+     * 应用筛选
+     */
+    applyFilters() {
+        SearchState.isSearching = true;
+        
+        // 过滤数据
+        SearchState.filteredData.books = this.filterAndSort(SearchState.originalData.books, 'books');
+        SearchState.filteredData.movies = this.filterAndSort(SearchState.originalData.movies, 'movies');
+        SearchState.filteredData.music = this.filterAndSort(SearchState.originalData.music, 'music');
+        
+        // 更新计数
+        this.updateCounts();
+        
+        // 重新渲染当前标签页
+        this.renderCurrentTab();
+        
+        SearchState.isSearching = false;
+    },
+    
+    /**
+     * 筛选和排序数据
+     */
+    filterAndSort(data, type) {
+        let filtered = [...data];
+        
+        // 文本搜索
+        if (SearchState.currentQuery) {
+            filtered = filtered.filter(item => 
+                item.searchText.includes(SearchState.currentQuery.toLowerCase())
+            );
+        }
+        
+        // 状态筛选（仅书籍）
+        if (type === 'books' && SearchState.currentFilter !== 'all') {
+            filtered = filtered.filter(item => item.status === SearchState.currentFilter);
+        }
+        
+        // 排序
+        filtered.sort((a, b) => {
+            switch (SearchState.currentSort) {
+                case 'title-asc':
+                    return (a.title || a.songName || a.song_name).localeCompare(b.title || b.songName || b.song_name);
+                case 'title-desc':
+                    return (b.title || b.songName || b.song_name).localeCompare(a.title || a.songName || a.song_name);
+                case 'rating-desc':
+                    return (parseFloat(b.rating) || 0) - (parseFloat(a.rating) || 0);
+                case 'rating-asc':
+                    return (parseFloat(a.rating) || 0) - (parseFloat(b.rating) || 0);
+                case 'date-desc':
+                    return new Date(b.updated_at || b.created_at || 0) - new Date(a.updated_at || a.created_at || 0);
+                case 'date-asc':
+                    return new Date(a.updated_at || a.created_at || 0) - new Date(b.updated_at || b.created_at || 0);
+                case 'id-asc':
+                default:
+                    return (a.id || 0) - (b.id || 0);
+            }
+        });
+        
+        return filtered;
+    },
+    
+    /**
+     * 更新计数显示
+     */
+    updateCounts() {
+        const booksCount = document.getElementById('booksCount');
+        const moviesCount = document.getElementById('moviesCount');
+        const musicCount = document.getElementById('musicCount');
+        
+        if (booksCount) {
+            booksCount.textContent = `(${SearchState.filteredData.books.length})`;
+        }
+        if (moviesCount) {
+            moviesCount.textContent = `(${SearchState.filteredData.movies.length})`;
+        }
+        if (musicCount) {
+            musicCount.textContent = `(${SearchState.filteredData.music.length})`;
+        }
+    },
+    
+    /**
+     * 更新标签页状态
+     */
+    updateTabState() {
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        // 更新按钮状态
+        tabBtns.forEach(btn => {
+            if (btn.getAttribute('data-tab') === SearchState.currentTab) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        
+        // 更新内容显示
+        tabContents.forEach(content => {
+            if (content.id === `${SearchState.currentTab}-content`) {
+                content.classList.add('active');
+            } else {
+                content.classList.remove('active');
+            }
+        });
+        
+        // 渲染当前标签页
+        this.renderCurrentTab();
+    },
+    
+    /**
+     * 渲染当前标签页
+     */
+    renderCurrentTab() {
+        const data = SearchState.filteredData[SearchState.currentTab];
+        
+        switch (SearchState.currentTab) {
+            case 'books':
+                this.renderFilteredBooks(data);
+                break;
+            case 'movies':
+                this.renderFilteredMovies(data);
+                break;
+            case 'music':
+                this.renderFilteredMusic(data);
+                break;
+        }
+    },
+    
+    /**
+     * 渲染筛选后的书籍
+     */
+    renderFilteredBooks(books) {
+        const container = document.getElementById('books-container');
+        const paginationContainer = document.getElementById('booksPagination');
+        if (!container) return;
+        
+        if (books.length === 0) {
+            container.innerHTML = this.getNoResultsHTML('书籍');
+            if (paginationContainer) paginationContainer.style.display = 'none';
+            return;
+        }
+        
+        // 分页逻辑
+        const pagination = SearchState.pagination.books;
+        const totalPages = Math.ceil(books.length / pagination.pageSize);
+        const startIndex = (pagination.currentPage - 1) * pagination.pageSize;
+        const endIndex = startIndex + pagination.pageSize;
+        const pagedBooks = books.slice(startIndex, endIndex);
+        
+        // 渲染书籍
+        container.innerHTML = pagedBooks.map(book => {
+            const coverUrl = book.cover_image || book.cover || (window.ImageUtils ? window.ImageUtils.getBookCover(book.id) : '');
+            const title = this.highlightSearchText(book.title);
+            const author = this.highlightSearchText(book.author);
+            
+            return `
+            <div class="book-card hover-lift animate-in" data-id="${book.id}">
+                <div class="book-cover">
+                    <img src="${coverUrl}" alt="${book.title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTA3IiB2aWV3Qm94PSIwIDAgODAgMTA3IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSIxMDciIGZpbGw9IiM0RUNEQzQiIG9wYWNpdHk9IjAuMyIvPjx0ZXh0IHg9IjQwIiB5PSI1NCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM0RUNEQzQiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuS5puexuzwvdGV4dD48L3N2Zz4='" />
+                </div>
+                <div class="book-info">
+                    <h4 class="book-title">${title}</h4>
+                    <p class="book-author">${author}</p>
+                    <p class="book-status">${book.status === 'reading' ? '在读' : '已完成'}</p>
+                    ${book.progress ? `
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${book.progress}%"></div>
+                        </div>
+                        <p class="progress-text">${book.progress}%</p>
+                    ` : ''}
+                    <div class="rating">
+                        <span class="stars">${this.generateStars(book.rating)}</span>
+                        <span class="rating-text">${book.rating}/5</span>
+                    </div>
+                    <p class="book-thoughts">${book.thoughts || book.review || '暂无感想'}</p>
+                </div>
+            </div>
+            `;
+        }).join('');
+        
+        // 渲染分页器
+        this.renderPagination('books', pagination.currentPage, totalPages, books.length);
+    },
+    
+    /**
+     * 渲染筛选后的电影
+     */
+    renderFilteredMovies(movies) {
+        const container = document.getElementById('movies-container');
+        const paginationContainer = document.getElementById('moviesPagination');
+        if (!container) return;
+        
+        if (movies.length === 0) {
+            container.innerHTML = this.getNoResultsHTML('电影');
+            if (paginationContainer) paginationContainer.style.display = 'none';
+            return;
+        }
+        
+        // 分页逻辑
+        const pagination = SearchState.pagination.movies;
+        const totalPages = Math.ceil(movies.length / pagination.pageSize);
+        const startIndex = (pagination.currentPage - 1) * pagination.pageSize;
+        const endIndex = startIndex + pagination.pageSize;
+        const pagedMovies = movies.slice(startIndex, endIndex);
+        
+        container.innerHTML = pagedMovies.map(movie => {
+            const posterUrl = movie.poster_image || movie.poster || (window.ImageUtils ? window.ImageUtils.getMoviePoster(movie.id) : '');
+            const title = this.highlightSearchText(movie.title);
+            const director = this.highlightSearchText(movie.director);
+            const genres = Array.isArray(movie.genre) ? movie.genre.join('/') : (movie.genre || '未知');
+            
+            return `
+            <div class="movie-card hover-lift animate-in" data-id="${movie.id}">
+                <div class="movie-poster">
+                    <img src="${posterUrl}" alt="${movie.title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgODAgMTIwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiM0NUI3RDEiIG9wYWNpdHk9IjAuMyIvPjx0ZXh0IHg9IjQwIiB5PSI2MCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM0NUI3RDEiIHRleHQtYW5jaG9yPSJtaWRkbGUiPueUteW9sTwvdGV4dD48L3N2Zz4='" />
+                </div>
+                <div class="movie-info">
+                    <h4 class="movie-title">${title}</h4>
+                    <p class="movie-director">${director}</p>
+                    <p class="movie-year">${movie.year || movie.release_year} · ${genres}</p>
+                    <div class="rating">
+                        <span class="stars">${this.generateStars(movie.rating)}</span>
+                        <span class="rating-text">${movie.rating}/5</span>
+                    </div>
+                    <p class="movie-review">${movie.review || movie.comment || '暂无评价'}</p>
+                </div>
+            </div>
+            `;
+        }).join('');
+        
+        // 渲染分页器
+        this.renderPagination('movies', pagination.currentPage, totalPages, movies.length);
+    },
+    
+    /**
+     * 渲染筛选后的音乐
+     */
+    renderFilteredMusic(music) {
+        const container = document.getElementById('music-container');
+        const paginationContainer = document.getElementById('musicPagination');
+        if (!container) return;
+        
+        if (music.length === 0) {
+            container.innerHTML = this.getNoResultsHTML('音乐');
+            if (paginationContainer) paginationContainer.style.display = 'none';
+            return;
+        }
+        
+        // 分页逻辑
+        const pagination = SearchState.pagination.music;
+        const totalPages = Math.ceil(music.length / pagination.pageSize);
+        const startIndex = (pagination.currentPage - 1) * pagination.pageSize;
+        const endIndex = startIndex + pagination.pageSize;
+        const pagedMusic = music.slice(startIndex, endIndex);
+        
+        container.innerHTML = pagedMusic.map(song => {
+            const albumUrl = song.album_cover || song.albumCover || (window.ImageUtils ? window.ImageUtils.getAlbumCover(song.id) : '');
+            const title = this.highlightSearchText(song.songName || song.song_name);
+            const artist = this.highlightSearchText(song.artist);
+            
+            return `
+            <div class="music-card hover-lift animate-in" data-id="${song.id}" data-mood="${song.mood}">
+                <div class="album-cover">
+                    <img src="${albumUrl}" alt="${song.album}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSI0MCIgZmlsbD0iI0ZGQTcwQSIgb3BhY2l0eT0iMC4zIi8+PHRleHQgeD0iNDAiIHk9IjQ0IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZmlsbD0iI0ZGQTcwQSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+6Z+z5LmQPC90ZXh0Pjwvc3ZnPg=='" />
+                </div>
+                <div class="music-info">
+                    <h4 class="music-title">${title}</h4>
+                    <p class="music-artist">${artist}</p>
+                    <p class="music-genre">${song.genre} · ${song.language}</p>
+                    <span class="music-mood">${song.mood}</span>
+                    <p class="music-reason">${song.reason || '喜欢这首歌'}</p>
+                </div>
+            </div>
+            `;
+        }).join('');
+        
+        // 渲染分页器
+        this.renderPagination('music', pagination.currentPage, totalPages, music.length);
+    },
+    
+    /**
+     * 高亮搜索文本
+     */
+    highlightSearchText(text) {
+        if (!SearchState.currentQuery || !text) return text;
+        
+        const regex = new RegExp(`(${SearchState.currentQuery})`, 'gi');
+        return text.replace(regex, '<span class="search-highlight">$1</span>');
+    },
+    
+    /**
+     * 生成无结果HTML
+     */
+    getNoResultsHTML(type) {
+        return `
+            <div class="no-results">
+                <div class="no-results-icon">🔍</div>
+                <div class="no-results-text">没有找到相关${type}</div>
+                <div class="no-results-suggestion">试试修改搜索关键词或筛选条件</div>
+            </div>
+        `;
+    },
+    
+    /**
+     * 渲染分页器
+     */
+    renderPagination(type, currentPage, totalPages, totalItems) {
+        const paginationContainer = document.getElementById(`${type}Pagination`);
+        if (!paginationContainer || totalPages <= 1) {
+            if (paginationContainer) paginationContainer.style.display = 'none';
+            return;
+        }
+        
+        paginationContainer.style.display = 'flex';
+        
+        const pagination = SearchState.pagination[type];
+        const startItem = (currentPage - 1) * pagination.pageSize + 1;
+        const endItem = Math.min(currentPage * pagination.pageSize, totalItems);
+        
+        let paginationHTML = '';
+        
+        // 上一页按钮
+        paginationHTML += `
+            <button class="pagination-btn" ${currentPage <= 1 ? 'disabled' : ''} 
+                    onclick="SearchManager.goToPage('${type}', ${currentPage - 1})">
+                ‹ 上一页
+            </button>
+        `;
+        
+        // 页码按钮
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+        
+        // 调整起始页
+        if (endPage - startPage < maxVisiblePages - 1) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+        
+        // 第一页
+        if (startPage > 1) {
+            paginationHTML += `
+                <button class="pagination-btn" onclick="SearchManager.goToPage('${type}', 1)">1</button>
+            `;
+            if (startPage > 2) {
+                paginationHTML += '<span class="pagination-ellipsis">...</span>';
+            }
+        }
+        
+        // 页码
+        for (let i = startPage; i <= endPage; i++) {
+            paginationHTML += `
+                <button class="pagination-btn ${i === currentPage ? 'active' : ''}" 
+                        onclick="SearchManager.goToPage('${type}', ${i})">
+                    ${i}
+                </button>
+            `;
+        }
+        
+        // 最后一页
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                paginationHTML += '<span class="pagination-ellipsis">...</span>';
+            }
+            paginationHTML += `
+                <button class="pagination-btn" onclick="SearchManager.goToPage('${type}', ${totalPages})">${totalPages}</button>
+            `;
+        }
+        
+        // 下一页按钮
+        paginationHTML += `
+            <button class="pagination-btn" ${currentPage >= totalPages ? 'disabled' : ''} 
+                    onclick="SearchManager.goToPage('${type}', ${currentPage + 1})">
+                下一页 ›
+            </button>
+        `;
+        
+        // 信息显示
+        paginationHTML += `
+            <div class="pagination-info">
+                显示 ${startItem}-${endItem} 条，共 ${totalItems} 条
+            </div>
+        `;
+        
+        paginationContainer.innerHTML = paginationHTML;
+    },
+    
+    /**
+     * 跳转到指定页
+     */
+    goToPage(type, page) {
+        const totalItems = SearchState.filteredData[type].length;
+        const pagination = SearchState.pagination[type];
+        const totalPages = Math.ceil(totalItems / pagination.pageSize);
+        
+        if (page < 1 || page > totalPages) return;
+        
+        SearchState.pagination[type].currentPage = page;
+        
+        // 重新渲染当前类型
+        if (SearchState.currentTab === type) {
+            this.renderCurrentTab();
+        }
+        
+        // 滚动到顶部
+        document.querySelector('.search-controls').scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
+    },
+    
+    /**
+     * 生成星星评分
+     */
+    generateStars(rating) {
+        const fullStars = Math.floor(rating);
+        const hasHalfStar = rating % 1 !== 0;
+        let starsHTML = '';
+        
+        for (let i = 0; i < fullStars; i++) {
+            starsHTML += '★';
+        }
+        if (hasHalfStar) {
+            starsHTML += '☆';
+        }
+        for (let i = Math.ceil(rating); i < 5; i++) {
+            starsHTML += '☆';
+        }
+        
+        return starsHTML;
+    }
+};
+
+// 暴露到全局
+window.SearchManager = SearchManager;
+window.SearchState = SearchState;
+
+console.log('🔍 搜索模块已加载');

@@ -2260,3 +2260,388 @@ body {
 body[style*="background-image"] {
     /* JS设置的内联样式会自动覆盖CSS类 */
 }
+
+/* ==================== 问卷调查样式 ==================== */
+
+/* 问卷按钮样式 */
+.survey-btn, .survey-link-btn {
+    background: linear-gradient(135deg, var(--accent-color), #f59e0b);
+    color: var(--bg-color);
+    border: none;
+    padding: 12px 20px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    width: 100%;
+    margin-top: 8px;
+}
+
+.survey-btn:hover, .survey-link-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    background: linear-gradient(135deg, #f59e0b, var(--accent-color));
+}
+
+/* 问卷弹窗 */
+.survey-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.survey-modal.show {
+    opacity: 1;
+}
+
+.survey-content {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 0;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-lg);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.survey-modal.show .survey-content {
+    transform: scale(1);
+}
+
+/* 问卷头部 */
+.survey-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 24px 0;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 24px;
+}
+
+.survey-header h3 {
+    color: var(--text-color);
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.survey-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--text-muted-color);
+    cursor: pointer;
+    padding: 4px;
+    line-height: 1;
+    transition: color 0.3s ease;
+}
+
+.survey-close:hover {
+    color: var(--text-color);
+}
+
+/* 问卷表单 */
+.survey-form {
+    padding: 0 24px 24px;
+}
+
+.survey-question {
+    margin-bottom: 24px;
+}
+
+.question-label {
+    display: block;
+    color: var(--text-color);
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.required {
+    color: var(--secondary-color);
+}
+
+/* 评分选项 */
+.rating-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.rating-group input[type="radio"] {
+    display: none;
+}
+
+.rating-group label {
+    padding: 10px 16px;
+    background: var(--card-background);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-muted-color);
+    font-weight: 500;
+    font-size: 14px;
+    flex: 1;
+    text-align: center;
+    min-width: 80px;
+}
+
+.rating-group label:hover {
+    border-color: var(--accent-color);
+    background: rgba(250, 204, 21, 0.1);
+    color: var(--text-color);
+}
+
+.rating-group input[type="radio"]:checked + label {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--bg-color);
+    font-weight: 600;
+}
+
+/* 单选按钮组 */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.radio-group input[type="radio"] {
+    display: none;
+}
+
+.radio-group label {
+    padding: 12px 16px;
+    background: var(--card-background);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-muted-color);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.radio-group label:hover {
+    border-color: var(--primary-color);
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--text-color);
+}
+
+.radio-group input[type="radio"]:checked + label {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+}
+
+/* 文本输入 */
+.survey-form textarea,
+.contact-inputs input {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--card-background);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-color);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    transition: all 0.3s ease;
+    resize: vertical;
+}
+
+.survey-form textarea:focus,
+.contact-inputs input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: rgba(59, 130, 246, 0.05);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.survey-form textarea::placeholder,
+.contact-inputs input::placeholder {
+    color: var(--text-muted-color);
+}
+
+/* 联系信息输入框 */
+.contact-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+/* 问卷操作按钮 */
+.survey-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.btn-cancel {
+    flex: 1;
+    padding: 12px 24px;
+    background: var(--card-background);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-muted-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.btn-cancel:hover {
+    border-color: var(--text-muted-color);
+    color: var(--text-color);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.btn-submit {
+    flex: 2;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    border-radius: var(--radius-md);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-submit:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-submit .btn-loading {
+    display: none;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 成功提示 */
+.survey-success {
+    text-align: center;
+    padding: 40px 24px;
+}
+
+.success-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.survey-success h4 {
+    color: var(--text-color);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.survey-success p {
+    color: var(--text-muted-color);
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+.btn-close {
+    padding: 12px 24px;
+    background: var(--primary-color);
+    border: none;
+    border-radius: var(--radius-md);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.btn-close:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .survey-content {
+        margin: 10px;
+        max-height: 95vh;
+    }
+    
+    .survey-header {
+        padding: 20px 20px 0;
+    }
+    
+    .survey-form {
+        padding: 0 20px 20px;
+    }
+    
+    .rating-group {
+        flex-direction: column;
+    }
+    
+    .rating-group label {
+        flex: none;
+        text-align: left;
+    }
+    
+    .survey-actions {
+        flex-direction: column;
+    }
+    
+    .btn-cancel,
+    .btn-submit {
+        flex: none;
+    }
+}
+
+/* 滚动条样式 */
+.survey-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.survey-content::-webkit-scrollbar-track {
+    background: var(--card-background);
+}
+
+.survey-content::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+.survey-content::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted-color);
+}

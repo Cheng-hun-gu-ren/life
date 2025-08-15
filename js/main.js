@@ -33,26 +33,56 @@ async function initPage() {
     }
 }
 
-// 数据加载函数
+// 数据加载函数 - 使用API调用
 async function loadAllData() {
     try {
-        const [books, movies, music, marathon] = await Promise.all([
-            loadJSON('data/books.json'),
-            loadJSON('data/movies.json'),
-            loadJSON('data/music.json'),
-            loadJSON('data/marathon.json')
-        ]);
+        // 检查是否有LifeAPI可用
+        if (typeof LifeAPI === 'undefined') {
+            console.error('LifeAPI未加载，回退到JSON文件读取');
+            return await loadAllDataFromJSON();
+        }
+
+        console.log('🚀 使用API加载数据...');
         
-        booksData = books;
-        moviesData = movies;
-        musicData = music;
-        marathonData = marathon;
+        // 使用API加载数据
+        const allData = await LifeAPI.loadAllData();
         
-        console.log('所有数据加载完成');
+        booksData = allData.books;
+        moviesData = allData.movies;
+        musicData = allData.music;
+        marathonData = allData.marathon;
+        
+        console.log('✅ API数据加载完成:', allData);
     } catch (error) {
-        console.error('数据加载失败:', error);
-        throw error;
+        console.error('❌ API数据加载失败，尝试回退到JSON文件:', error);
+        
+        // API失败时回退到JSON文件
+        try {
+            await loadAllDataFromJSON();
+            console.log('📁 JSON文件数据加载成功（回退模式）');
+        } catch (jsonError) {
+            console.error('📁 JSON文件数据加载也失败:', jsonError);
+            ErrorHandler.showError('数据加载失败，请检查网络连接或联系管理员');
+            throw jsonError;
+        }
     }
+}
+
+// 原有的JSON数据加载函数（作为回退方案）
+async function loadAllDataFromJSON() {
+    const [books, movies, music, marathon] = await Promise.all([
+        loadJSON('data/books.json'),
+        loadJSON('data/movies.json'),
+        loadJSON('data/music.json'),
+        loadJSON('data/marathon.json')
+    ]);
+    
+    booksData = books;
+    moviesData = movies;
+    musicData = music;
+    marathonData = marathon;
+    
+    console.log('所有JSON数据加载完成');
 }
 
 // JSON数据加载
@@ -169,19 +199,32 @@ function initMobileMenu() {
     }
 }
 
-// 渲染书籍
+// 渲染书籍 - 使用分页
 function renderBooks() {
     if (!booksData) return;
     
+    // 如果SearchManager可用且已初始化，使用分页渲染
+    if (window.SearchManager && window.SearchState) {
+        // 确保数据已设置到SearchManager
+        window.SearchManager.setData(booksData, moviesData, musicData);
+        window.SearchManager.renderFilteredBooks(window.SearchState.filteredData.books);
+        return;
+    }
+    
+    // 回退到旧的渲染方式（兼容性）
     const container = document.getElementById('books-container');
     if (!container) return;
     
     const allBooks = [...(booksData.currentReading || []), ...(booksData.recentlyFinished || [])].sort((a, b) => a.id - b.id);
     
-    container.innerHTML = allBooks.map(book => `
+    container.innerHTML = allBooks.map(book => {
+        // 优先使用数据库中的封面图片URL
+        const coverUrl = book.cover_image || book.cover || (window.ImageUtils ? window.ImageUtils.getBookCover(book.id) : '');
+        
+        return `
         <div class="book-card hover-lift animate-in" data-id="${book.id}">
             <div class="book-cover">
-                <img src="${book.cover}" alt="${book.title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTA3IiB2aWV3Qm94PSIwIDAgODAgMTA3IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSIxMDciIGZpbGw9IiM0RUNEQzQiIG9wYWNpdHk9IjAuMyIvPjx0ZXh0IHg9IjQwIiB5PSI1NCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM0RUNEQzQiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuS5puexuzwvdGV4dD48L3N2Zz4='" />
+                <img src="${coverUrl}" alt="${book.title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTA3IiB2aWV3Qm94PSIwIDAgODAgMTA3IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSIxMDciIGZpbGw9IiM0RUNEQzQiIG9wYWNpdHk9IjAuMyIvPjx0ZXh0IHg9IjQwIiB5PSI1NCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM0RUNEQzQiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuS5puexuzwvdGV4dD48L3N2Zz4='" />
             </div>
             <div class="book-info">
                 <h4 class="book-title">${book.title}</h4>
@@ -200,56 +243,93 @@ function renderBooks() {
                 <p class="book-thoughts">${book.thoughts || book.review || '暂无感想'}</p>
             </div>
         </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
-// 渲染电影
+// 渲染电影 - 使用分页
 function renderMovies() {
     if (!moviesData) return;
     
+    // 如果SearchManager可用且已初始化，使用分页渲染
+    if (window.SearchManager && window.SearchState) {
+        // 确保数据已设置到SearchManager
+        window.SearchManager.setData(booksData, moviesData, musicData);
+        window.SearchManager.renderFilteredMovies(window.SearchState.filteredData.movies);
+        return;
+    }
+    
+    // 回退到旧的渲染方式（兼容性）
     const container = document.getElementById('movies-container');
     if (!container) return;
     
-    container.innerHTML = moviesData.recentWatched.sort((a, b) => a.id - b.id).map(movie => `
+    const movies = moviesData.recentWatched || [];
+    
+    container.innerHTML = movies.sort((a, b) => a.id - b.id).map(movie => {
+        // 优先使用数据库中的海报图片URL
+        const posterUrl = movie.poster_image || movie.poster || (window.ImageUtils ? window.ImageUtils.getMoviePoster(movie.id) : '');
+        // 处理类型数组
+        const genres = Array.isArray(movie.genre) ? movie.genre.join('/') : (movie.genre || '未知');
+        
+        return `
         <div class="movie-card hover-lift animate-in" data-id="${movie.id}">
             <div class="movie-poster">
-                <img src="${movie.poster}" alt="${movie.title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgODAgMTIwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiM0NUI3RDEiIG9wYWNpdHk9IjAuMyIvPjx0ZXh0IHg9IjQwIiB5PSI2MCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM0NUI3RDEiIHRleHQtYW5jaG9yPSJtaWRkbGUiPueUteW9sTwvdGV4dD48L3N2Zz4='" />
+                <img src="${posterUrl}" alt="${movie.title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgODAgMTIwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSI4MCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiM0NUI3RDEiIG9wYWNpdHk9IjAuMyIvPjx0ZXh0IHg9IjQwIiB5PSI2MCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM0NUI3RDEiIHRleHQtYW5jaG9yPSJtaWRkbGUiPueUteW9sTwvdGV4dD48L3N2Zz4='" />
             </div>
             <div class="movie-info">
                 <h4 class="movie-title">${movie.title}</h4>
                 <p class="movie-director">${movie.director}</p>
-                <p class="movie-year">${movie.year} · ${movie.genre.join('/')}</p>
+                <p class="movie-year">${movie.year || movie.release_year} · ${genres}</p>
                 <div class="rating">
                     <span class="stars">${generateStars(movie.rating)}</span>
                     <span class="rating-text">${movie.rating}/5</span>
                 </div>
-                <p class="movie-review">${movie.review}</p>
+                <p class="movie-review">${movie.review || movie.comment || '暂无评价'}</p>
             </div>
         </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
-// 渲染音乐
+// 渲染音乐 - 使用分页
 function renderMusic() {
     if (!musicData) return;
     
+    // 如果SearchManager可用且已初始化，使用分页渲染
+    if (window.SearchManager && window.SearchState) {
+        // 确保数据已设置到SearchManager
+        window.SearchManager.setData(booksData, moviesData, musicData);
+        window.SearchManager.renderFilteredMusic(window.SearchState.filteredData.music);
+        // 渲染播放列表
+        renderPlaylists();
+        return;
+    }
+    
+    // 回退到旧的渲染方式（兼容性）
     const container = document.getElementById('music-container');
     if (!container) return;
     
-    container.innerHTML = musicData.currentListening.sort((a, b) => a.id - b.id).map(song => `
+    const music = musicData.currentListening || [];
+    
+    container.innerHTML = music.sort((a, b) => a.id - b.id).map(song => {
+        // 优先使用数据库中的专辑封面URL
+        const albumUrl = song.album_cover || song.albumCover || (window.ImageUtils ? window.ImageUtils.getAlbumCover(song.id) : '');
+        
+        return `
         <div class="music-card hover-lift animate-in" data-id="${song.id}" data-mood="${song.mood}">
             <div class="album-cover">
-                <img src="${song.albumCover}" alt="${song.album}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSI0MCIgZmlsbD0iI0ZGQTcwQSIgb3BhY2l0eT0iMC4zIi8+PHRleHQgeD0iNDAiIHk9IjQ0IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZmlsbD0iI0ZGQTcwQSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+6Z+z5LmQPC90ZXh0Pjwvc3ZnPg=='" />
+                <img src="${albumUrl}" alt="${song.album}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSI0MCIgZmlsbD0iI0ZGQTcwQSIgb3BhY2l0eT0iMC4zIi8+PHRleHQgeD0iNDAiIHk9IjQ0IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZmlsbD0iI0ZGQTcwQSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+6Z+z5LmQPC90ZXh0Pjwvc3ZnPg=='" />
             </div>
             <div class="music-info">
-                <h4 class="music-title">${song.songName}</h4>
+                <h4 class="music-title">${song.songName || song.song_name}</h4>
                 <p class="music-artist">${song.artist}</p>
                 <p class="music-genre">${song.genre} · ${song.language}</p>
                 <span class="music-mood">${song.mood}</span>
-                <p class="music-reason">${song.reason}</p>
+                <p class="music-reason">${song.reason || '喜欢这首歌'}</p>
             </div>
         </div>
-    `).join('');
+        `;
+    }).join('');
     
     // 渲染播放列表
     renderPlaylists();

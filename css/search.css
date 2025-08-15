@@ -1,0 +1,515 @@
+/* 搜索和筛选组件样式 */
+
+.search-controls {
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.1) 0%, 
+        rgba(236, 72, 153, 0.05) 50%, 
+        rgba(250, 204, 21, 0.1) 100%);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.search-controls::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    animation: float 6s ease-in-out infinite;
+    z-index: -1;
+}
+
+.search-controls::after {
+    content: '';
+    position: absolute;
+    bottom: -50%;
+    left: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.08) 0%, transparent 70%);
+    animation: float 8s ease-in-out infinite reverse;
+    z-index: -1;
+}
+
+/* 搜索容器 */
+.search-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.search-input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    color: var(--text-color);
+    position: relative;
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 
+        0 0 0 3px rgba(255, 255, 255, 0.1),
+        0 8px 25px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(16px);
+    transform: translateY(-1px);
+}
+
+.search-input:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+    transition: color 0.3s ease;
+}
+
+.search-input:focus::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.search-btn, .clear-btn {
+    padding: 12px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.2) 0%, 
+        rgba(236, 72, 153, 0.1) 50%, 
+        rgba(250, 204, 21, 0.2) 100%);
+    backdrop-filter: blur(12px);
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.search-btn:hover {
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.3) 0%, 
+        rgba(236, 72, 153, 0.2) 50%, 
+        rgba(250, 204, 21, 0.3) 100%);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+    backdrop-filter: blur(16px);
+}
+
+/* 搜索按钮装饰效果 */
+.search-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+    animation: float 3s ease-in-out infinite;
+    z-index: -1;
+}
+
+.search-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -50%;
+    left: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(250, 204, 21, 0.1) 0%, transparent 70%);
+    animation: float 4s ease-in-out infinite reverse;
+    z-index: -1;
+}
+
+/* 搜索图标样式 */
+.search-icon {
+    width: 20px;
+    height: 20px;
+    display: block;
+    filter: brightness(1.2);
+    transition: all 0.3s ease;
+}
+
+.search-btn:hover .search-icon {
+    transform: scale(1.1);
+    filter: brightness(1.4);
+}
+
+.clear-btn {
+    background: #dc3545;
+}
+
+.clear-btn:hover {
+    background: #c82333;
+    transform: translateY(-1px);
+}
+
+/* 筛选容器 */
+.filter-container {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.sort-select, .status-filter {
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    color: var(--text-color);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 120px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 现代下拉框悬停效果 */
+.sort-select:hover, .status-filter:hover,
+.page-size-select:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+}
+
+/* 下拉框点击/聚焦时的现代动画 */
+.sort-select:active, .status-filter:active,
+.page-size-select:active {
+    transform: translateY(0px) scale(0.98);
+    transition: all 0.1s ease-out;
+}
+
+/* 改进的呼吸动画 - 更微妙 */
+.sort-select, .status-filter, .page-size-select {
+    animation: gentleGlow 6s ease-in-out infinite;
+}
+
+@keyframes gentleGlow {
+    0%, 100% { 
+        box-shadow: 
+            0 2px 8px rgba(0, 0, 0, 0.1),
+            0 0 0 0px rgba(59, 130, 246, 0);
+    }
+    50% { 
+        box-shadow: 
+            0 4px 12px rgba(0, 0, 0, 0.15),
+            0 0 0 1px rgba(59, 130, 246, 0.1);
+    }
+}
+
+/* 下拉框选项样式 */
+.sort-select option, .status-filter option {
+    background: rgba(30, 41, 59, 0.95);
+    color: var(--text-color);
+    padding: 8px 12px;
+    border: none;
+}
+
+.sort-select option:hover, .status-filter option:hover {
+    background: rgba(59, 130, 246, 0.8);
+}
+
+.sort-select option:checked, .status-filter option:checked {
+    background: var(--primary-color);
+    color: white;
+}
+
+.sort-select:focus, .status-filter:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.18);
+    box-shadow: 
+        0 0 0 3px rgba(59, 130, 246, 0.2),
+        0 12px 30px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    transform: scale(1.03) translateY(-2px);
+    border-radius: 10px;
+    animation: focusPulse 2s ease-in-out infinite;
+}
+
+@keyframes focusPulse {
+    0%, 100% { 
+        box-shadow: 
+            0 0 0 3px rgba(59, 130, 246, 0.2),
+            0 12px 30px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    50% { 
+        box-shadow: 
+            0 0 0 4px rgba(59, 130, 246, 0.3),
+            0 15px 35px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+}
+
+/* 结果统计 */
+.search-results-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.results-count {
+    font-weight: 600;
+}
+
+/* 无结果提示 */
+.no-results {
+    text-align: center;
+    padding: 40px 20px;
+    color: #6c757d;
+}
+
+.no-results-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.no-results-text {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.no-results-suggestion {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* 搜索高亮 */
+.search-highlight {
+    background: #fff3cd;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: 600;
+}
+
+/* 加载状态 */
+.search-loading {
+    text-align: center;
+    padding: 20px;
+    color: #6c757d;
+}
+
+.search-loading::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e9ecef;
+    border-top: 2px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 分页组件 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+    padding: 20px;
+}
+
+.pagination-btn {
+    padding: 8px 12px;
+    border: 1px solid #dee2e6;
+    background: white;
+    color: #495057;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    min-width: 40px;
+    text-align: center;
+}
+
+.pagination-btn:hover:not(.active):not(:disabled) {
+    background: #f8f9fa;
+    border-color: var(--primary-color);
+}
+
+.pagination-btn.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    margin: 0 15px;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+/* 节标题头部 */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.section-header h3 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.4rem;
+}
+
+/* 每页显示数量选择器 */
+.page-size-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.page-size-selector label {
+    font-size: 14px;
+    color: #6c757d;
+    white-space: nowrap;
+}
+
+.page-size-select {
+    padding: 6px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    color: var(--text-color);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* 每页显示选择器的选项样式 */
+.page-size-select option {
+    background: rgba(30, 41, 59, 0.95);
+    color: var(--text-color);
+    padding: 6px 10px;
+    border: none;
+}
+
+.page-size-select option:hover {
+    background: rgba(59, 130, 246, 0.8);
+}
+
+.page-size-select option:checked {
+    background: var(--primary-color);
+    color: white;
+}
+
+.page-size-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 
+        0 0 0 3px rgba(59, 130, 246, 0.2),
+        0 8px 25px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(16px);
+    transform: scale(1.02);
+    border-radius: 6px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .search-controls {
+        padding: 15px;
+    }
+    
+    .search-container {
+        flex-direction: column;
+    }
+    
+    .search-input {
+        font-size: 16px; /* 防止iOS缩放 */
+    }
+    
+    .filter-container {
+        flex-direction: column;
+    }
+    
+    .sort-select, .status-filter {
+        width: 100%;
+    }
+    
+    .pagination {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    
+    .pagination-btn {
+        min-width: 35px;
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+    
+    .pagination-info {
+        width: 100%;
+        text-align: center;
+        margin: 10px 0 5px 0;
+    }
+}
+
+/* 标签页计数样式 */
+.tabs .tab-btn span {
+    font-size: 12px;
+    color: #6c757d;
+    margin-left: 4px;
+}
+
+.tabs .tab-btn.active span {
+    color: rgba(255, 255, 255, 0.8);
+}

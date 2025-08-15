@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../../css/style.css">
     <link rel="stylesheet" href="../../css/responsive.css">
     <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="stylesheet" href="../../css/search.css">
 </head>
 <body>
     <!-- 顶部导航栏 -->
@@ -26,6 +27,7 @@
                 <li><a href="../about/index.html" class="nav-link">个人简介</a></li>
                 <li><a href="../interests/index.html" class="nav-link active">兴趣爱好</a></li>
                 <li><a href="../journey/index.html" class="nav-link">人生旅程</a></li>
+                <li><a href="../webdev/index.html" class="nav-link">Web开发</a></li>
                 <li><a href="../contact/index.html" class="nav-link">联系方式</a></li>
             </ul>
             
@@ -85,21 +87,65 @@
             </div>
             
             <section class="section">
-                <h2 class="section-title">兴趣爱好 </h2>
+                <h2 class="section-title">兴趣爱好 
+                </h2>
+                
+                <!-- 搜索和控制区域 -->
+                <div class="search-controls">
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="搜索书籍、电影、音乐..." class="search-input">
+                        <button id="searchBtn" class="search-btn">
+                            <img src="../../images/icons/search-icon.svg" alt="搜索" class="search-icon">
+                        </button>
+                        <button id="clearSearchBtn" class="clear-btn" style="display: none;">✕</button>
+                    </div>
+                    
+                    <div class="filter-container">
+                        <select id="sortSelect" class="sort-select">
+                            <option value="id-asc">默认排序</option>
+                            <option value="title-asc">标题 A-Z</option>
+                            <option value="title-desc">标题 Z-A</option>
+                            <option value="rating-desc">评分从高到低</option>
+                            <option value="rating-asc">评分从低到高</option>
+                            <option value="date-desc">最新优先</option>
+                            <option value="date-asc">最早优先</option>
+                        </select>
+                        
+                        <select id="statusFilter" class="status-filter">
+                            <option value="all">全部状态</option>
+                            <option value="reading">正在阅读</option>
+                            <option value="finished">已完成</option>
+                        </select>
+                    </div>
+                </div>
                 
                 <!-- 标签页切换 -->
                 <div class="tabs">
-                    <button class="tab-btn active" data-tab="books">书籍</button>
-                    <button class="tab-btn" data-tab="movies">电影</button>
-                    <button class="tab-btn" data-tab="music">音乐</button>
+                    <button class="tab-btn active" data-tab="books">书籍 <span id="booksCount">(0)</span></button>
+                    <button class="tab-btn" data-tab="movies">电影 <span id="moviesCount">(0)</span></button>
+                    <button class="tab-btn" data-tab="music">音乐 <span id="musicCount">(0)</span></button>
                 </div>
                 
                 <!-- 书籍内容 -->
                 <div class="tab-content active" id="books-content">
                     <div class="books-section">
-                        <h3>最近在读</h3>
+                        <div class="section-header">
+                            <h3>书籍记录</h3>
+                            <div class="page-size-selector">
+                                <label>每页显示:</label>
+                                <select class="page-size-select" id="booksPageSize">
+                                    <option value="5">5条</option>
+                                    <option value="8" selected>8条</option>
+                                    <option value="10">10条</option>
+                                    <option value="20">20条</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="books-grid" id="books-container">
                             <!-- 书籍卡片将通过JavaScript动态加载 -->
+                        </div>
+                        <div class="pagination" id="booksPagination" style="display: none;">
+                            <!-- 分页按钮将通过JavaScript动态生成 -->
                         </div>
                     </div>
                 </div>
@@ -107,9 +153,23 @@
                 <!-- 电影内容 -->
                 <div class="tab-content" id="movies-content">
                     <div class="movies-section">
-                        <h3>最近观影</h3>
+                        <div class="section-header">
+                            <h3>电影记录</h3>
+                            <div class="page-size-selector">
+                                <label>每页显示:</label>
+                                <select class="page-size-select" id="moviesPageSize">
+                                    <option value="5">5条</option>
+                                    <option value="8" selected>8条</option>
+                                    <option value="10">10条</option>
+                                    <option value="20">20条</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="movies-grid" id="movies-container">
                             <!-- 电影卡片将通过JavaScript动态加载 -->
+                        </div>
+                        <div class="pagination" id="moviesPagination" style="display: none;">
+                            <!-- 分页按钮将通过JavaScript动态生成 -->
                         </div>
                     </div>
                 </div>
@@ -117,11 +177,24 @@
                 <!-- 音乐内容 -->
                 <div class="tab-content" id="music-content">
                     <div class="music-section">
-                        <h3>最近在听</h3>
+                        <div class="section-header">
+                            <h3>音乐记录</h3>
+                            <div class="page-size-selector">
+                                <label>每页显示:</label>
+                                <select class="page-size-select" id="musicPageSize">
+                                    <option value="5">5条</option>
+                                    <option value="8" selected>8条</option>
+                                    <option value="10">10条</option>
+                                    <option value="20">20条</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="music-grid" id="music-container">
                             <!-- 音乐卡片将通过JavaScript动态加载 -->
                         </div>
-                        
+                        <div class="pagination" id="musicPagination" style="display: none;">
+                            <!-- 分页按钮将通过JavaScript动态生成 -->
+                        </div>
                     </div>
                 </div>
             </section>
@@ -153,7 +226,10 @@
         </div>
     </div>
 
+    <!-- API模块 - 必须在main.js之前加载 -->
+    <script src="../../js/api.js"></script>
     <script src="../../js/main.js"></script>
+    <script src="../../js/search.js"></script>
     <script src="../../js/animations.js"></script>
     <script src="../../js/music.js"></script>
     <script src="../../js/background.js"></script>
@@ -164,6 +240,12 @@
             try {
                 // 先加载数据（调整子页面路径）
                 await loadSubPageData();
+                
+                // 初始化搜索功能
+                if (window.SearchManager) {
+                    window.SearchManager.setData(booksData, moviesData, musicData);
+                    window.SearchManager.init();
+                }
                 
                 // 初始化页面功能
                 initTabs();
@@ -182,23 +264,65 @@
         // 子页面数据加载函数
         async function loadSubPageData() {
             try {
-                const [books, movies, music, marathon] = await Promise.all([
-                    loadJSON('../../data/books.json'),
-                    loadJSON('../../data/movies.json'),
-                    loadJSON('../../data/music.json'),
-                    loadJSON('../../data/marathon.json')
-                ]);
-                
-                // 修正图片路径
-                booksData = fixImagePaths(books);
-                moviesData = fixImagePaths(movies);
-                musicData = fixImagePaths(music);
-                marathonData = marathon;
-                
-                console.log('子页面数据加载完成');
+                // 检查是否有LifeAPI可用
+                if (typeof LifeAPI !== 'undefined') {
+                    console.log('🚀 子页面使用API加载数据...');
+                    
+                    // 使用API加载数据
+                    const allData = await LifeAPI.loadAllData();
+                    
+                    booksData = allData.books;
+                    moviesData = allData.movies;
+                    musicData = allData.music;
+                    marathonData = allData.marathon;
+                    
+                    console.log('✅ 子页面API数据加载完成:', allData);
+                } else {
+                    console.log('📁 子页面回退到JSON文件加载...');
+                    
+                    // 回退到JSON文件加载
+                    const [books, movies, music, marathon] = await Promise.all([
+                        loadJSON('../../data/books.json'),
+                        loadJSON('../../data/movies.json'),
+                        loadJSON('../../data/music.json'),
+                        loadJSON('../../data/marathon.json')
+                    ]);
+                    
+                    // 修正图片路径
+                    booksData = fixImagePaths(books);
+                    moviesData = fixImagePaths(movies);
+                    musicData = fixImagePaths(music);
+                    marathonData = marathon;
+                    
+                    console.log('📁 子页面JSON数据加载完成');
+                }
             } catch (error) {
-                console.error('数据加载失败:', error);
-                throw error;
+                console.error('❌ 子页面数据加载失败:', error);
+                
+                // API失败时尝试JSON回退
+                if (typeof LifeAPI !== 'undefined') {
+                    try {
+                        console.log('🔄 尝试JSON文件回退...');
+                        const [books, movies, music, marathon] = await Promise.all([
+                            loadJSON('../../data/books.json'),
+                            loadJSON('../../data/movies.json'),
+                            loadJSON('../../data/music.json'),
+                            loadJSON('../../data/marathon.json')
+                        ]);
+                        
+                        booksData = fixImagePaths(books);
+                        moviesData = fixImagePaths(movies);
+                        musicData = fixImagePaths(music);
+                        marathonData = marathon;
+                        
+                        console.log('📁 JSON回退成功');
+                    } catch (jsonError) {
+                        console.error('📁 JSON回退也失败:', jsonError);
+                        throw error;
+                    }
+                } else {
+                    throw error;
+                }
             }
         }
         
