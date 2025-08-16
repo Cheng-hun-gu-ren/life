@@ -113,8 +113,17 @@
                         
                         <select id="statusFilter" class="status-filter">
                             <option value="all">全部状态</option>
-                            <option value="reading">正在阅读</option>
-                            <option value="finished">已完成</option>
+                            <!-- 动态选项，根据当前tab显示不同内容 -->
+                        </select>
+                        
+                        <select id="categoryFilter" class="category-filter">
+                            <option value="all">全部分类</option>
+                            <!-- 动态选项，根据当前tab显示不同内容 -->
+                        </select>
+                        
+                        <select id="extraFilter" class="extra-filter">
+                            <option value="all">全部</option>
+                            <!-- 动态选项：Books=推荐等级, Movies=情绪标签, Music=使用场景 -->
                         </select>
                     </div>
                 </div>

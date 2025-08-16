@@ -37,46 +37,5 @@
         "images/marathon/scene-2023-2.jpg"
       ]
     }
-  ],
-
-  
-  "statistics": {
-    "totalRaces": 2,
-    "totalDistance": 52.2,
-    "monthlyDistance": "60",
-    "averageTime": "2:15:30",
-    "favoriteDistance": "半马"
-  },
-  "trainingLog": [
-    {
-      "date": "2025-07-27",
-      "distance": 5.01,
-      "time": "24:58",
-      "pace": "4:58",
-      "location": "红树林公园",
-      "weather": "多云",
-      "feeling": "状态不错，配速稳定。公园里蛮多人的，也有很多一起训练的伙伴，心情很舒畅，跑完后感觉神清气爽。",
-      "type": "夜跑训练"
-    },
-    {
-      "date": "2025-07-24",
-      "distance": 5.01,
-      "time": "25:27",
-      "pace": "5:04",
-      "location": "田径场+上下园",
-      "weather": "晴天",
-      "feeling": "五公里夜跑，十点钟田径场熄灯时刚刚跑完四公里。最后一公里从下园跑到上园。",
-      "type": "爬坡训练"
-    },
-    {
-      "date": "2025-07-13",
-      "distance": 5.03,
-      "time": "29:03",
-      "pace": "5:46",
-      "location": "红树林公园+机场路",
-      "weather": "阴天",
-      "feeling": "穿过小房子，后面是一条没有走过的路，好像直连机场高速了。后来迷路了，没有从原来的入口出去，而是找到了一个新出口。",
-      "type": "自由跑"
-    }
   ]
 }

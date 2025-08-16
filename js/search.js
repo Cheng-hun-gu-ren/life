@@ -2,13 +2,119 @@
  * 搜索和筛选功能模块
  */
 
+// 筛选器选项配置
+const FILTER_OPTIONS = {
+    books: {
+        status: [
+            { value: 'all', text: '全部状态' },
+            { value: 'reading', text: '正在读' },
+            { value: 'finished', text: '已读完' },
+            { value: 'want_to_read', text: '想读' },
+            { value: 'paused', text: '暂停' }
+        ],
+        category: [
+            { value: 'all', text: '全部分类' },
+            { value: '文学小说', text: '文学小说' },
+            { value: '技术编程', text: '技术编程' },
+            { value: '心理学', text: '心理学' },
+            { value: '历史传记', text: '历史传记' },
+            { value: '哲学思辨', text: '哲学思辨' },
+            { value: '经济管理', text: '经济管理' },
+            { value: '科普百科', text: '科普百科' },
+            { value: '生活实用', text: '生活实用' },
+            { value: '其他', text: '其他' }
+        ],
+        extra: {
+            label: '推荐等级',
+            options: [
+                { value: 'all', text: '全部等级' },
+                { value: '5', text: '5星力荐' },
+                { value: '4', text: '4星推荐' },
+                { value: '3', text: '3星一般' },
+                { value: '1,2', text: '1-2星' }
+            ]
+        }
+    },
+    movies: {
+        status: [
+            { value: 'all', text: '全部状态' },
+            { value: '已观看', text: '已观看' },
+            { value: '想看', text: '想看' },
+            { value: '重看清单', text: '重看清单' }
+        ],
+        category: [
+            { value: 'all', text: '全部分类' },
+            { value: '剧情片', text: '剧情片' },
+            { value: '喜剧片', text: '喜剧片' },
+            { value: '动画片', text: '动画片' },
+            { value: '纪录片', text: '纪录片' },
+            { value: '科幻片', text: '科幻片' },
+            { value: '悬疑片', text: '悬疑片' },
+            { value: '动作片', text: '动作片' },
+            { value: '爱情片', text: '爱情片' },
+            { value: '其他', text: '其他' }
+        ],
+        extra: {
+            label: '情绪标签',
+            options: [
+                { value: 'all', text: '全部标签' },
+                { value: '治愈系', text: '治愈系' },
+                { value: '励志向上', text: '励志向上' },
+                { value: '悬疑烧脑', text: '悬疑烧脑' },
+                { value: '轻松搞笑', text: '轻松搞笑' },
+                { value: '深度思考', text: '深度思考' },
+                { value: '视觉震撼', text: '视觉震撼' },
+                { value: '其他', text: '其他' }
+            ]
+        }
+    },
+    music: {
+        status: [
+            { value: 'all', text: '全部状态' },
+            { value: 'current', text: '当前歌单' },
+            { value: 'archived', text: '历史记录' }
+        ],
+        category: [
+            { value: 'all', text: '全部分类' },
+            { value: '民谣', text: '民谣' },
+            { value: '摇滚', text: '摇滚' },
+            { value: '古典', text: '古典' },
+            { value: '电子', text: '电子' },
+            { value: '流行', text: '流行' },
+            { value: '爵士', text: '爵士' },
+            { value: '说唱', text: '说唱' },
+            { value: '轻音乐', text: '轻音乐' },
+            { value: '其他', text: '其他' }
+        ],
+        extra: {
+            label: '使用场景',
+            options: [
+                { value: 'all', text: '全部场景' },
+                { value: '工作专注', text: '工作专注' },
+                { value: '运动健身', text: '运动健身' },
+                { value: '睡前放松', text: '睡前放松' },
+                { value: '通勤路上', text: '通勤路上' },
+                { value: '聚会活动', text: '聚会活动' },
+                { value: '独处时光', text: '独处时光' },
+                { value: '其他', text: '其他' }
+            ]
+        }
+    }
+};
+
 // 搜索状态管理
 const SearchState = {
     currentQuery: '',
     currentSort: 'id-asc',
-    currentFilter: 'all',
     currentTab: 'books',
     isSearching: false,
+    
+    // 多维度筛选状态
+    filters: {
+        status: 'all',
+        category: 'all',
+        extra: 'all'
+    },
     
     // 分页状态
     pagination: {
@@ -42,6 +148,7 @@ const SearchManager = {
      */
     init() {
         this.initPageSizes();
+        this.initFilterOptions();
         this.bindEvents();
         this.updateCounts();
     },
@@ -62,6 +169,73 @@ const SearchManager = {
     },
     
     /**
+     * 初始化筛选器选项
+     */
+    initFilterOptions() {
+        // 初始化为books的选项
+        this.updateFilterOptions('books');
+    },
+    
+    /**
+     * 根据当前tab更新筛选器选项
+     */
+    updateFilterOptions(tabType) {
+        const statusFilter = document.getElementById('statusFilter');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const extraFilter = document.getElementById('extraFilter');
+        
+        if (!FILTER_OPTIONS[tabType]) return;
+        
+        const options = FILTER_OPTIONS[tabType];
+        
+        // 更新状态筛选器
+        if (statusFilter) {
+            statusFilter.innerHTML = '';
+            options.status.forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.value = option.value;
+                optionElement.textContent = option.text;
+                statusFilter.appendChild(optionElement);
+            });
+        }
+        
+        // 更新分类筛选器
+        if (categoryFilter) {
+            categoryFilter.innerHTML = '';
+            options.category.forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.value = option.value;
+                optionElement.textContent = option.text;
+                categoryFilter.appendChild(optionElement);
+            });
+        }
+        
+        // 更新附加筛选器
+        if (extraFilter && options.extra) {
+            extraFilter.innerHTML = '';
+            // 设置placeholder显示筛选器类型
+            const placeholderOption = document.createElement('option');
+            placeholderOption.value = 'all';
+            placeholderOption.textContent = `全部${options.extra.label}`;
+            extraFilter.appendChild(placeholderOption);
+            
+            options.extra.options.slice(1).forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.value = option.value;
+                optionElement.textContent = option.text;
+                extraFilter.appendChild(optionElement);
+            });
+        }
+        
+        // 重置筛选状态
+        SearchState.filters = {
+            status: 'all',
+            category: 'all',
+            extra: 'all'
+        };
+    },
+    
+    /**
      * 绑定事件
      */
     bindEvents() {
@@ -70,6 +244,8 @@ const SearchManager = {
         const clearBtn = document.getElementById('clearSearchBtn');
         const sortSelect = document.getElementById('sortSelect');
         const statusFilter = document.getElementById('statusFilter');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const extraFilter = document.getElementById('extraFilter');
         
         // 搜索输入事件（防抖）
         if (searchInput) {
@@ -112,7 +288,25 @@ const SearchManager = {
         // 状态筛选
         if (statusFilter) {
             statusFilter.addEventListener('change', (e) => {
-                SearchState.currentFilter = e.target.value;
+                SearchState.filters.status = e.target.value;
+                this.resetPagination();
+                this.applyFilters();
+            });
+        }
+        
+        // 分类筛选
+        if (categoryFilter) {
+            categoryFilter.addEventListener('change', (e) => {
+                SearchState.filters.category = e.target.value;
+                this.resetPagination();
+                this.applyFilters();
+            });
+        }
+        
+        // 附加筛选
+        if (extraFilter) {
+            extraFilter.addEventListener('change', (e) => {
+                SearchState.filters.extra = e.target.value;
                 this.resetPagination();
                 this.applyFilters();
             });
@@ -122,8 +316,13 @@ const SearchManager = {
         const tabBtns = document.querySelectorAll('.tab-btn');
         tabBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                SearchState.currentTab = btn.getAttribute('data-tab');
-                this.updateTabState();
+                const newTab = btn.getAttribute('data-tab');
+                if (newTab !== SearchState.currentTab) {
+                    SearchState.currentTab = newTab;
+                    this.updateFilterOptions(newTab);
+                    this.updateTabState();
+                    this.applyFilters();
+                }
             });
         });
         
@@ -270,10 +469,8 @@ const SearchManager = {
             );
         }
         
-        // 状态筛选（仅书籍）
-        if (type === 'books' && SearchState.currentFilter !== 'all') {
-            filtered = filtered.filter(item => item.status === SearchState.currentFilter);
-        }
+        // 多维度筛选
+        filtered = this.applyMultiFilters(filtered, type);
         
         // 排序
         filtered.sort((a, b) => {
@@ -295,6 +492,55 @@ const SearchManager = {
                     return (a.id || 0) - (b.id || 0);
             }
         });
+        
+        return filtered;
+    },
+    
+    /**
+     * 应用多维度筛选
+     */
+    applyMultiFilters(data, type) {
+        let filtered = [...data];
+        
+        // 状态筛选
+        if (SearchState.filters.status !== 'all') {
+            filtered = filtered.filter(item => {
+                return item.status === SearchState.filters.status || 
+                       item.watch_status === SearchState.filters.status;
+            });
+        }
+        
+        // 分类筛选
+        if (SearchState.filters.category !== 'all') {
+            filtered = filtered.filter(item => {
+                return item.category === SearchState.filters.category;
+            });
+        }
+        
+        // 附加筛选
+        if (SearchState.filters.extra !== 'all') {
+            filtered = filtered.filter(item => {
+                switch (type) {
+                    case 'books':
+                        // 推荐等级筛选
+                        if (SearchState.filters.extra === '1,2') {
+                            return item.recommendation_level <= 2;
+                        }
+                        return item.recommendation_level == SearchState.filters.extra;
+                    
+                    case 'movies':
+                        // 情绪标签筛选
+                        return item.mood_tag === SearchState.filters.extra;
+                    
+                    case 'music':
+                        // 使用场景筛选
+                        return item.scene === SearchState.filters.extra;
+                    
+                    default:
+                        return true;
+                }
+            });
+        }
         
         return filtered;
     },
