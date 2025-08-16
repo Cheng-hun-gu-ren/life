@@ -113,8 +113,8 @@ const DetailsDataManager = {
         const isDomain = window.location.hostname === 'life.chenggao.top';
         
         if (isDomain) {
-            console.log('🔄 Details: 使用相对路径API');
-            return '';  // 相对路径，无需base URL
+            console.log('🔄 Details: 临时测试3001端口');
+            return 'http://47.115.72.85:3001';
         } else {
             console.log('💻 Details: 本地开发环境');
             return 'http://47.115.72.85:3001';

@@ -12,13 +12,17 @@ const API_CONFIG = {
         
         console.log(`🌐 检测到访问环境: ${window.location.protocol}//${window.location.hostname}`);
         
-        if (isDomain) {
-            // 域名环境: 使用相对路径，通过Cloudflare/Nginx代理到后端
-            console.log('🔄 使用代理模式，API路径: 空字符串');
-            return '';  // 空字符串，因为端点已包含/api
+        if (isDomain && isHTTPS) {
+            // HTTPS域名环境: 使用HTTPS API避免Mixed Content
+            console.log('🔒 HTTPS环境: 使用HTTPS API');
+            return 'https://api.chenggao.top';
+        } else if (isDomain) {
+            // HTTP域名环境: 使用HTTP API
+            console.log('🔄 HTTP域名环境: 使用HTTP API');
+            return 'http://api.chenggao.top';
         } else {
-            // 本地开发环境: 直接使用HTTP
-            console.log('💻 本地开发环境: 使用HTTP API');
+            // 本地开发环境: 直接使用IP和端口
+            console.log('💻 本地开发环境: 使用服务器IP');
             return 'http://47.115.72.85:3001';
         }
     })(),

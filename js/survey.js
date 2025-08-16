@@ -10,8 +10,8 @@ class SurveyManager {
         const isDomain = window.location.hostname === 'life.chenggao.top';
         
         if (isDomain) {
-            console.log('🔄 Survey: 使用相对路径API');
-            return '';  // 相对路径，无需base URL
+            console.log('🔄 Survey: 使用API子域名');
+            return 'https://api.chenggao.top';
         } else {
             console.log('💻 Survey: 本地开发环境');
             return 'http://47.115.72.85:3001';
