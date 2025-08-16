@@ -129,6 +129,7 @@ async function apiRequest(endpoint, options = {}) {
 
     try {
         console.log(`🌐 API请求: ${defaultOptions.method} ${url}`);
+        console.log(`🔍 当前baseURL: ${API_CONFIG.baseURL}`);
         
         const response = await fetch(url, defaultOptions);
         
@@ -554,3 +555,5 @@ window.ErrorHandler = ErrorHandler;
 window.ImageUtils = ImageUtils;
 
 console.log('🔧 Life API模块已加载');
+console.log(`🌐 当前检测到的访问环境: ${window.location.protocol}//${window.location.hostname}`);
+console.log(`🔗 配置的API baseURL: ${API_CONFIG.baseURL}`);
