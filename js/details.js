@@ -108,15 +108,19 @@ const DetailsDataManager = {
         music: new Map()
     },
 
-    // 获取API基础URL
+    // 获取API基础URL - 与api.js保持一致
     getApiBaseUrl() {
+        const isHTTPS = window.location.protocol === 'https:';
         const isDomain = window.location.hostname === 'life.chenggao.top';
         
-        if (isDomain) {
-            console.log('🔄 Details: 临时测试3001端口');
-            return 'http://47.115.72.85:3001';
+        if (isDomain && isHTTPS) {
+            console.log('🔒 Details HTTPS环境: 使用HTTPS API');
+            return 'https://api.chenggao.top';
+        } else if (isDomain) {
+            console.log('🔄 Details HTTP环境: 使用HTTP API');
+            return 'http://api.chenggao.top';
         } else {
-            console.log('💻 Details: 本地开发环境');
+            console.log('💻 Details 本地开发环境: 使用服务器IP');
             return 'http://47.115.72.85:3001';
         }
     },
