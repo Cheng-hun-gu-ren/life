@@ -15,7 +15,9 @@
     flex-direction: column;
     gap: 15px;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
+    isolation: isolate;
+    z-index: 1000;
 }
 
 .search-controls::before {
@@ -179,7 +181,7 @@
     flex-wrap: wrap;
 }
 
-.sort-select, .status-filter {
+.sort-select, .status-filter, .category-filter, .extra-filter {
     padding: 8px 12px;
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 6px;
@@ -195,7 +197,7 @@
 }
 
 /* 现代下拉框悬停效果 */
-.sort-select:hover, .status-filter:hover,
+.sort-select:hover, .status-filter:hover, .category-filter:hover, .extra-filter:hover,
 .page-size-select:hover {
     background: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 255, 255, 0.5);
@@ -207,14 +209,14 @@
 }
 
 /* 下拉框点击/聚焦时的现代动画 */
-.sort-select:active, .status-filter:active,
+.sort-select:active, .status-filter:active, .category-filter:active, .extra-filter:active,
 .page-size-select:active {
     transform: translateY(0px) scale(0.98);
     transition: all 0.1s ease-out;
 }
 
 /* 改进的呼吸动画 - 更微妙 */
-.sort-select, .status-filter, .page-size-select {
+.sort-select, .status-filter, .category-filter, .extra-filter, .page-size-select {
     animation: gentleGlow 6s ease-in-out infinite;
 }
 
@@ -232,23 +234,23 @@
 }
 
 /* 下拉框选项样式 */
-.sort-select option, .status-filter option {
+.sort-select option, .status-filter option, .category-filter option, .extra-filter option {
     background: rgba(30, 41, 59, 0.95);
     color: var(--text-color);
     padding: 8px 12px;
     border: none;
 }
 
-.sort-select option:hover, .status-filter option:hover {
+.sort-select option:hover, .status-filter option:hover, .category-filter option:hover, .extra-filter option:hover {
     background: rgba(59, 130, 246, 0.8);
 }
 
-.sort-select option:checked, .status-filter option:checked {
+.sort-select option:checked, .status-filter option:checked, .category-filter option:checked, .extra-filter option:checked {
     background: var(--primary-color);
     color: white;
 }
 
-.sort-select:focus, .status-filter:focus {
+.sort-select:focus, .status-filter:focus, .category-filter:focus, .extra-filter:focus {
     outline: none;
     border-color: rgba(255, 255, 255, 0.6);
     background: rgba(255, 255, 255, 0.18);
@@ -420,6 +422,16 @@
     white-space: nowrap;
 }
 
+.page-size-dropdown {
+    min-width: 80px;
+}
+
+.page-size-dropdown .dropdown-trigger {
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
 .page-size-select {
     padding: 6px 10px;
     border: 1px solid rgba(255, 255, 255, 0.3);
@@ -481,7 +493,7 @@
         flex-direction: column;
     }
     
-    .sort-select, .status-filter {
+    .sort-select, .status-filter, .category-filter, .extra-filter {
         width: 100%;
     }
     
@@ -512,4 +524,211 @@
 
 .tabs .tab-btn.active span {
     color: rgba(255, 255, 255, 0.8);
+}
+
+/* 自定义下拉菜单样式 */
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+    min-width: 120px;
+}
+
+/* 扩展悬停区域的不可见伪元素 */
+.custom-dropdown::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.custom-dropdown:hover::before {
+    pointer-events: auto;
+}
+
+.dropdown-trigger {
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    color: var(--text-color);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: gentleGlow 6s ease-in-out infinite;
+    user-select: none;
+}
+
+.dropdown-trigger:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+}
+
+.dropdown-trigger:active {
+    transform: translateY(0px) scale(0.98);
+    transition: all 0.1s ease-out;
+}
+
+.dropdown-label {
+    flex: 1;
+    text-align: left;
+}
+
+.dropdown-arrow {
+    font-size: 10px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-left: 8px;
+    opacity: 0.7;
+}
+
+.custom-dropdown:hover .dropdown-arrow {
+    transform: rotate(180deg);
+    opacity: 1;
+}
+
+.custom-dropdown.open .dropdown-arrow {
+    transform: rotate(180deg);
+    opacity: 1;
+}
+
+/* 下拉菜单容器 */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: -10px;
+    right: -10px;
+    z-index: 9999;
+    margin-top: 4px;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    background: linear-gradient(135deg, 
+        rgba(30, 41, 59, 0.95) 0%, 
+        rgba(59, 130, 246, 0.2) 30%, 
+        rgba(236, 72, 153, 0.15) 70%, 
+        rgba(30, 41, 59, 0.95) 100%);
+    backdrop-filter: blur(30px) saturate(1.2);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        0 12px 40px rgba(0, 0, 0, 0.4),
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.95);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* 悬停时显示下拉菜单 - 0.3秒延迟 */
+.custom-dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    transition-delay: 0.3s;
+}
+
+/* 鼠标离开时快速隐藏 - 无延迟 */
+.custom-dropdown:not(:hover) .dropdown-menu {
+    transition-delay: 0s;
+}
+
+/* 手动打开状态（点击时） */
+.custom-dropdown.open .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    transition-delay: 0s;
+}
+
+/* 下拉选项样式 */
+.dropdown-option {
+    padding: 10px 12px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 14px;
+}
+
+.dropdown-option:last-child {
+    border-bottom: none;
+}
+
+.dropdown-option:hover {
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.3) 0%, 
+        rgba(236, 72, 153, 0.2) 100%);
+    transform: translateX(4px);
+    padding-left: 16px;
+    color: white;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.dropdown-option.selected {
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.3) 0%, 
+        rgba(236, 72, 153, 0.2) 50%, 
+        rgba(250, 204, 21, 0.3) 100%);
+    color: white;
+    font-weight: 600;
+}
+
+.dropdown-option.selected::before {
+    content: '✓';
+    position: absolute;
+    right: 12px;
+    font-weight: bold;
+    opacity: 0.8;
+}
+
+/* 滚动条样式 */
+.dropdown-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .custom-dropdown {
+        width: 100%;
+        min-width: unset;
+    }
+    
+    .dropdown-menu {
+        position: fixed;
+        left: 10px;
+        right: 10px;
+        width: auto;
+        max-height: 250px;
+    }
 }

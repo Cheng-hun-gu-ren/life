@@ -160,9 +160,21 @@ const SearchManager = {
         ['books', 'movies', 'music'].forEach(type => {
             const pageSizeSelect = document.getElementById(`${type}PageSize`);
             if (pageSizeSelect) {
-                const selectedOption = pageSizeSelect.querySelector('option[selected]');
-                if (selectedOption) {
-                    SearchState.pagination[type].pageSize = parseInt(selectedOption.value);
+                if (pageSizeSelect.classList.contains('custom-dropdown')) {
+                    // 自定义下拉菜单：通过dropdown管理器获取当前值
+                    const dropdown = window.DropdownManager?.get(`${type}PageSize`);
+                    if (dropdown) {
+                        const currentValue = dropdown.getValue();
+                        if (currentValue) {
+                            SearchState.pagination[type].pageSize = parseInt(currentValue);
+                        }
+                    }
+                } else {
+                    // 传统select：查找selected选项
+                    const selectedOption = pageSizeSelect.querySelector('option[selected]');
+                    if (selectedOption) {
+                        SearchState.pagination[type].pageSize = parseInt(selectedOption.value);
+                    }
                 }
             }
         });
@@ -188,43 +200,75 @@ const SearchManager = {
         
         const options = FILTER_OPTIONS[tabType];
         
-        // 更新状态筛选器
+        // 更新状态筛选器（支持自定义下拉菜单）
         if (statusFilter) {
-            statusFilter.innerHTML = '';
-            options.status.forEach(option => {
-                const optionElement = document.createElement('option');
-                optionElement.value = option.value;
-                optionElement.textContent = option.text;
-                statusFilter.appendChild(optionElement);
-            });
+            if (statusFilter.classList.contains('custom-dropdown')) {
+                // 自定义下拉菜单
+                const dropdown = window.DropdownManager.get('statusFilter');
+                if (dropdown) {
+                    dropdown.setOptions(options.status);
+                }
+            } else {
+                // 传统select元素
+                statusFilter.innerHTML = '';
+                options.status.forEach(option => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = option.value;
+                    optionElement.textContent = option.text;
+                    statusFilter.appendChild(optionElement);
+                });
+            }
         }
         
-        // 更新分类筛选器
+        // 更新分类筛选器（支持自定义下拉菜单）
         if (categoryFilter) {
-            categoryFilter.innerHTML = '';
-            options.category.forEach(option => {
-                const optionElement = document.createElement('option');
-                optionElement.value = option.value;
-                optionElement.textContent = option.text;
-                categoryFilter.appendChild(optionElement);
-            });
+            if (categoryFilter.classList.contains('custom-dropdown')) {
+                // 自定义下拉菜单
+                const dropdown = window.DropdownManager.get('categoryFilter');
+                if (dropdown) {
+                    dropdown.setOptions(options.category);
+                }
+            } else {
+                // 传统select元素
+                categoryFilter.innerHTML = '';
+                options.category.forEach(option => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = option.value;
+                    optionElement.textContent = option.text;
+                    categoryFilter.appendChild(optionElement);
+                });
+            }
         }
         
-        // 更新附加筛选器
+        // 更新附加筛选器（支持自定义下拉菜单）
         if (extraFilter && options.extra) {
-            extraFilter.innerHTML = '';
-            // 设置placeholder显示筛选器类型
-            const placeholderOption = document.createElement('option');
-            placeholderOption.value = 'all';
-            placeholderOption.textContent = `全部${options.extra.label}`;
-            extraFilter.appendChild(placeholderOption);
-            
-            options.extra.options.slice(1).forEach(option => {
-                const optionElement = document.createElement('option');
-                optionElement.value = option.value;
-                optionElement.textContent = option.text;
-                extraFilter.appendChild(optionElement);
-            });
+            if (extraFilter.classList.contains('custom-dropdown')) {
+                // 自定义下拉菜单
+                const dropdown = window.DropdownManager.get('extraFilter');
+                if (dropdown) {
+                    // 更新标签文本
+                    const trigger = extraFilter.querySelector('.dropdown-label');
+                    if (trigger) {
+                        trigger.textContent = `全部${options.extra.label}`;
+                    }
+                    dropdown.setOptions(options.extra.options);
+                }
+            } else {
+                // 传统select元素
+                extraFilter.innerHTML = '';
+                // 设置placeholder显示筛选器类型
+                const placeholderOption = document.createElement('option');
+                placeholderOption.value = 'all';
+                placeholderOption.textContent = `全部${options.extra.label}`;
+                extraFilter.appendChild(placeholderOption);
+                
+                options.extra.options.slice(1).forEach(option => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = option.value;
+                    optionElement.textContent = option.text;
+                    extraFilter.appendChild(optionElement);
+                });
+            }
         }
         
         // 重置筛选状态
@@ -276,40 +320,80 @@ const SearchManager = {
             });
         }
         
-        // 排序变化
+        // 排序变化（支持自定义下拉菜单）
         if (sortSelect) {
-            sortSelect.addEventListener('change', (e) => {
-                SearchState.currentSort = e.target.value;
-                this.resetPagination();
-                this.applyFilters();
-            });
+            if (sortSelect.classList.contains('custom-dropdown')) {
+                // 自定义下拉菜单事件
+                sortSelect.addEventListener('dropdown:select', (e) => {
+                    SearchState.currentSort = e.detail.value;
+                    this.resetPagination();
+                    this.applyFilters();
+                });
+            } else {
+                // 传统select事件
+                sortSelect.addEventListener('change', (e) => {
+                    SearchState.currentSort = e.target.value;
+                    this.resetPagination();
+                    this.applyFilters();
+                });
+            }
         }
         
-        // 状态筛选
+        // 状态筛选（支持自定义下拉菜单）
         if (statusFilter) {
-            statusFilter.addEventListener('change', (e) => {
-                SearchState.filters.status = e.target.value;
-                this.resetPagination();
-                this.applyFilters();
-            });
+            if (statusFilter.classList.contains('custom-dropdown')) {
+                // 自定义下拉菜单事件
+                statusFilter.addEventListener('dropdown:select', (e) => {
+                    SearchState.filters.status = e.detail.value;
+                    this.resetPagination();
+                    this.applyFilters();
+                });
+            } else {
+                // 传统select事件
+                statusFilter.addEventListener('change', (e) => {
+                    SearchState.filters.status = e.target.value;
+                    this.resetPagination();
+                    this.applyFilters();
+                });
+            }
         }
         
-        // 分类筛选
+        // 分类筛选（支持自定义下拉菜单）
         if (categoryFilter) {
-            categoryFilter.addEventListener('change', (e) => {
-                SearchState.filters.category = e.target.value;
-                this.resetPagination();
-                this.applyFilters();
-            });
+            if (categoryFilter.classList.contains('custom-dropdown')) {
+                // 自定义下拉菜单事件
+                categoryFilter.addEventListener('dropdown:select', (e) => {
+                    SearchState.filters.category = e.detail.value;
+                    this.resetPagination();
+                    this.applyFilters();
+                });
+            } else {
+                // 传统select事件
+                categoryFilter.addEventListener('change', (e) => {
+                    SearchState.filters.category = e.target.value;
+                    this.resetPagination();
+                    this.applyFilters();
+                });
+            }
         }
         
-        // 附加筛选
+        // 附加筛选（支持自定义下拉菜单）
         if (extraFilter) {
-            extraFilter.addEventListener('change', (e) => {
-                SearchState.filters.extra = e.target.value;
-                this.resetPagination();
-                this.applyFilters();
-            });
+            if (extraFilter.classList.contains('custom-dropdown')) {
+                // 自定义下拉菜单事件
+                extraFilter.addEventListener('dropdown:select', (e) => {
+                    SearchState.filters.extra = e.detail.value;
+                    this.resetPagination();
+                    this.applyFilters();
+                });
+            } else {
+                // 传统select事件
+                extraFilter.addEventListener('change', (e) => {
+                    SearchState.filters.extra = e.target.value;
+                    this.resetPagination();
+                    this.applyFilters();
+                });
+            }
         }
         
         // 标签页切换
@@ -330,11 +414,21 @@ const SearchManager = {
         ['books', 'movies', 'music'].forEach(type => {
             const pageSizeSelect = document.getElementById(`${type}PageSize`);
             if (pageSizeSelect) {
-                pageSizeSelect.addEventListener('change', (e) => {
-                    SearchState.pagination[type].pageSize = parseInt(e.target.value);
-                    SearchState.pagination[type].currentPage = 1;
-                    this.renderCurrentTab();
-                });
+                if (pageSizeSelect.classList.contains('custom-dropdown')) {
+                    // 自定义下拉菜单事件
+                    pageSizeSelect.addEventListener('dropdown:select', (e) => {
+                        SearchState.pagination[type].pageSize = parseInt(e.detail.value);
+                        SearchState.pagination[type].currentPage = 1;
+                        this.renderCurrentTab();
+                    });
+                } else {
+                    // 传统select事件
+                    pageSizeSelect.addEventListener('change', (e) => {
+                        SearchState.pagination[type].pageSize = parseInt(e.target.value);
+                        SearchState.pagination[type].currentPage = 1;
+                        this.renderCurrentTab();
+                    });
+                }
             }
         });
     },
