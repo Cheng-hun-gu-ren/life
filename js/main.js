@@ -105,23 +105,29 @@ function initNavigation() {
     
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-            e.preventDefault();
+            const href = this.getAttribute('href');
             
-            // 移除所有active类
-            navLinks.forEach(l => l.classList.remove('active'));
-            // 添加active类到当前链接
-            this.classList.add('active');
-            
-            // 滚动到对应section
-            const targetId = this.getAttribute('href').substring(1);
-            const targetSection = document.getElementById(targetId);
-            
-            if (targetSection) {
-                targetSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+            // 只对页面内锚点链接（以#开头）阻止默认行为
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                
+                // 移除所有active类
+                navLinks.forEach(l => l.classList.remove('active'));
+                // 添加active类到当前链接
+                this.classList.add('active');
+                
+                // 滚动到对应section
+                const targetId = href.substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             }
+            // 对于外部页面链接（如pages/about/index.html），让浏览器正常跳转
         });
     });
     
