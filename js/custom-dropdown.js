@@ -23,6 +23,7 @@ class CustomDropdown {
         this.hoverTimer = null;
         this.closeTimer = null;
         this.lastMousePosition = { x: 0, y: 0 };
+        this.isClicking = false; // 添加点击状态追踪
         
         this.init();
     }
@@ -36,10 +37,15 @@ class CustomDropdown {
     bindEvents() {
         // 鼠标悬停事件
         this.element.addEventListener('mouseenter', () => {
-            this.clearTimers();
-            this.hoverTimer = setTimeout(() => {
-                this.open();
-            }, this.options.hoverDelay);
+            // 只在没有正在进行点击操作时才响应悬停
+            if (!this.isClicking) {
+                this.clearTimers();
+                this.hoverTimer = setTimeout(() => {
+                    if (!this.isClicking) { // 再次检查，确保点击优先
+                        this.open();
+                    }
+                }, this.options.hoverDelay);
+            }
         });
         
         this.element.addEventListener('mouseleave', (e) => {
@@ -68,9 +74,34 @@ class CustomDropdown {
         });
         
         // 点击触发器事件
+        this.trigger.addEventListener('mousedown', (e) => {
+            this.isClicking = true;
+        });
+        
         this.trigger.addEventListener('click', (e) => {
             e.stopPropagation();
+            e.preventDefault();
+            
+            // 设置点击状态
+            this.isClicking = true;
+            
+            // 清除所有定时器，确保立即响应点击
+            this.clearTimers();
+            
+            // 执行切换
             this.toggle();
+            
+            // 短暂延迟后重置点击状态
+            setTimeout(() => {
+                this.isClicking = false;
+            }, 100);
+        });
+        
+        // 鼠标释放时重置点击状态
+        this.trigger.addEventListener('mouseup', () => {
+            setTimeout(() => {
+                this.isClicking = false;
+            }, 50);
         });
         
         // 选项点击事件
@@ -227,9 +258,14 @@ class CustomDropdown {
     }
     
     toggle() {
+        // 立即清除所有定时器，避免鼠标悬停事件干扰
+        this.clearTimers();
+        
         if (this.isOpen) {
+            console.log('下拉框收回:', this.element.id);
             this.close();
         } else {
+            console.log('下拉框展开:', this.element.id);
             this.open();
         }
     }
