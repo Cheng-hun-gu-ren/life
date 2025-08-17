@@ -13,9 +13,9 @@ const API_CONFIG = {
         console.log(`🌐 检测到访问环境: ${window.location.protocol}//${window.location.hostname}`);
         
         if (isDomain && isHTTPS) {
-            // HTTPS域名环境: 使用HTTPS API避免Mixed Content
-            console.log('🔒 HTTPS环境: 使用HTTPS API');
-            return 'https://api.chenggao.top';
+            // HTTPS域名环境: 临时使用HTTP API解决浏览器兼容性问题
+            console.log('🔒 HTTPS环境: 使用HTTP API (兼容性修复)');
+            return 'http://47.115.72.85:3001';
         } else if (isDomain) {
             // HTTP域名环境: 使用HTTP API
             console.log('🔄 HTTP域名环境: 使用HTTP API');
