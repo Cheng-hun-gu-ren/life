@@ -11,11 +11,12 @@ const API_CONFIG = {
         const isDomain = window.location.hostname === 'life.chenggao.top';
         
         console.log(`🌐 检测到访问环境: ${window.location.protocol}//${window.location.hostname}`);
+        console.log(`🔍 域名判断: isDomain=${isDomain}, isHTTPS=${isHTTPS}`);
         
         if (isDomain && isHTTPS) {
-            // HTTPS域名环境: 优先使用域名HTTPS API，备用IP HTTPS
-            console.log('🔒 HTTPS环境: 使用HTTPS API (域名优先)');
-            return 'https://api.chenggao.top';
+            // HTTPS域名环境: 使用IP HTTPS避免证书问题
+            console.log('🔒 HTTPS环境: 使用IP HTTPS (避免证书问题)');
+            return 'https://47.115.72.85';
         } else if (isDomain) {
             // HTTP域名环境: 使用HTTP API
             console.log('🔄 HTTP域名环境: 使用HTTP API');
