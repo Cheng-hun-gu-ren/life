@@ -1,0 +1,528 @@
+/* 移动端UX优化样式 */
+
+/* 浮动搜索按钮 */
+.mobile-search-fab {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    background: var(--primary-color);
+    border: none;
+    border-radius: 50%;
+    box-shadow: var(--shadow-lg);
+    color: white;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-search-fab:hover {
+    background: #2563eb;
+    transform: scale(1.05);
+}
+
+.mobile-search-fab:active {
+    transform: scale(0.95);
+}
+
+/* 移动端搜索面板 */
+.mobile-search-panel {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-search-panel.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-search-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg-color);
+    border-radius: 20px 20px 0 0;
+    max-height: 80vh;
+    overflow-y: auto;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-search-panel.active .mobile-search-content {
+    transform: translateY(0);
+}
+
+.mobile-search-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    background: var(--bg-color);
+    z-index: 10;
+}
+
+.mobile-search-header h3 {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 1.2rem;
+}
+
+.mobile-search-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-muted-color);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.mobile-search-close:hover {
+    background: var(--card-hover);
+    color: var(--text-color);
+}
+
+.mobile-search-body {
+    padding: 20px;
+}
+
+.mobile-search-input-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.mobile-search-input {
+    flex: 1;
+    padding: 12px 16px;
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-color);
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.mobile-search-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.mobile-search-btn {
+    padding: 12px 20px;
+    background: var(--primary-color);
+    border: none;
+    border-radius: var(--radius-md);
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mobile-search-btn:hover {
+    background: #2563eb;
+}
+
+.mobile-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.mobile-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mobile-filter-group label {
+    font-size: 0.9rem;
+    color: var(--text-muted-color);
+    font-weight: 500;
+}
+
+.mobile-select {
+    padding: 12px 16px;
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-color);
+    font-size: 1rem;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mobile-select:focus {
+    border-color: var(--primary-color);
+}
+
+.mobile-search-actions {
+    display: flex;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.mobile-btn {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.mobile-btn-secondary {
+    background: var(--card-background);
+    color: var(--text-muted-color);
+    border: 1px solid var(--border-color);
+}
+
+.mobile-btn-secondary:hover {
+    background: var(--card-hover);
+    color: var(--text-color);
+}
+
+.mobile-btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.mobile-btn-primary:hover {
+    background: #2563eb;
+}
+
+/* 移动端侧边栏优化 */
+.mobile-profile-header {
+    display: none;
+    cursor: pointer;
+    padding: 16px;
+    background: var(--card-background);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.mobile-profile-header:hover {
+    background: var(--card-hover);
+}
+
+.mobile-profile-basic {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mobile-profile-basic .profile-avatar {
+    margin: 0;
+}
+
+.mobile-profile-basic .profile-avatar img {
+    width: 50px;
+    height: 50px;
+}
+
+.profile-basic-info {
+    flex: 1;
+}
+
+.profile-basic-info .profile-name {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+}
+
+.profile-basic-info .profile-details {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.profile-basic-info .profile-details p {
+    font-size: 0.8rem;
+    background: var(--primary-color);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin: 0;
+}
+
+.mobile-profile-toggle-icon {
+    color: var(--text-muted-color);
+    transition: transform 0.3s ease;
+}
+
+.mobile-profile-toggle-icon.expanded {
+    transform: rotate(180deg);
+}
+
+.desktop-profile-content {
+    display: block;
+}
+
+.profile-details-expandable {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profile-details-expandable.expanded {
+    max-height: 500px;
+    padding-top: 16px;
+}
+
+/* 移动端加载更多按钮 */
+.mobile-load-more {
+    display: none;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.load-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-color);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 140px;
+    justify-content: center;
+}
+
+.load-more-btn:hover {
+    background: var(--card-hover);
+    border-color: var(--primary-color);
+}
+
+.load-more-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.load-more-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--border-color);
+    border-top: 2px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 移动端响应式规则 */
+@media (max-width: 768px) {
+    /* 显示移动端专用元素 */
+    .mobile-search-fab {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .mobile-search-panel {
+        display: block;
+    }
+    
+    .mobile-load-more {
+        display: block;
+    }
+    
+    /* 隐藏PC端搜索控制区 */
+    .search-controls {
+        display: none !important;
+    }
+    
+    /* 隐藏PC端分页 */
+    .pagination {
+        display: none !important;
+    }
+    
+    /* 隐藏每页显示选择器 */
+    .page-size-selector {
+        display: none !important;
+    }
+    
+    /* 移动端侧边栏优化 */
+    .mobile-profile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .desktop-profile-content {
+        display: none;
+    }
+    
+    /* 优化内容区间距 */
+    .section {
+        padding: 16px;
+    }
+    
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+    }
+    
+    .section-header h3 {
+        margin: 0;
+        font-size: 1.2rem;
+    }
+    
+    /* 标签页优化 */
+    .tabs {
+        margin-bottom: 16px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .tabs::-webkit-scrollbar {
+        display: none;
+    }
+    
+    /* 内容网格优化 */
+    .books-grid,
+    .movies-grid,
+    .music-grid {
+        gap: 12px;
+    }
+    
+    /* 卡片点击区域优化 */
+    .book-card,
+    .movie-card,
+    .music-card {
+        min-height: 44px; /* iOS建议的最小触摸目标 */
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .book-card:active,
+    .movie-card:active,
+    .music-card:active {
+        transform: scale(0.98);
+        background: var(--card-hover);
+    }
+}
+
+/* 小屏手机优化 */
+@media (max-width: 480px) {
+    .mobile-search-fab {
+        bottom: 20px;
+        right: 16px;
+        width: 50px;
+        height: 50px;
+    }
+    
+    .mobile-search-content {
+        max-height: 85vh;
+    }
+    
+    .mobile-search-header,
+    .mobile-search-body {
+        padding: 16px;
+    }
+    
+    .mobile-filters {
+        gap: 12px;
+    }
+    
+    .mobile-btn {
+        padding: 10px 16px;
+    }
+    
+    .profile-basic-info .profile-details {
+        gap: 6px;
+    }
+    
+    .profile-basic-info .profile-details p {
+        font-size: 0.75rem;
+        padding: 1px 6px;
+    }
+}
+
+/* 横屏优化 */
+@media (max-height: 500px) and (orientation: landscape) {
+    .mobile-search-content {
+        max-height: 90vh;
+    }
+    
+    .mobile-search-fab {
+        bottom: 20px;
+    }
+}
+
+/* 动画增强 */
+@media (prefers-reduced-motion: no-preference) {
+    .mobile-search-fab {
+        animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.5s both;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 无障碍优化 */
+@media (prefers-reduced-motion: reduce) {
+    .mobile-search-fab,
+    .mobile-search-panel,
+    .mobile-search-content,
+    .profile-details-expandable {
+        transition: none;
+    }
+}
+
+/* 高对比度模式支持 */
+@media (prefers-contrast: high) {
+    .mobile-search-fab {
+        border: 2px solid currentColor;
+    }
+    
+    .mobile-search-input,
+    .mobile-select {
+        border-width: 2px;
+    }
+}

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../../css/responsive.css">
     <link rel="stylesheet" href="../../css/animations.css">
     <link rel="stylesheet" href="../../css/search.css">
+    <link rel="stylesheet" href="../../css/mobile-ux.css">
 </head>
 <body>
     <!-- 顶部导航栏 -->
@@ -42,33 +43,60 @@
     <!-- 主要内容区域 -->
     <div class="main-container">
         <!-- 左侧边栏 -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="profile-card">
-                <div class="profile-avatar">
-                    <img src="../../images/icons/avatar-card.png" alt="个人头像" onerror="this.outerHTML='<svg width=\"100\" height=\"100\" viewBox=\"0 0 100 100\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"50\" cy=\"50\" r=\"50\" fill=\"#4ECDC4\" opacity=\"0.3\"/><circle cx=\"50\" cy=\"38\" r=\"15\" fill=\"#4ECDC4\"/><path d=\"M20 78 C20 65, 32 55, 50 55 C68 55, 80 65, 80 78\" fill=\"#4ECDC4\"/></svg>
-                </div>
-                
-                <div class="profile-info">
-                    <h3 class="profile-name">晨昏故人</h3>
-                    <div class="profile-details">
-                        <p>22岁</p>
-                        <p>深圳</p>
-                        <p>金融工程</p>
-                        
+                <!-- 移动端紧凑头部 -->
+                <div class="mobile-profile-header" id="mobileProfileToggle">
+                    <div class="mobile-profile-basic">
+                        <div class="profile-avatar">
+                            <img src="../../images/icons/avatar-card.png" alt="个人头像" onerror="this.outerHTML='<svg width=\"50\" height=\"50\" viewBox=\"0 0 100 100\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"50\" cy=\"50\" r=\"50\" fill=\"#4ECDC4\" opacity=\"0.3\"/><circle cx=\"50\" cy=\"38\" r=\"15\" fill=\"#4ECDC4\"/><path d=\"M20 78 C20 65, 32 55, 50 55 C68 55, 80 65, 80 78\" fill=\"#4ECDC4\"/></svg>
+                        </div>
+                        <div class="profile-basic-info">
+                            <h3 class="profile-name">晨昏故人</h3>
+                            <div class="profile-details">
+                                <p>22岁</p>
+                                <p>深圳</p>
+                                <p>金融工程</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mobile-profile-toggle-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6,9 12,15 18,9"></polyline>
+                        </svg>
                     </div>
                 </div>
                 
-                <div class="contact-info">
-                    <h4>联系方式</h4>
-                    <p>微信: chgr_CarpeDiem</p>
-                    <p>公众号: 晨昏故人</p>
+                <!-- PC端完整显示区域 -->
+                <div class="desktop-profile-content">
+                    <div class="profile-avatar">
+                        <img src="../../images/icons/avatar-card.png" alt="个人头像" onerror="this.outerHTML='<svg width=\"100\" height=\"100\" viewBox=\"0 0 100 100\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"50\" cy=\"50\" r=\"50\" fill=\"#4ECDC4\" opacity=\"0.3\"/><circle cx=\"50\" cy=\"38\" r=\"15\" fill=\"#4ECDC4\"/><path d=\"M20 78 C20 65, 32 55, 50 55 C68 55, 80 65, 80 78\" fill=\"#4ECDC4\"/></svg>
+                    </div>
+                    
+                    <div class="profile-info">
+                        <h3 class="profile-name">晨昏故人</h3>
+                        <div class="profile-details">
+                            <p>22岁</p>
+                            <p>深圳</p>
+                            <p>金融工程</p>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="quick-links">
-                    <h4>关联主页</h4>
-                    <a href="https://career.chenggao.top" target="_blank" class="link-btn">
-                        求职主页
-                    </a>
+                <!-- 可展开的详细信息 -->
+                <div class="profile-details-expandable" id="profileDetailsExpandable">
+                    <div class="contact-info">
+                        <h4>联系方式</h4>
+                        <p>微信: chgr_CarpeDiem</p>
+                        <p>公众号: 晨昏故人</p>
+                    </div>
+                    
+                    <div class="quick-links">
+                        <h4>关联主页</h4>
+                        <a href="https://career.chenggao.top" target="_blank" class="link-btn">
+                            求职主页
+                        </a>
+                    </div>
                 </div>
             </div>
         </aside>
@@ -183,6 +211,13 @@
                         <div class="pagination" id="booksPagination" style="display: none;">
                             <!-- 分页按钮将通过JavaScript动态生成 -->
                         </div>
+                        <!-- 移动端加载更多按钮 -->
+                        <div class="mobile-load-more" id="booksLoadMore" style="display: none;">
+                            <button class="load-more-btn" data-type="books">
+                                <span class="load-more-text">加载更多书籍</span>
+                                <div class="load-more-spinner" style="display: none;"></div>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 
@@ -212,6 +247,13 @@
                         </div>
                         <div class="pagination" id="moviesPagination" style="display: none;">
                             <!-- 分页按钮将通过JavaScript动态生成 -->
+                        </div>
+                        <!-- 移动端加载更多按钮 -->
+                        <div class="mobile-load-more" id="moviesLoadMore" style="display: none;">
+                            <button class="load-more-btn" data-type="movies">
+                                <span class="load-more-text">加载更多电影</span>
+                                <div class="load-more-spinner" style="display: none;"></div>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -243,6 +285,13 @@
                         <div class="pagination" id="musicPagination" style="display: none;">
                             <!-- 分页按钮将通过JavaScript动态生成 -->
                         </div>
+                        <!-- 移动端加载更多按钮 -->
+                        <div class="mobile-load-more" id="musicLoadMore" style="display: none;">
+                            <button class="load-more-btn" data-type="music">
+                                <span class="load-more-text">加载更多音乐</span>
+                                <div class="load-more-spinner" style="display: none;"></div>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -251,6 +300,67 @@
 
     <!-- 移动端侧边栏遮罩 -->
     <div class="sidebar-overlay"></div>
+    
+    <!-- 移动端浮动搜索按钮 -->
+    <button class="mobile-search-fab" id="mobileSearchFab">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="M21 21l-4.35-4.35"></path>
+        </svg>
+    </button>
+    
+    <!-- 移动端搜索面板 -->
+    <div class="mobile-search-panel" id="mobileSearchPanel">
+        <div class="mobile-search-content">
+            <div class="mobile-search-header">
+                <h3>搜索与筛选</h3>
+                <button class="mobile-search-close" id="mobileSearchClose">×</button>
+            </div>
+            
+            <div class="mobile-search-body">
+                <!-- 搜索输入 -->
+                <div class="mobile-search-input-group">
+                    <input type="text" id="mobileSearchInput" placeholder="搜索书籍、电影、音乐..." class="mobile-search-input">
+                    <button class="mobile-search-btn" id="mobileSearchBtn">搜索</button>
+                </div>
+                
+                <!-- 筛选器 -->
+                <div class="mobile-filters">
+                    <div class="mobile-filter-group">
+                        <label>排序方式</label>
+                        <select id="mobileSortSelect" class="mobile-select">
+                            <option value="id-asc">默认排序</option>
+                            <option value="title-asc">标题 A-Z</option>
+                            <option value="title-desc">标题 Z-A</option>
+                            <option value="rating-desc">评分从高到低</option>
+                            <option value="rating-asc">评分从低到高</option>
+                            <option value="date-desc">最新优先</option>
+                            <option value="date-asc">最早优先</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mobile-filter-group">
+                        <label>状态筛选</label>
+                        <select id="mobileStatusFilter" class="mobile-select">
+                            <option value="all">全部状态</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mobile-filter-group">
+                        <label>分类筛选</label>
+                        <select id="mobileCategoryFilter" class="mobile-select">
+                            <option value="all">全部分类</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mobile-search-actions">
+                    <button class="mobile-btn mobile-btn-secondary" id="mobileResetFilters">重置</button>
+                    <button class="mobile-btn mobile-btn-primary" id="mobileApplyFilters">应用</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- 详情弹窗 -->
     <div class="detail-modal" id="detailModal">
@@ -283,6 +393,8 @@
     <script src="../../js/music.js"></script>
     <script src="../../js/background.js"></script>
     <script src="../../js/details.js"></script>
+    <script src="../../js/mobile-ux.js"></script>
+    <script src="../../js/mobile-gestures.js"></script>
     <script>
         // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', async function() {
