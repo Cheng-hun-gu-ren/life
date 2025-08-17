@@ -11,12 +11,11 @@ const API_CONFIG = {
         const isDomain = window.location.hostname === 'life.chenggao.top';
         
         console.log(`🌐 检测到访问环境: ${window.location.protocol}//${window.location.hostname}`);
-        console.log(`🔍 域名判断: isDomain=${isDomain}, isHTTPS=${isHTTPS}`);
         
         if (isDomain && isHTTPS) {
-            // HTTPS域名环境: 使用IP HTTPS避免证书问题
-            console.log('🔒 HTTPS环境: 使用IP HTTPS (避免证书问题)');
-            return 'https://47.115.72.85';
+            // HTTPS域名环境: 使用HTTPS API避免Mixed Content
+            console.log('🔒 HTTPS环境: 使用HTTPS API');
+            return 'https://api.chenggao.top';
         } else if (isDomain) {
             // HTTP域名环境: 使用HTTP API
             console.log('🔄 HTTP域名环境: 使用HTTP API');
@@ -159,20 +158,6 @@ async function apiRequestWithRetry(endpoint, options = {}, retryCount = 0) {
     try {
         return await apiRequest(endpoint, options);
     } catch (error) {
-        // 如果是HTTPS域名API失败，尝试降级到IP HTTPS
-        if (retryCount === 0 && API_CONFIG.baseURL === 'https://api.chenggao.top') {
-            console.log('🔄 域名HTTPS失败，尝试IP HTTPS备用方案');
-            const originalBaseURL = API_CONFIG.baseURL;
-            API_CONFIG.baseURL = 'https://47.115.72.85';
-            try {
-                return await apiRequest(endpoint, options);
-            } catch (fallbackError) {
-                console.log('🔄 IP HTTPS也失败，恢复原配置并继续重试');
-                API_CONFIG.baseURL = originalBaseURL;
-                throw error; // 抛出原始错误
-            }
-        }
-        
         if (retryCount < API_CONFIG.retryTimes) {
             console.log(`🔄 重试API请求 (${retryCount + 1}/${API_CONFIG.retryTimes}): ${endpoint}`);
             await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1))); // 递增延迟
