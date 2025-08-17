@@ -477,8 +477,19 @@
 
 /* 响应式设计 */
 @media (max-width: 768px) {
+    /* 确保页面不会横向滚动 */
+    body {
+        overflow-x: hidden;
+    }
+    
     .search-controls {
         padding: 15px;
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
     }
     
     .search-container {
@@ -491,10 +502,44 @@
     
     .filter-container {
         flex-direction: column;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
     
     .sort-select, .status-filter, .category-filter, .extra-filter {
         width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .custom-dropdown {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* 修复兴趣爱好页面移动端布局 */
+    .section {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+    
+    .books-section,
+    .movies-section,
+    .music-section {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+    
+    .section-header {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
     
     .pagination {
