@@ -1,11 +1,22 @@
 // 二维码弹窗功能
+// 自动检测页面位置并设置正确的图片路径
+function getImagePath() {
+    const currentPath = window.location.pathname;
+    // 如果在子页面目录中，使用相对路径回到根目录
+    if (currentPath.includes('/pages/')) {
+        return '../../images/qrcodes/';
+    }
+    // 如果在主页面，直接使用相对路径
+    return 'images/qrcodes/';
+}
+
 const qrCodeData = {
     'wechat': {
-        image: 'images/qrcodes/wechat-qr.jpg',
+        image: getImagePath() + 'wechat-qr.jpg',
         alt: '微信二维码'
     },
     'wechat-official': {
-        image: 'images/qrcodes/wechat-official-qr.jpg',
+        image: getImagePath() + 'wechat-official-qr.jpg',
         alt: '公众号二维码'
     }
 };

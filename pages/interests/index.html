@@ -83,7 +83,21 @@
                     </div>
                 </div>
                 
-                <!-- 可展开的详细信息 -->
+                <!-- PC端联系方式和关联主页 -->
+                <div class="contact-info">
+                    <h4>联系方式</h4>
+                    <p class="contact-item clickable" onclick="showQRCode('wechat')">微信: chgr_CarpeDiem</p>
+                    <p class="contact-item clickable" onclick="showQRCode('wechat-official')">公众号: 晨昏故人</p>
+                </div>
+                
+                <div class="quick-links">
+                    <h4>关联主页</h4>
+                    <a href="https://career.chenggao.top" target="_blank" class="link-btn">
+                        求职主页
+                    </a>
+                </div>
+                
+                <!-- 可展开的详细信息（移动端用） -->
                 <div class="profile-details-expandable" id="profileDetailsExpandable">
                     <div class="contact-info">
                         <h4>联系方式</h4>
@@ -362,6 +376,14 @@
         </div>
     </div>
 
+    <!-- 二维码弹窗 -->
+    <div class="qr-modal" id="qrModal">
+        <div class="qr-modal-content">
+            <button class="qr-modal-close" id="qrModalClose">×</button>
+            <img id="qrImage" class="qr-code-image" alt="二维码">
+        </div>
+    </div>
+
     <!-- 详情弹窗 -->
     <div class="detail-modal" id="detailModal">
         <div class="modal-content">
@@ -395,6 +417,7 @@
     <script src="../../js/details.js"></script>
     <script src="../../js/mobile-ux.js"></script>
     <script src="../../js/mobile-gestures.js"></script>
+    <script src="../../js/qrcode.js"></script>
     <script>
         // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', async function() {

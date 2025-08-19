@@ -59,8 +59,8 @@
                 
                 <div class="contact-info">
                     <h4>联系方式</h4>
-                    <p>微信: chgr_CarpeDiem</p>
-                    <p>公众号: 晨昏故人</p>
+                    <p class="contact-item clickable" onclick="showQRCode('wechat')">微信: chgr_CarpeDiem</p>
+                    <p class="contact-item clickable" onclick="showQRCode('wechat-official')">公众号: 晨昏故人</p>
                 </div>
                 
                 <div class="quick-links">
@@ -158,9 +158,18 @@
         </div>
     </div>
 
+    <!-- 二维码弹窗 -->
+    <div class="qr-modal" id="qrModal">
+        <div class="qr-modal-content">
+            <button class="qr-modal-close" id="qrModalClose">×</button>
+            <img id="qrImage" class="qr-code-image" alt="二维码">
+        </div>
+    </div>
+
     <script src="../../js/animations.js"></script>
     <script src="../../js/background.js"></script>
     <script src="../../js/background-manager.js"></script>
     <script src="../../js/school.js"></script>
+    <script src="../../js/qrcode.js"></script>
 </body>
 </html>
