@@ -22,13 +22,14 @@ class MobileUXManager {
         this.initElements();
         this.bindEvents();
         
-        if (this.isMobile) {
-            this.setupLoadMore();
-        }
+        // 移动端现在使用分页导航，不需要setupLoadMore
+        // if (this.isMobile) {
+        //     this.setupLoadMore();
+        // }
         
         this.handleResize();
         
-        console.log('🔸 移动端UX管理器初始化完成', { isMobile: this.isMobile });
+        console.log('🔸 移动端UX管理器初始化完成', { isMobile: this.isMobile, mode: 'pagination' });
     }
     
     initElements() {
@@ -99,6 +100,11 @@ class MobileUXManager {
     }
     
     setupLoadMore() {
+        // 移动端现在使用分页导航，不再使用加载更多按钮
+        // 但保留代码结构以防需要切换回加载更多模式
+        console.log('🔸 移动端使用分页导航模式，跳过加载更多设置');
+        return;
+        
         // 检测当前活跃的tab并显示对应的加载更多按钮
         const activeTab = document.querySelector('.tab-btn.active')?.dataset.tab;
         this.showLoadMoreButton(activeTab);
@@ -424,8 +430,9 @@ class MobileUXManager {
                 this.closeSearchPanel();
                 document.body.style.overflow = '';
             } else {
-                // 切换到移动端时，重新初始化
-                this.setupLoadMore();
+                // 切换到移动端时，不需要重新初始化加载更多
+                // 因为现在使用分页导航
+                console.log('🔸 切换到移动端分页模式');
             }
         }
     }
@@ -433,7 +440,8 @@ class MobileUXManager {
     // 公共API方法
     updateTabContent(type) {
         if (this.isMobile) {
-            this.showLoadMoreButton(type);
+            // 移动端现在使用分页导航，不需要显示加载更多按钮
+            // this.showLoadMoreButton(type);
             this.syncFilterOptions();
         }
     }
