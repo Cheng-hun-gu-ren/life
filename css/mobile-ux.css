@@ -348,17 +348,17 @@
 @media (max-width: 768px) {
     /* 显示移动端专用元素 */
     .mobile-search-fab {
-        display: flex;
+        display: flex !important;
         align-items: center;
         justify-content: center;
     }
     
     .mobile-search-panel {
-        display: block;
+        display: block !important;
     }
     
     .mobile-load-more {
-        display: block;
+        display: block !important;
     }
     
     /* 隐藏PC端搜索控制区 */

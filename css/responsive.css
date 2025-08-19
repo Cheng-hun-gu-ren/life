@@ -91,71 +91,9 @@
         gap: var(--spacing-lg);
     }
     
+    /* 小平板端也隐藏左侧边栏 */
     .sidebar {
-        position: static;
-        order: 1; /* 移动到主内容下方 */
-    }
-    
-    /* 小平板端侧边栏优化为水平紧凑布局 */
-    .profile-card {
-        display: grid;
-        grid-template-columns: auto 1fr auto;
-        gap: var(--spacing-lg);
-        align-items: center;
-        margin-top: var(--spacing-lg);
-        border-top: 2px solid var(--primary-color);
-    }
-    
-    .profile-avatar {
-        margin-bottom: 0;
-    }
-    
-    .profile-avatar img {
-        width: 80px;
-        height: 80px;
-    }
-    
-    .profile-info {
-        text-align: left;
-        margin-bottom: 0;
-    }
-    
-    .profile-details {
-        display: flex;
-        gap: var(--spacing-sm);
-        flex-wrap: wrap;
-        margin-top: var(--spacing-xs);
-    }
-    
-    .profile-details p {
-        background: var(--primary-color);
-        color: white;
-        padding: 4px 12px;
-        border-radius: 16px;
-        font-size: 0.9rem;
-        margin: 0;
-    }
-    
-    /* 小平板端显示简化的快速链接 */
-    .contact-info {
-        display: none;
-    }
-    
-    .quick-links {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-xs);
-        margin-bottom: 0;
-    }
-    
-    .quick-links h4 {
-        display: none;
-    }
-    
-    .link-btn {
-        font-size: 0.8rem;
-        padding: var(--spacing-xs) var(--spacing-sm);
-        text-align: center;
+        display: none !important;
     }
     
     .content-grid {
@@ -238,64 +176,9 @@
         min-height: calc(100vh - 56px);
     }
     
+    /* 手机端完全隐藏左侧边栏 */
     .sidebar {
-        position: static;
-        order: 1; /* 移动到主内容下方 */
-    }
-    
-    /* 移动端侧边栏样式 - 优化为紧凑布局 */
-    .profile-card {
-        padding: var(--spacing-md);
-        margin-top: var(--spacing-lg);
-        border-top: 2px solid var(--primary-color);
-    }
-    
-    /* 移动端侧边栏采用水平布局 */
-    .profile-card {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: var(--spacing-md);
-        align-items: center;
-    }
-    
-    .profile-avatar {
-        margin-bottom: 0;
-    }
-    
-    .profile-avatar img {
-        width: 60px;
-        height: 60px;
-    }
-    
-    .profile-info {
-        text-align: left;
-        margin-bottom: 0;
-    }
-    
-    .profile-name {
-        font-size: 1.1rem;
-        margin-bottom: var(--spacing-xs);
-    }
-    
-    .profile-details {
-        display: flex;
-        gap: var(--spacing-sm);
-        flex-wrap: wrap;
-    }
-    
-    .profile-details p {
-        font-size: 0.8rem;
-        margin: 0;
-        background: var(--primary-color);
-        color: white;
-        padding: 2px 8px;
-        border-radius: 12px;
-    }
-    
-    /* 隐藏联系信息和快速链接，避免过度拥挤 */
-    .contact-info,
-    .quick-links {
-        display: none;
+        display: none !important;
     }
     
     /* 主内容区移动端适配 */

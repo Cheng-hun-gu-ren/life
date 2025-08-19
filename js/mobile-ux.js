@@ -18,14 +18,17 @@ class MobileUXManager {
     }
     
     init() {
-        if (!this.isMobile) return;
-        
+        // 无论是否移动端都初始化，让CSS来控制显示隐藏
         this.initElements();
         this.bindEvents();
-        this.setupLoadMore();
+        
+        if (this.isMobile) {
+            this.setupLoadMore();
+        }
+        
         this.handleResize();
         
-        console.log('🔸 移动端UX管理器初始化完成');
+        console.log('🔸 移动端UX管理器初始化完成', { isMobile: this.isMobile });
     }
     
     initElements() {
@@ -453,11 +456,9 @@ class MobileUXManager {
 // 全局实例
 window.MobileUXManager = MobileUXManager;
 
-// 自动初始化（如果在移动端）
+// 自动初始化（无论屏幕大小）
 document.addEventListener('DOMContentLoaded', () => {
-    if (window.innerWidth <= 768) {
-        window.mobileUX = new MobileUXManager();
-    }
+    window.mobileUX = new MobileUXManager();
 });
 
 // 导出为模块（如果支持）
