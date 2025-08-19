@@ -205,7 +205,7 @@ const DetailsDataManager = {
     getThoughts(type, data) {
         switch (type) {
             case 'books':
-                return data.thoughts || data.review || '暂无读后感想。';
+                return data.review || data.thoughts || '暂无读后感想。';
             case 'movies':
                 return data.review || data.comment || '暂无观影感想。';
             case 'music':

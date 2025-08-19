@@ -802,7 +802,7 @@ const SearchManager = {
                         <span class="stars">${this.generateStars(movie.rating)}</span>
                         <span class="rating-text">${movie.rating}/5</span>
                     </div>
-                    <p class="movie-review">${movie.review || movie.comment || '暂无评价'}</p>
+                    <p class="movie-review">${movie.quotes || movie.review || '暂无台词'}</p>
                 </div>
             </div>
             `;
@@ -848,7 +848,7 @@ const SearchManager = {
                     <p class="music-artist">${artist}</p>
                     <p class="music-genre">${song.genre} · ${song.language}</p>
                     <span class="music-mood">${song.mood}</span>
-                    <p class="music-reason">${song.reason || '喜欢这首歌'}</p>
+                    <p class="music-reason">${song.lyrics_snippet || song.reason || '♪ 暂无歌词片段'}</p>
                 </div>
             </div>
             `;
