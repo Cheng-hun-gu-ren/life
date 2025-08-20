@@ -104,11 +104,49 @@ class CustomDropdown {
             }, 50);
         });
         
-        // 选项点击事件
+        // 选项点击事件 - 增强版，支持更好的事件检测
         this.menu.addEventListener('click', (e) => {
-            if (e.target.classList.contains('dropdown-option')) {
+            // 寻找最近的dropdown-option元素（支持嵌套结构）
+            let targetOption = e.target;
+            while (targetOption && !targetOption.classList.contains('dropdown-option')) {
+                if (targetOption === this.menu) break; // 防止向上搜索超出边界
+                targetOption = targetOption.parentElement;
+            }
+            
+            if (targetOption && targetOption.classList.contains('dropdown-option')) {
+                e.preventDefault();
                 e.stopPropagation();
-                this.selectOption(e.target);
+                console.log('点击选项:', targetOption.textContent.trim(), 'value:', targetOption.dataset.value);
+                this.selectOption(targetOption);
+            }
+        });
+        
+        // 增加mousedown事件作为备用，确保能捕获点击
+        this.menu.addEventListener('mousedown', (e) => {
+            let targetOption = e.target;
+            while (targetOption && !targetOption.classList.contains('dropdown-option')) {
+                if (targetOption === this.menu) break;
+                targetOption = targetOption.parentElement;
+            }
+            
+            if (targetOption && targetOption.classList.contains('dropdown-option')) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('mousedown事件捕获:', targetOption.textContent.trim(), 'value:', targetOption.dataset.value);
+                
+                // 特别检查第二个选项
+                const allOptions = Array.from(this.menu.querySelectorAll('.dropdown-option'));
+                const optionIndex = allOptions.indexOf(targetOption);
+                if (optionIndex === 1) {
+                    console.log('🔍 检测到第二个选项被点击，强制执行选择');
+                    this.selectOption(targetOption);
+                    return;
+                }
+                
+                // 短暂延迟后执行选择，确保不与click事件冲突
+                setTimeout(() => {
+                    this.selectOption(targetOption);
+                }, 50);
             }
         });
         

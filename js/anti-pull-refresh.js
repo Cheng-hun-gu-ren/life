@@ -143,8 +143,8 @@ class AntiPullRefreshManager {
         
         // 如果在页面顶部并且向下拉
         if (this.isAtTop && deltaY > 0) {
-            // 只允许很小的下拉距离
-            if (deltaY > 5) {
+            // 增加触发阈值，允许更多正常滑动
+            if (deltaY > 30) {  // 从5增加到30，给滑动条更多空间
                 e.preventDefault();
                 e.stopPropagation();
                 e.stopImmediatePropagation();
@@ -163,8 +163,8 @@ class AntiPullRefreshManager {
             if (touch && this.touchStartY) {
                 const deltaY = touch.clientY - this.touchStartY;
                 
-                // 阻止向下的拉动
-                if (deltaY > 0) {
+                // 只阻止明显的下拉刷新动作，允许正常的滑动
+                if (deltaY > 30) {  // 增加阈值，给正常滑动更多空间
                     e.preventDefault();
                     e.stopPropagation();
                     e.stopImmediatePropagation();

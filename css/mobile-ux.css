@@ -381,13 +381,14 @@ html {
 @media (max-width: 768px) {
     html, body {
         height: 100%;
-        position: fixed;
-        overflow: hidden;
+        /* 移除position: fixed，避免滑动条失活 */
+        overflow-x: hidden;
+        overscroll-behavior-y: contain;
+        -webkit-overflow-scrolling: touch;
     }
     
     .main-container {
-        height: 100vh;
-        overflow-y: auto;
+        min-height: 100vh;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
         overscroll-behavior-y: contain;

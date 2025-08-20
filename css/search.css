@@ -841,6 +841,18 @@
     position: relative;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     font-size: 14px;
+    z-index: 1; /* 确保选项层级正确 */
+    user-select: none; /* 防止文本选择干扰点击 */
+}
+
+/* 特别针对第二个选项的修复 */
+.dropdown-option:nth-child(2) {
+    position: relative;
+    z-index: 10; /* 更高的层级 */
+    pointer-events: auto; /* 强制启用点击事件 */
+    display: block; /* 确保正常显示 */
+    margin: 0; /* 重置边距 */
+    background-clip: padding-box; /* 确保背景不被遮挡 */
 }
 
 .dropdown-option:last-child {
@@ -851,10 +863,12 @@
     background: linear-gradient(135deg, 
         rgba(59, 130, 246, 0.3) 0%, 
         rgba(236, 72, 153, 0.2) 100%);
-    transform: translateX(4px);
+    /* 移除transform，避免位置偏移影响点击区域 */
     padding-left: 16px;
     color: white;
     box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+    /* 确保hover状态下的点击区域正确 */
+    pointer-events: auto;
 }
 
 .dropdown-option.selected {
@@ -870,8 +884,12 @@
     content: '✓';
     position: absolute;
     right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
     font-weight: bold;
     opacity: 0.8;
+    pointer-events: none; /* 关键：确保伪元素不阻挡点击事件 */
+    z-index: 1;
 }
 
 /* 滚动条样式 */
