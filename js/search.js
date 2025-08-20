@@ -749,7 +749,7 @@ const SearchManager = {
                 </div>
                 <div class="book-info">
                     <h4 class="book-title">${title}</h4>
-                    <p class="book-meta">${author} | ${book.category || '其他'}</p>
+                    <p class="book-meta interest-meta">${author} | ${book.category || '其他'}</p>
                     <div class="rating">
                         <span class="rating-label">推荐指数</span>
                         <span class="stars">${this.generateStars(book.rating)}</span>
@@ -810,7 +810,7 @@ const SearchManager = {
                 </div>
                 <div class="movie-info">
                     <h4 class="movie-title">${title}</h4>
-                    <p class="movie-meta">${director} · ${movie.year || movie.release_year} · ${category}</p>
+                    <p class="movie-meta interest-meta">${director} · ${movie.year || movie.release_year} · ${category}</p>
                     <div class="rating">
                         <span class="stars">${this.generateStars(movie.rating)}</span>
                         <span class="rating-text">${movie.rating}/10</span>
@@ -870,7 +870,7 @@ const SearchManager = {
                 </div>
                 <div class="music-info">
                     <h4 class="music-title">${title}</h4>
-                    <p class="music-meta">${artist} · ${song.scene || '其他'} · ${song.mood}</p>
+                    <p class="music-meta interest-meta">${artist} · ${song.scene || '其他'} · ${song.mood}</p>
                     <p class="music-reason">${song.lyrics_snippet || song.reason || '♪ 暂无歌词片段'}</p>
                 </div>
             </div>

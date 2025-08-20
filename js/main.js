@@ -234,7 +234,7 @@ function renderBooks() {
             </div>
             <div class="book-info">
                 <h4 class="book-title">${book.title}</h4>
-                <p class="book-meta">${book.author} | ${book.category || '其他'}</p>
+                <p class="book-meta interest-meta">${book.author} | ${book.category || '其他'}</p>
                 <div class="rating">
                     <span class="rating-label">推荐指数</span>
                     <span class="stars">${generateStars(book.rating)}</span>
@@ -277,7 +277,7 @@ function renderMovies() {
             </div>
             <div class="movie-info">
                 <h4 class="movie-title">${movie.title}</h4>
-                <p class="movie-meta">${movie.director} · ${movie.year || movie.release_year} · ${category}</p>
+                <p class="movie-meta interest-meta">${movie.director} · ${movie.year || movie.release_year} · ${category}</p>
                 <div class="rating">
                     <span class="stars">${generateStars(movie.rating)}</span>
                     <span class="rating-text">${movie.rating}/10</span>
@@ -320,7 +320,7 @@ function renderMusic() {
             </div>
             <div class="music-info">
                 <h4 class="music-title">${song.songName || song.song_name}</h4>
-                <p class="music-meta">${song.artist} · ${song.scene || '其他'} · ${song.mood}</p>
+                <p class="music-meta interest-meta">${song.artist} · ${song.scene || '其他'} · ${song.mood}</p>
                 <p class="music-reason">${song.lyrics_snippet || song.reason || '♪ 暂无歌词片段'}</p>
             </div>
         </div>

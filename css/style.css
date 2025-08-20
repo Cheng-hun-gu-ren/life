@@ -4,7 +4,8 @@
     --bg-color: #030712;
     --text-color: #f9fafb;
     --text-muted-color: #d1d5db;
-    --primary-color: #3b82f6;
+    --primary-color: #f9fafb;
+    --color-primary: #f9fafb;  /* 修改为白色 */
     --secondary-color: #ec4899;
     --accent-color: #facc15;
     
@@ -1720,6 +1721,16 @@ body {
     font-weight: 500;
 }
 
+/* 兴趣页面元数据样式 - 精准定位 */
+.interest-meta {
+    font-size: 0.85rem;
+    color: #f9fafb;  /* 修改为白色 */
+    font-weight: 400;
+    margin: 4px 0;
+    opacity: 0.9;
+    letter-spacing: 0.3px;
+}
+
 .book-thoughts,
 .movie-review,
 .music-reason {
@@ -1867,7 +1878,7 @@ body {
 .stat-card:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-md, 0 4px 12px rgba(0,0,0,0.4));
-    border-color: var(--primary-color, #3b82f6);
+    border-color: var(--primary-color, #f9fafb);
     background: var(--card-hover, rgba(255, 255, 255, 0.15));
 }
 
