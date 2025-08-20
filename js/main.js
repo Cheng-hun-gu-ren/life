@@ -234,17 +234,10 @@ function renderBooks() {
             </div>
             <div class="book-info">
                 <h4 class="book-title">${book.title}</h4>
-                <p class="book-author">${book.author}</p>
-                <p class="book-status">${book.status === 'reading' ? '在读' : '已完成'}</p>
-                ${book.progress ? `
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: ${book.progress}%"></div>
-                    </div>
-                    <p class="progress-text">${book.progress}%</p>
-                ` : ''}
+                <p class="book-meta">${book.author} | ${book.category || '其他'}</p>
                 <div class="rating">
+                    <span class="rating-label">推荐指数</span>
                     <span class="stars">${generateStars(book.rating)}</span>
-                    <span class="rating-text">${book.rating}/5</span>
                 </div>
                 <p class="book-thoughts">${book.thoughts || book.review || '暂无感想'}</p>
             </div>
@@ -274,8 +267,8 @@ function renderMovies() {
     container.innerHTML = movies.sort((a, b) => a.id - b.id).map(movie => {
         // 优先使用数据库中的海报图片URL
         const posterUrl = movie.poster_image || movie.poster || (window.ImageUtils ? window.ImageUtils.getMoviePoster(movie.id) : '');
-        // 处理类型数组
-        const genres = Array.isArray(movie.genre) ? movie.genre.join('/') : (movie.genre || '未知');
+        // 使用category字段
+        const category = movie.category || '其他';
         
         return `
         <div class="movie-card hover-lift animate-in" data-id="${movie.id}">
@@ -284,11 +277,10 @@ function renderMovies() {
             </div>
             <div class="movie-info">
                 <h4 class="movie-title">${movie.title}</h4>
-                <p class="movie-director">${movie.director}</p>
-                <p class="movie-year">${movie.year || movie.release_year} · ${genres}</p>
+                <p class="movie-meta">${movie.director} · ${movie.year || movie.release_year} · ${category}</p>
                 <div class="rating">
                     <span class="stars">${generateStars(movie.rating)}</span>
-                    <span class="rating-text">${movie.rating}/5</span>
+                    <span class="rating-text">${movie.rating}/10</span>
                 </div>
                 <p class="movie-review">${movie.quotes || movie.review || '暂无台词'}</p>
             </div>
@@ -328,9 +320,7 @@ function renderMusic() {
             </div>
             <div class="music-info">
                 <h4 class="music-title">${song.songName || song.song_name}</h4>
-                <p class="music-artist">${song.artist}</p>
-                <p class="music-genre">${song.genre} · ${song.language}</p>
-                <span class="music-mood">${song.mood}</span>
+                <p class="music-meta">${song.artist} · ${song.scene || '其他'} · ${song.mood}</p>
                 <p class="music-reason">${song.lyrics_snippet || song.reason || '♪ 暂无歌词片段'}</p>
             </div>
         </div>

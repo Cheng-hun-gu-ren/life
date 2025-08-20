@@ -380,7 +380,7 @@
     <canvas id="bg-canvas"></canvas>
 
     <div class="container">
-        <img src="https://personl-website.oss-cn-shenzhen.aliyuncs.com/life-images-upload/icons/avatar-main.png" alt="晨昏故人 头像" class="avatar">
+        <img src="images/icons/avatar-main.png" alt="晨昏故人 头像" class="avatar">
 
         <h1 data-text="晨昏故人">晨昏故人</h1>
 

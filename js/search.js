@@ -720,12 +720,21 @@ const SearchManager = {
             return;
         }
         
-        // 分页逻辑
-        const pagination = SearchState.pagination.books;
-        const totalPages = Math.ceil(books.length / pagination.pageSize);
-        const startIndex = (pagination.currentPage - 1) * pagination.pageSize;
-        const endIndex = startIndex + pagination.pageSize;
-        const pagedBooks = books.slice(startIndex, endIndex);
+        // 检测是否为手机端
+        const isMobile = window.innerWidth <= 768;
+        
+        // 分页逻辑 - 手机端显示所有内容
+        let pagedBooks, totalPages;
+        if (isMobile) {
+            pagedBooks = books; // 手机端显示所有内容
+            totalPages = 1;
+        } else {
+            const pagination = SearchState.pagination.books;
+            totalPages = Math.ceil(books.length / pagination.pageSize);
+            const startIndex = (pagination.currentPage - 1) * pagination.pageSize;
+            const endIndex = startIndex + pagination.pageSize;
+            pagedBooks = books.slice(startIndex, endIndex);
+        }
         
         // 渲染书籍
         container.innerHTML = pagedBooks.map(book => {
@@ -740,17 +749,10 @@ const SearchManager = {
                 </div>
                 <div class="book-info">
                     <h4 class="book-title">${title}</h4>
-                    <p class="book-author">${author}</p>
-                    <p class="book-status">${book.status === 'reading' ? '在读' : '已完成'}</p>
-                    ${book.progress ? `
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${book.progress}%"></div>
-                        </div>
-                        <p class="progress-text">${book.progress}%</p>
-                    ` : ''}
+                    <p class="book-meta">${author} | ${book.category || '其他'}</p>
                     <div class="rating">
+                        <span class="rating-label">推荐指数</span>
                         <span class="stars">${this.generateStars(book.rating)}</span>
-                        <span class="rating-text">${book.rating}/5</span>
                     </div>
                     <p class="book-thoughts">${book.thoughts || book.review || '暂无感想'}</p>
                 </div>
@@ -758,8 +760,11 @@ const SearchManager = {
             `;
         }).join('');
         
-        // 渲染分页器
-        this.renderPagination('books', pagination.currentPage, totalPages, books.length);
+        // 渲染分页器 - 手机端不显示分页
+        if (!isMobile) {
+            const pagination = SearchState.pagination.books;
+            this.renderPagination('books', pagination.currentPage, totalPages, books.length);
+        }
     },
     
     /**
@@ -776,18 +781,27 @@ const SearchManager = {
             return;
         }
         
-        // 分页逻辑
-        const pagination = SearchState.pagination.movies;
-        const totalPages = Math.ceil(movies.length / pagination.pageSize);
-        const startIndex = (pagination.currentPage - 1) * pagination.pageSize;
-        const endIndex = startIndex + pagination.pageSize;
-        const pagedMovies = movies.slice(startIndex, endIndex);
+        // 检测是否为手机端
+        const isMobile = window.innerWidth <= 768;
+        
+        // 分页逻辑 - 手机端显示所有内容
+        let pagedMovies, totalPages;
+        if (isMobile) {
+            pagedMovies = movies; // 手机端显示所有内容
+            totalPages = 1;
+        } else {
+            const pagination = SearchState.pagination.movies;
+            totalPages = Math.ceil(movies.length / pagination.pageSize);
+            const startIndex = (pagination.currentPage - 1) * pagination.pageSize;
+            const endIndex = startIndex + pagination.pageSize;
+            pagedMovies = movies.slice(startIndex, endIndex);
+        }
         
         container.innerHTML = pagedMovies.map(movie => {
             const posterUrl = movie.poster_image || movie.poster || (window.ImageUtils ? window.ImageUtils.getMoviePoster(movie.id) : '');
             const title = this.highlightSearchText(movie.title);
             const director = this.highlightSearchText(movie.director);
-            const genres = Array.isArray(movie.genre) ? movie.genre.join('/') : (movie.genre || '未知');
+            const category = movie.category || '其他';
             
             return `
             <div class="movie-card hover-lift animate-in" data-id="${movie.id}">
@@ -796,11 +810,10 @@ const SearchManager = {
                 </div>
                 <div class="movie-info">
                     <h4 class="movie-title">${title}</h4>
-                    <p class="movie-director">${director}</p>
-                    <p class="movie-year">${movie.year || movie.release_year} · ${genres}</p>
+                    <p class="movie-meta">${director} · ${movie.year || movie.release_year} · ${category}</p>
                     <div class="rating">
                         <span class="stars">${this.generateStars(movie.rating)}</span>
-                        <span class="rating-text">${movie.rating}/5</span>
+                        <span class="rating-text">${movie.rating}/10</span>
                     </div>
                     <p class="movie-review">${movie.quotes || movie.review || '暂无台词'}</p>
                 </div>
@@ -808,8 +821,11 @@ const SearchManager = {
             `;
         }).join('');
         
-        // 渲染分页器
-        this.renderPagination('movies', pagination.currentPage, totalPages, movies.length);
+        // 渲染分页器 - 手机端不显示分页
+        if (!isMobile) {
+            const pagination = SearchState.pagination.movies;
+            this.renderPagination('movies', pagination.currentPage, totalPages, movies.length);
+        }
     },
     
     /**
@@ -826,12 +842,21 @@ const SearchManager = {
             return;
         }
         
-        // 分页逻辑
-        const pagination = SearchState.pagination.music;
-        const totalPages = Math.ceil(music.length / pagination.pageSize);
-        const startIndex = (pagination.currentPage - 1) * pagination.pageSize;
-        const endIndex = startIndex + pagination.pageSize;
-        const pagedMusic = music.slice(startIndex, endIndex);
+        // 检测是否为手机端
+        const isMobile = window.innerWidth <= 768;
+        
+        // 分页逻辑 - 手机端显示所有内容
+        let pagedMusic, totalPages;
+        if (isMobile) {
+            pagedMusic = music; // 手机端显示所有内容
+            totalPages = 1;
+        } else {
+            const pagination = SearchState.pagination.music;
+            totalPages = Math.ceil(music.length / pagination.pageSize);
+            const startIndex = (pagination.currentPage - 1) * pagination.pageSize;
+            const endIndex = startIndex + pagination.pageSize;
+            pagedMusic = music.slice(startIndex, endIndex);
+        }
         
         container.innerHTML = pagedMusic.map(song => {
             const albumUrl = song.album_cover || song.albumCover || (window.ImageUtils ? window.ImageUtils.getAlbumCover(song.id) : '');
@@ -845,17 +870,18 @@ const SearchManager = {
                 </div>
                 <div class="music-info">
                     <h4 class="music-title">${title}</h4>
-                    <p class="music-artist">${artist}</p>
-                    <p class="music-genre">${song.genre} · ${song.language}</p>
-                    <span class="music-mood">${song.mood}</span>
+                    <p class="music-meta">${artist} · ${song.scene || '其他'} · ${song.mood}</p>
                     <p class="music-reason">${song.lyrics_snippet || song.reason || '♪ 暂无歌词片段'}</p>
                 </div>
             </div>
             `;
         }).join('');
         
-        // 渲染分页器
-        this.renderPagination('music', pagination.currentPage, totalPages, music.length);
+        // 渲染分页器 - 手机端不显示分页
+        if (!isMobile) {
+            const pagination = SearchState.pagination.music;
+            this.renderPagination('music', pagination.currentPage, totalPages, music.length);
+        }
     },
     
     /**

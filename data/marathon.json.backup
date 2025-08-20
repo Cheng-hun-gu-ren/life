@@ -11,13 +11,14 @@
       "totalParticipants": 2000,
       "weather": "晴天，18°C",
       "experience": "人生第一次长距离跑，环岛马拉松，绕着美丽的小岛跑一圈，欣赏海景。长岛的特色美食鲅鱼水饺也非常好吃，后半程补给点就有！美味",
-      "certificate": "https://personl-website.oss-cn-shenzhen.aliyuncs.com/life-images-upload/marathons/%E9%95%BF%E5%B2%9B%E8%AF%81%E4%B9%A6.jpg",
-      "medal": "https://personl-website.oss-cn-shenzhen.aliyuncs.com/life-images-upload/marathons/scene-%E9%95%BF%E5%B2%9B-1.jpg",
+      "certificate": "images/marathon/长岛证书.jpg",
+      "medal": "images/marathon/scene-长岛-1.jpg",
       "photos": [
-        "https://personl-website.oss-cn-shenzhen.aliyuncs.com/life-images-upload/marathons/scene-%E9%95%BF%E5%B2%9B-1.jpg",
-        "https://personl-website.oss-cn-shenzhen.aliyuncs.com/life-images-upload/marathons/scene-%E9%95%BF%E5%B2%9B-2.jpg"
+        "images/marathon/scene-长岛-1.jpg",
+        "images/marathon/scene-长岛-2.jpg"
       ]
     },
+
     {
       "id": 2,
       "name": "半马线上赛",
@@ -29,7 +30,7 @@
       "totalParticipants": 9,
       "weather": "阴，22°C",
       "experience": "在工大的第一次半马，跟随“威风吹拂”田径队一起跑完半马全程，绕操场50多圈，达到个人PB，爽！",
-      "certificate": "https://personl-website.oss-cn-shenzhen.aliyuncs.com/life-images-upload/marathons/certificate-%E5%8D%8A%E9%A9%AC-2023.jpg",
+      "certificate": "images/marathon/certificate-半马-2023.jpg",
       "medal": "images/marathon/scene-长岛-2.jpg",
       "photos": [
         "images/marathon/scene-2023-1.jpg",
