@@ -1,5 +1,38 @@
 /* 移动端UX优化样式 */
 
+/* 禁用移动端浏览器原生下拉刷新 */
+body {
+    overscroll-behavior-y: contain;
+    -webkit-overscroll-behavior-y: contain;
+    overflow-anchor: none;
+}
+
+html {
+    overscroll-behavior: contain;
+    -webkit-overscroll-behavior: contain;
+}
+
+/* 针对主要内容区域禁用下拉刷新 */
+.main-container,
+.content,
+.section,
+.tab-content {
+    overscroll-behavior-y: contain;
+    -webkit-overscroll-behavior-y: contain;
+    touch-action: pan-y;
+    -webkit-touch-action: pan-y;
+}
+
+/* 特别针对网格容器禁用下拉行为 */
+.books-grid,
+.movies-grid,
+.music-grid {
+    overscroll-behavior-y: contain;
+    -webkit-overscroll-behavior-y: contain;
+    touch-action: pan-y;
+    -webkit-touch-action: pan-y;
+}
+
 /* 浮动搜索按钮 */
 .mobile-search-fab {
     display: none;
@@ -342,6 +375,30 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* 防止页面回弹和下拉刷新的全局设置 */
+@media (max-width: 768px) {
+    html, body {
+        height: 100%;
+        position: fixed;
+        overflow: hidden;
+    }
+    
+    .main-container {
+        height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-y: contain;
+    }
+    
+    /* 为内容容器启用滚动 */
+    .content {
+        height: auto;
+        max-height: none;
+        overflow: visible;
+    }
 }
 
 /* 移动端响应式规则 */

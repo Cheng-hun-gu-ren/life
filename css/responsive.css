@@ -568,4 +568,18 @@
     .landing-container {
         background: white;
     }
+    
+    /* 备案号信息移动端优化 */
+    .icp-info {
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-color);
+    }
+    
+    .icp-info p {
+        font-size: 0.8rem;
+        line-height: 1.4;
+        padding: 0 1rem;
+        color: var(--text-muted-color);
+    }
 }

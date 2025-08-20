@@ -7,6 +7,8 @@ class DetailModal {
         this.modalMeta = document.getElementById('modalMeta');
         this.modalThoughts = document.getElementById('modalThoughts');
         this.modalClose = document.getElementById('modalClose');
+        // 添加感想标题元素引用
+        this.modalThoughtsTitle = document.querySelector('.modal-thoughts .thoughts-title');
         
         this.initEvents();
     }
@@ -32,7 +34,36 @@ class DetailModal {
         // 填充数据
         this.modalTitle.textContent = data.title;
         this.modalDetailImage.src = data.detailImage;
-        this.modalThoughts.textContent = data.thoughts;
+        
+        // 根据类型设置个性化的感想标题
+        if (this.modalThoughtsTitle) {
+            const thoughtsTitles = {
+                'books': '观书有感',
+                'movies': '24格印象', 
+                'music': '律动心声'
+            };
+            this.modalThoughtsTitle.textContent = thoughtsTitles[data.type] || '我的感想';
+        }
+        
+        // 处理感想文本的换行符 - 同时处理<br>标签和\n换行符
+        if (data.thoughts) {
+            console.log('🔤 原始感想文本:', JSON.stringify(data.thoughts));
+            
+            // 将所有<br>标签转换为\n换行符，支持各种<br>格式
+            let processedThoughts = data.thoughts
+                .replace(/<br\s*\/?>/gi, '\n')  // 处理 <br>、<br/>、<br />
+                .replace(/\n\s*\n/g, '\n\n');  // 清理多余的空白行，保留段落间距
+            
+            console.log('✨ 处理后的感想文本:', JSON.stringify(processedThoughts));
+            
+            this.modalThoughts.textContent = processedThoughts;
+            
+            // 验证CSS是否正确应用
+            const computedStyle = window.getComputedStyle(this.modalThoughts);
+            console.log('📝 CSS white-space样式:', computedStyle.whiteSpace);
+        } else {
+            this.modalThoughts.textContent = '';
+        }
         
         // 填充元信息
         this.modalMeta.innerHTML = '';
@@ -62,6 +93,11 @@ class DetailModal {
         this.modalThoughts.textContent = '正在获取详情数据，请稍候...';
         this.modalMeta.innerHTML = '<span class="meta-item">加载中</span>';
         
+        // 重置感想标题为默认值
+        if (this.modalThoughtsTitle) {
+            this.modalThoughtsTitle.textContent = '我的感想';
+        }
+        
         // 显示弹窗
         this.modal.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -75,6 +111,11 @@ class DetailModal {
         this.modalDetailImage.src = '';
         this.modalThoughts.textContent = message || '数据加载失败，请稍后重试';
         this.modalMeta.innerHTML = '<span class="meta-item">错误</span>';
+        
+        // 重置感想标题为默认值
+        if (this.modalThoughtsTitle) {
+            this.modalThoughtsTitle.textContent = '我的感想';
+        }
         
         // 显示弹窗
         this.modal.classList.add('active');
@@ -180,6 +221,7 @@ const DetailsDataManager = {
     // 格式化详情数据
     formatDetailData(type, data) {
         const baseData = {
+            type: type, // 添加类型信息
             title: data.title || data.song_name || '未知标题',
             detailImage: data.detail_image || this.getDefaultImage(type, data.id),
             meta: this.parseMeta(data.meta_tags),
@@ -232,6 +274,7 @@ const DetailsDataManager = {
     // 获取默认详情数据
     getDefaultDetailData(type, id) {
         return {
+            type: type, // 添加类型信息
             title: '数据加载失败',
             detailImage: this.getDefaultImage(type, id),
             meta: ['加载失败'],
@@ -294,6 +337,25 @@ function initDetailModal() {
     });
 }
 
+// 测试函数 - 用户可以在控制台调用来测试换行功能
+function testLineBreaks() {
+    const testData = {
+        type: 'books',
+        title: '测试换行功能',
+        detailImage: '',
+        meta: ['测试标签'],
+        thoughts: '原本以为是本枯燥的学术书， <br> 结果意外地好读。\n\n特别是关于依恋类型的部分，\n简直是对号入座。'
+    };
+    
+    console.log('🧪 开始测试换行功能...');
+    
+    // 获取详情弹窗实例
+    const modal = new DetailModal();
+    modal.open(testData);
+    
+    console.log('✅ 测试完成，请查看弹窗效果');
+}
+
 // 如果是在浏览器环境中，自动初始化
 if (typeof window !== 'undefined') {
     // 等待DOM加载完成后初始化
@@ -302,4 +364,8 @@ if (typeof window !== 'undefined') {
     } else {
         initDetailModal();
     }
+    
+    // 将测试函数暴露到全局
+    window.testLineBreaks = testLineBreaks;
+    console.log('🔧 调试工具已准备就绪，在控制台输入 testLineBreaks() 可测试换行功能');
 }

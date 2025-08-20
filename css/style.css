@@ -57,6 +57,11 @@ body {
     line-height: 1.6;
     font-size: 16px;
     min-height: 100vh;
+    /* iOS Safari 下拉刷新禁用 */
+    -webkit-overscroll-behavior-y: none;
+    overscroll-behavior-y: none;
+    /* 防止滚动弹性效果 */
+    -webkit-overflow-scrolling: touch;
 }
 
 /* 首页样式 */
@@ -64,6 +69,27 @@ body {
     height: 100vh;
     overflow: hidden;
     background: linear-gradient(135deg, #E8F4FD 0%, #B8E6B8 100%);
+}
+
+/* 备案号信息样式 */
+.icp-info {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.icp-info p {
+    color: var(--text-muted-color);
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.icp-info:hover p {
+    opacity: 1;
 }
 
 .landing-container {
@@ -1055,6 +1081,9 @@ body {
     line-height: 1.8;
     color: var(--text-secondary);
     font-size: 1rem;
+    /* 支持换行符显示 */
+    white-space: pre-line;
+    word-wrap: break-word;
 }
 
 @keyframes fadeInImage {

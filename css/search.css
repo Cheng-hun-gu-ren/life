@@ -179,6 +179,8 @@
     display: flex;
     gap: 15px;
     flex-wrap: wrap;
+    justify-content: flex-end; /* 改为右对齐 */
+    align-items: center;
 }
 
 .sort-select, .status-filter, .category-filter, .extra-filter {
@@ -351,7 +353,7 @@
 /* 分页组件 - 毛玻璃风格 */
 .pagination {
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* 改为两端对齐 */
     align-items: center;
     gap: 8px;
     margin: 20px 0;
@@ -532,8 +534,24 @@
 
 .page-size-selector label {
     font-size: 14px;
-    color: #6c757d;
+    color: rgba(255, 255, 255, 0.8); /* 适配分页组件样式 */
     white-space: nowrap;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* 分页组件内的每页显示选择器 */
+.pagination .page-size-selector {
+    order: 1; /* 放在右侧 */
+}
+
+/* 分页按钮容器 */
+.pagination-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    justify-content: center;
 }
 
 .page-size-dropdown {
@@ -692,20 +710,9 @@
     min-width: 120px;
 }
 
-/* 扩展悬停区域的不可见伪元素 */
+/* 移除过大的悬停区域，使用更精确的触发区域 */
 .custom-dropdown::before {
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    z-index: -1;
-    pointer-events: none;
-}
-
-.custom-dropdown:hover::before {
-    pointer-events: auto;
+    display: none; /* 禁用扩展的hover区域 */
 }
 
 .dropdown-trigger {
@@ -768,42 +775,52 @@
 .dropdown-menu {
     position: absolute;
     top: 100%;
-    left: -10px;
-    right: -10px;
-    z-index: 9999;
+    left: auto;
+    right: -10px; /* 改为从右侧展开 */
+    min-width: 180px; /* 设置最小宽度 */
+    z-index: 10000; /* 提高图层优先级，确保在标签页按钮之上 */
     margin-top: 4px;
     border-radius: 10px;
     border: 2px solid rgba(255, 255, 255, 0.6);
     background: linear-gradient(135deg, 
-        rgba(30, 41, 59, 0.98) 0%, 
-        rgba(59, 130, 246, 0.35) 30%, 
-        rgba(236, 72, 153, 0.25) 70%, 
-        rgba(30, 41, 59, 0.98) 100%);
-    backdrop-filter: blur(30px) saturate(1.2);
+        rgba(15, 23, 42, 0.98) 0%, 
+        rgba(30, 41, 59, 0.95) 30%, 
+        rgba(51, 65, 85, 0.95) 70%, 
+        rgba(15, 23, 42, 0.98) 100%);
+    backdrop-filter: blur(40px) saturate(1.4); /* 增强模糊效果 */
     box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.7),
-        0 12px 40px rgba(0, 0, 0, 0.5),
-        0 8px 25px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+        0 25px 80px rgba(0, 0, 0, 0.8),
+        0 15px 50px rgba(0, 0, 0, 0.6),
+        0 10px 30px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.3);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px) scale(0.95);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 缩短动画时间 */
     max-height: 300px;
     overflow-y: auto;
 }
 
-/* 悬停时显示下拉菜单 - 0.3秒延迟 */
-.custom-dropdown:hover .dropdown-menu {
+/* 立即显示下拉菜单 - 无延迟 */
+.custom-dropdown:hover .dropdown-menu,
+.dropdown-menu:hover {
     opacity: 1;
     visibility: visible;
     transform: translateY(0) scale(1);
-    transition-delay: 0.3s;
+    transition-delay: 0s; /* 立即显示 */
 }
 
-/* 鼠标离开时快速隐藏 - 无延迟 */
-.custom-dropdown:not(:hover) .dropdown-menu {
+/* 鼠标离开时适度延迟隐藏 - 0.2秒给用户移动到菜单项的时间 */
+.custom-dropdown:not(:hover) .dropdown-menu:not(:hover) {
+    transition-delay: 0.2s;
+}
+
+/* 当鼠标在下拉菜单上时保持显示 */
+.dropdown-menu:hover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
     transition-delay: 0s;
 }
 
@@ -889,5 +906,6 @@
         right: 10px;
         width: auto;
         max-height: 250px;
+        z-index: 10001; /* 移动端更高的优先级 */
     }
 }

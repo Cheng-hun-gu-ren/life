@@ -231,37 +231,63 @@ class MobileGestureManager {
     }
     
     setupPullToRefresh() {
-        // 简单的下拉刷新实现
+        // 禁用浏览器原生下拉刷新，只使用自定义下拉刷新
         let startY = 0;
         let isPulling = false;
-        const pullThreshold = 80;
+        const pullThreshold = 100; // 增加阈值，减少误触
         
-        const contentArea = document.querySelector('.content');
-        if (!contentArea) return;
+        // 监听多个容器
+        const containers = [
+            document.querySelector('.content'),
+            document.querySelector('.main-container'),
+            document.body
+        ].filter(Boolean);
         
-        contentArea.addEventListener('touchstart', (e) => {
-            if (contentArea.scrollTop === 0) {
+        containers.forEach(container => {
+            this.setupPullToRefreshForContainer(container, pullThreshold);
+        });
+    }
+    
+    setupPullToRefreshForContainer(container, pullThreshold) {
+        let startY = 0;
+        let startScrollTop = 0;
+        let isPulling = false;
+        
+        container.addEventListener('touchstart', (e) => {
+            startScrollTop = container.scrollTop || window.pageYOffset || 0;
+            if (startScrollTop <= 5) { // 允许小范围滚动误差
                 startY = e.touches[0].clientY;
                 isPulling = true;
             }
-        }, { passive: true });
+        }, { passive: false });
         
-        contentArea.addEventListener('touchmove', (e) => {
-            if (!isPulling || contentArea.scrollTop > 0) {
+        container.addEventListener('touchmove', (e) => {
+            const currentScrollTop = container.scrollTop || window.pageYOffset || 0;
+            
+            // 如果用户滚动了页面，取消下拉刷新
+            if (currentScrollTop > 5) {
                 isPulling = false;
+                this.hidePullIndicator();
                 return;
             }
+            
+            if (!isPulling) return;
             
             const currentY = e.touches[0].clientY;
             const pullDistance = currentY - startY;
             
-            if (pullDistance > 0 && pullDistance < pullThreshold * 2) {
-                // 显示下拉提示
-                this.showPullIndicator(pullDistance, pullThreshold);
+            // 只有向下拉且在页面顶部时才处理
+            if (pullDistance > 10) {
+                // 阻止浏览器默认下拉刷新
+                e.preventDefault();
+                
+                if (pullDistance < pullThreshold * 2) {
+                    this.showPullIndicator(pullDistance, pullThreshold);
+                }
             }
-        }, { passive: true });
+        }, { passive: false });
         
-        contentArea.addEventListener('touchend', (e) => {
+        container.addEventListener('touchend', (e) => {
             if (!isPulling) return;
             
             const endY = e.changedTouches[0].clientY;
@@ -269,13 +295,20 @@ class MobileGestureManager {
             
             this.hidePullIndicator();
             
+            // 只有拉动距离足够大时才触发刷新
             if (pullDistance >= pullThreshold) {
                 this.triggerRefresh();
             }
             
             isPulling = false;
             startY = 0;
-        }, { passive: true });
+        }, { passive: false });
+        
+        // 防止意外触发的额外保护
+        container.addEventListener('touchcancel', (e) => {
+            isPulling = false;
+            this.hidePullIndicator();
+        }, { passive: false });
     }
     
     showPullIndicator(distance, threshold) {

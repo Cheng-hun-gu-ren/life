@@ -203,8 +203,14 @@
                     <div class="books-section">
                         <div class="section-header">
                             <h3>书如故友，笔下人生</h3>
+                        </div>
+                        <div class="books-grid" id="books-container">
+                            <!-- 书籍卡片将通过JavaScript动态加载 -->
+                        </div>
+                        <div class="pagination" id="booksPagination" style="display: none;">
+                            <!-- 分页按钮将通过JavaScript动态生成 -->
                             <div class="page-size-selector">
-                                <label>每页显示:</label>
+                                <label>每页:</label>
                                 <div class="custom-dropdown page-size-dropdown" id="booksPageSize">
                                     <div class="dropdown-trigger">
                                         <span class="dropdown-label">8条</span>
@@ -218,12 +224,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="books-grid" id="books-container">
-                            <!-- 书籍卡片将通过JavaScript动态加载 -->
-                        </div>
-                        <div class="pagination" id="booksPagination" style="display: none;">
-                            <!-- 分页按钮将通过JavaScript动态生成 -->
                         </div>
                         <!-- 移动端加载更多按钮 -->
                         <div class="mobile-load-more" id="booksLoadMore" style="display: none;">
@@ -240,8 +240,14 @@
                     <div class="movies-section">
                         <div class="section-header">
                             <h3>光影流年，梦里画屏</h3>
+                        </div>
+                        <div class="movies-grid" id="movies-container">
+                            <!-- 电影卡片将通过JavaScript动态加载 -->
+                        </div>
+                        <div class="pagination" id="moviesPagination" style="display: none;">
+                            <!-- 分页按钮将通过JavaScript动态生成 -->
                             <div class="page-size-selector">
-                                <label>每页显示:</label>
+                                <label>每页:</label>
                                 <div class="custom-dropdown page-size-dropdown" id="moviesPageSize">
                                     <div class="dropdown-trigger">
                                         <span class="dropdown-label">8条</span>
@@ -255,12 +261,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="movies-grid" id="movies-container">
-                            <!-- 电影卡片将通过JavaScript动态加载 -->
-                        </div>
-                        <div class="pagination" id="moviesPagination" style="display: none;">
-                            <!-- 分页按钮将通过JavaScript动态生成 -->
                         </div>
                         <!-- 移动端加载更多按钮 -->
                         <div class="mobile-load-more" id="moviesLoadMore" style="display: none;">
@@ -277,8 +277,14 @@
                     <div class="music-section">
                         <div class="section-header">
                             <h3>一曲入心，四季皆情</h3>
+                        </div>
+                        <div class="music-grid" id="music-container">
+                            <!-- 音乐卡片将通过JavaScript动态加载 -->
+                        </div>
+                        <div class="pagination" id="musicPagination" style="display: none;">
+                            <!-- 分页按钮将通过JavaScript动态生成 -->
                             <div class="page-size-selector">
-                                <label>每页显示:</label>
+                                <label>每页:</label>
                                 <div class="custom-dropdown page-size-dropdown" id="musicPageSize">
                                     <div class="dropdown-trigger">
                                         <span class="dropdown-label">8条</span>
@@ -292,12 +298,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="music-grid" id="music-container">
-                            <!-- 音乐卡片将通过JavaScript动态加载 -->
-                        </div>
-                        <div class="pagination" id="musicPagination" style="display: none;">
-                            <!-- 分页按钮将通过JavaScript动态生成 -->
                         </div>
                         <!-- 移动端加载更多按钮 -->
                         <div class="mobile-load-more" id="musicLoadMore" style="display: none;">
@@ -406,6 +406,9 @@
         </div>
     </div>
 
+    <!-- 防误触下拉刷新脚本 - 最优先加载 -->
+    <script src="../../js/anti-pull-refresh.js"></script>
+    
     <!-- API模块 - 必须在main.js之前加载 -->
     <script src="../../js/api.js"></script>
     <script src="../../js/custom-dropdown.js"></script>

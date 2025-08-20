@@ -7,7 +7,7 @@ class CustomDropdown {
     constructor(element, options = {}) {
         this.element = element;
         this.options = {
-            hoverDelay: 300,
+            hoverDelay: 0, // 立即显示，无延迟
             autoClose: true,
             onChange: null,
             ...options
