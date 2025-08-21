@@ -14,15 +14,14 @@ const FILTER_OPTIONS = {
         ],
         category: [
             { value: 'all', text: '全部分类' },
-            { value: '文学小说', text: '文学小说' },
-            { value: '技术编程', text: '技术编程' },
+            { value: '文学', text: '文学' },
+            { value: '技术', text: '技术' },
             { value: '心理学', text: '心理学' },
-            { value: '历史传记', text: '历史传记' },
-            { value: '哲学思辨', text: '哲学思辨' },
-            { value: '经济管理', text: '经济管理' },
-            { value: '科普百科', text: '科普百科' },
-            { value: '生活实用', text: '生活实用' },
-            { value: '其他', text: '其他' }
+            { value: '历史', text: '历史' },
+            { value: '哲学', text: '哲学' },
+            { value: '经济', text: '经济' },
+            { value: '实用', text: '实用' },
+            { value: '其它', text: '其它' }
         ],
         extra: {
             label: '推荐等级',
@@ -44,15 +43,14 @@ const FILTER_OPTIONS = {
         ],
         category: [
             { value: 'all', text: '全部分类' },
-            { value: '剧情片', text: '剧情片' },
-            { value: '喜剧片', text: '喜剧片' },
-            { value: '动画片', text: '动画片' },
-            { value: '纪录片', text: '纪录片' },
-            { value: '科幻片', text: '科幻片' },
-            { value: '悬疑片', text: '悬疑片' },
-            { value: '动作片', text: '动作片' },
-            { value: '爱情片', text: '爱情片' },
-            { value: '其他', text: '其他' }
+            { value: '剧情', text: '剧情' },
+            { value: '喜剧', text: '喜剧' },
+            { value: '动画', text: '动画' },
+            { value: '科幻', text: '科幻' },
+            { value: '悬疑', text: '悬疑' },
+            { value: '动作', text: '动作' },
+            { value: '爱情', text: '爱情' },
+            { value: '其它', text: '其它' }
         ],
         extra: {
             label: '情绪标签',
@@ -76,15 +74,12 @@ const FILTER_OPTIONS = {
         ],
         category: [
             { value: 'all', text: '全部分类' },
+            { value: '流行', text: '流行' },
             { value: '民谣', text: '民谣' },
             { value: '摇滚', text: '摇滚' },
-            { value: '古典', text: '古典' },
-            { value: '电子', text: '电子' },
-            { value: '流行', text: '流行' },
-            { value: '爵士', text: '爵士' },
-            { value: '说唱', text: '说唱' },
-            { value: '轻音乐', text: '轻音乐' },
-            { value: '其他', text: '其他' }
+            { value: '古风', text: '古风' },
+            { value: '纯音乐', text: '纯音乐' },
+            { value: '其它', text: '其它' }
         ],
         extra: {
             label: '使用场景',
@@ -599,10 +594,17 @@ const SearchManager = {
         // 标签筛选 - 新增
         if (window.TagFilterManager) {
             const activeTags = window.TagFilterManager.getActiveTags(type);
-            // 如果有失活的标签（不是全部激活状态），应用筛选
-            if (activeTags.length > 0 && activeTags.length < window.TagFilterManager.categories[type].length) {
+            const totalTags = window.TagFilterManager.categories[type].length;
+            
+            // 如果没有激活任何标签，显示空结果
+            if (activeTags.length === 0) {
+                filtered = [];
+            } 
+            // 如果不是全选状态（部分激活），进行筛选
+            else if (activeTags.length < totalTags) {
                 filtered = filtered.filter(item => window.TagFilterManager.matchesActiveTags(item, type));
             }
+            // 全选状态时，不进行筛选，显示所有内容
         }
         
         // 状态筛选
@@ -907,13 +909,29 @@ const SearchManager = {
      * 生成无结果HTML
      */
     getNoResultsHTML(type) {
-        return `
-            <div class="no-results">
-                <div class="no-results-icon">🔍</div>
-                <div class="no-results-text">没有找到相关${type}</div>
-                <div class="no-results-suggestion">试试修改搜索关键词或筛选条件</div>
-            </div>
-        `;
+        // 检查是否有激活的标签筛选
+        const hasActiveTags = window.TagFilterManager ? 
+            window.TagFilterManager.getActiveTags().length > 0 : true;
+        
+        if (!hasActiveTags) {
+            // 没有激活标签的情况
+            return `
+                <div class="no-results">
+                    <div class="no-results-icon">🏷️</div>
+                    <div class="no-results-text">请选择${type}分类标签</div>
+                    <div class="no-results-suggestion">点击上方的分类标签来筛选${type}，或者点击"全选"查看所有内容</div>
+                </div>
+            `;
+        } else {
+            // 有激活标签但没有匹配结果的情况
+            return `
+                <div class="no-results">
+                    <div class="no-results-icon">🔍</div>
+                    <div class="no-results-text">没有找到相关${type}</div>
+                    <div class="no-results-suggestion">试试修改搜索关键词或选择其他分类标签</div>
+                </div>
+            `;
+        }
     },
     
     /**

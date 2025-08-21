@@ -13,24 +13,24 @@ class TagFilterManager {
         
         this.categoryMapping = {
             books: {
-                '文学': '文学小说',
-                '技术': '技术编程', 
+                '文学': '文学',
+                '技术': '技术', 
                 '心理学': '心理学',
-                '历史': '历史传记',
-                '哲学': '哲学思辨',
-                '经济': '经济管理',
-                '实用': '生活实用',
-                '其它': ['纪实文学', '科学普及', '其他']
+                '历史': '历史',
+                '哲学': '哲学',
+                '经济': '经济',
+                '实用': '实用',
+                '其它': ['其它', '其他']
             },
             movies: {
-                '剧情': '剧情片',
-                '喜剧': '喜剧片',
-                '动画': '动画片', 
-                '科幻': '科幻片',
-                '悬疑': '悬疑片',
-                '动作': '动作片',
-                '爱情': '爱情片',
-                '其它': ['纪录片', '其他']
+                '剧情': '剧情',
+                '喜剧': '喜剧',
+                '动画': '动画', 
+                '科幻': '科幻',
+                '悬疑': '悬疑',
+                '动作': '动作',
+                '爱情': '爱情',
+                '其它': ['其它', '其他']
             },
             music: {
                 '流行': '流行',
@@ -38,7 +38,7 @@ class TagFilterManager {
                 '摇滚': '摇滚',
                 '古风': '古风',
                 '纯音乐': '纯音乐',
-                '其它': ['说唱', '轻音乐', '古典', '电子', '爵士', '其他']
+                '其它': ['其它', '其他']
             }
         };
         
@@ -91,11 +91,40 @@ class TagFilterManager {
         // 清空容器
         this.filterTagsContainer.innerHTML = '';
         
-        // 创建标签
+        // 创建全选/全不选控制按钮
+        const controlButton = this.createControlButton();
+        this.filterTagsContainer.appendChild(controlButton);
+        
+        // 创建普通标签
         categories.forEach((category, index) => {
-            const tagElement = this.createTagElement(category, activeSet.has(category), index);
+            const tagElement = this.createTagElement(category, activeSet.has(category), index + 1);
             this.filterTagsContainer.appendChild(tagElement);
         });
+    }
+    
+    // 创建控制按钮（全选/全不选）
+    createControlButton() {
+        const activeSet = this.activeStates[this.currentTab];
+        const totalCount = this.categories[this.currentTab].length;
+        const activeCount = activeSet.size;
+        
+        // 判断按钮文字
+        const isAllActive = activeCount === totalCount;
+        const buttonText = isAllActive ? '全不选' : '全选';
+        const iconText = isAllActive ? '◉' : '○';
+        
+        const button = document.createElement('div');
+        button.className = 'filter-control-btn';
+        button.innerHTML = `${iconText} ${buttonText}`;
+        button.style.animationDelay = '0s';
+        
+        // 点击事件
+        button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleAllTags();
+        });
+        
+        return button;
     }
     
     // 创建单个标签元素
@@ -139,7 +168,53 @@ class TagFilterManager {
             this.onFilterChange(this.currentTab, Array.from(activeSet));
         }
         
+        // 更新控制按钮状态
+        this.updateControlButton();
+        
         console.log(`🏷️ 标签 "${category}" ${wasActive ? '失活' : '激活'}`, Array.from(activeSet));
+    }
+    
+    // 全选/全不选切换
+    toggleAllTags() {
+        const activeSet = this.activeStates[this.currentTab];
+        const totalCount = this.categories[this.currentTab].length;
+        const isAllActive = activeSet.size === totalCount;
+        
+        if (isAllActive) {
+            // 全不选：清空所有激活状态
+            activeSet.clear();
+        } else {
+            // 全选：激活所有标签
+            this.categories[this.currentTab].forEach(category => {
+                activeSet.add(category);
+            });
+        }
+        
+        // 重新渲染所有标签
+        this.renderTags();
+        
+        // 触发筛选更新
+        if (window.SearchManager && window.SearchManager.applyFilters) {
+            window.SearchManager.applyFilters();
+        } else if (this.onFilterChange) {
+            this.onFilterChange(this.currentTab, Array.from(activeSet));
+        }
+        
+        console.log(`🔄 ${isAllActive ? '全不选' : '全选'} 操作完成:`, Array.from(activeSet));
+    }
+    
+    // 更新控制按钮显示状态
+    updateControlButton() {
+        const controlBtn = this.filterTagsContainer?.querySelector('.filter-control-btn');
+        if (!controlBtn) return;
+        
+        const activeSet = this.activeStates[this.currentTab];
+        const totalCount = this.categories[this.currentTab].length;
+        const isAllActive = activeSet.size === totalCount;
+        
+        const buttonText = isAllActive ? '全不选' : '全选';
+        const iconText = isAllActive ? '◉' : '○';
+        controlBtn.innerHTML = `${iconText} ${buttonText}`;
     }
     
     // 更新标签视觉状态

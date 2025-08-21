@@ -277,14 +277,67 @@
 }
 
 /* 为不同的标签添加延迟动画 */
-.filter-tag:nth-child(1) { animation-delay: 0.05s; }
-.filter-tag:nth-child(2) { animation-delay: 0.1s; }
-.filter-tag:nth-child(3) { animation-delay: 0.15s; }
-.filter-tag:nth-child(4) { animation-delay: 0.2s; }
-.filter-tag:nth-child(5) { animation-delay: 0.25s; }
-.filter-tag:nth-child(6) { animation-delay: 0.3s; }
-.filter-tag:nth-child(7) { animation-delay: 0.35s; }
-.filter-tag:nth-child(8) { animation-delay: 0.4s; }
+.filter-tag:nth-child(2) { animation-delay: 0.05s; }
+.filter-tag:nth-child(3) { animation-delay: 0.1s; }
+.filter-tag:nth-child(4) { animation-delay: 0.15s; }
+.filter-tag:nth-child(5) { animation-delay: 0.2s; }
+.filter-tag:nth-child(6) { animation-delay: 0.25s; }
+.filter-tag:nth-child(7) { animation-delay: 0.3s; }
+.filter-tag:nth-child(8) { animation-delay: 0.35s; }
+.filter-tag:nth-child(9) { animation-delay: 0.4s; }
+
+/* 控制按钮样式（全选/全不选） */
+.filter-control-btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    min-width: 80px;
+    text-align: center;
+    white-space: nowrap;
+    
+    /* 区别于普通标签的样式 */
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    
+    /* 特殊动画效果 */
+    animation: controlButtonFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.filter-control-btn:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 
+        0 8px 25px rgba(255, 255, 255, 0.1),
+        0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.filter-control-btn:active {
+    transform: translateY(0) scale(1.02);
+    transition: all 0.1s ease-out;
+}
+
+@keyframes controlButtonFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.9);
+        border-color: transparent;
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        border-color: rgba(255, 255, 255, 0.4);
+    }
+}
 
 .sort-select, .status-filter, .category-filter, .extra-filter {
     padding: 8px 12px;
@@ -735,6 +788,21 @@
             0 4px 15px rgba(59, 130, 246, 0.2),
             0 2px 8px rgba(0, 0, 0, 0.1);
     }
+    
+    /* 控制按钮移动端样式 */
+    .filter-control-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+        min-width: 70px;
+        border-width: 1.5px;
+    }
+    
+    .filter-control-btn:hover {
+        transform: scale(1.02);
+        box-shadow: 
+            0 4px 15px rgba(255, 255, 255, 0.1),
+            0 2px 8px rgba(0, 0, 0, 0.1);
+    }
 }
 
 /* 小屏手机优化 */
@@ -747,6 +815,15 @@
         padding: 5px 10px;
         font-size: 12px;
         min-width: 45px;
+        border-radius: 14px;
+    }
+    
+    /* 控制按钮小屏优化 */
+    .filter-control-btn {
+        padding: 5px 10px;
+        font-size: 12px;
+        min-width: 60px;
+        border-width: 1px;
         border-radius: 14px;
     }
 }
