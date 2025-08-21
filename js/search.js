@@ -596,6 +596,15 @@ const SearchManager = {
     applyMultiFilters(data, type) {
         let filtered = [...data];
         
+        // 标签筛选 - 新增
+        if (window.TagFilterManager) {
+            const activeTags = window.TagFilterManager.getActiveTags(type);
+            // 如果有失活的标签（不是全部激活状态），应用筛选
+            if (activeTags.length > 0 && activeTags.length < window.TagFilterManager.categories[type].length) {
+                filtered = filtered.filter(item => window.TagFilterManager.matchesActiveTags(item, type));
+            }
+        }
+        
         // 状态筛选
         if (SearchState.filters.status !== 'all') {
             filtered = filtered.filter(item => {
@@ -604,12 +613,12 @@ const SearchManager = {
             });
         }
         
-        // 分类筛选
-        if (SearchState.filters.category !== 'all') {
-            filtered = filtered.filter(item => {
-                return item.category === SearchState.filters.category;
-            });
-        }
+        // 分类筛选 - 已由标签筛选器替代，注释掉
+        // if (SearchState.filters.category !== 'all') {
+        //     filtered = filtered.filter(item => {
+        //         return item.category === SearchState.filters.category;
+        //     });
+        // }
         
         // 附加筛选
         if (SearchState.filters.extra !== 'all') {

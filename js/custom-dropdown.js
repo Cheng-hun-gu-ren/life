@@ -58,9 +58,16 @@ class CustomDropdown {
             }
         });
         
-        // 全局鼠标移动监听（用于三角形安全区域）
+        // 全局鼠标移动监听（用于三角形安全区域） - 优化版，避免干扰点击
         document.addEventListener('mousemove', (e) => {
-            if (this.isOpen && this.closeTimer) {
+            // 只有在特定条件下才执行三角区域检测，避免干扰正常交互
+            if (this.isOpen && this.closeTimer && !this.isClicking) {
+                // 检查是否在下拉菜单内部，如果是则直接取消关闭定时器
+                if (this.menu.contains(e.target)) {
+                    this.clearCloseTimer();
+                    return;
+                }
+                
                 if (this.isInSafeTriangle(e.clientX, e.clientY)) {
                     // 在安全区域内，取消关闭
                     this.clearCloseTimer();
@@ -104,50 +111,19 @@ class CustomDropdown {
             }, 50);
         });
         
-        // 选项点击事件 - 增强版，支持更好的事件检测
+        // 选项点击事件 - 统一化处理，支持所有位置的选项
         this.menu.addEventListener('click', (e) => {
-            // 寻找最近的dropdown-option元素（支持嵌套结构）
-            let targetOption = e.target;
-            while (targetOption && !targetOption.classList.contains('dropdown-option')) {
-                if (targetOption === this.menu) break; // 防止向上搜索超出边界
-                targetOption = targetOption.parentElement;
-            }
-            
-            if (targetOption && targetOption.classList.contains('dropdown-option')) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('点击选项:', targetOption.textContent.trim(), 'value:', targetOption.dataset.value);
-                this.selectOption(targetOption);
-            }
+            this.handleOptionInteraction(e, 'click');
         });
         
-        // 增加mousedown事件作为备用，确保能捕获点击
+        // 增加mousedown事件作为备用，确保能捕获所有点击
         this.menu.addEventListener('mousedown', (e) => {
-            let targetOption = e.target;
-            while (targetOption && !targetOption.classList.contains('dropdown-option')) {
-                if (targetOption === this.menu) break;
-                targetOption = targetOption.parentElement;
-            }
-            
-            if (targetOption && targetOption.classList.contains('dropdown-option')) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('mousedown事件捕获:', targetOption.textContent.trim(), 'value:', targetOption.dataset.value);
-                
-                // 特别检查第二个选项
-                const allOptions = Array.from(this.menu.querySelectorAll('.dropdown-option'));
-                const optionIndex = allOptions.indexOf(targetOption);
-                if (optionIndex === 1) {
-                    console.log('🔍 检测到第二个选项被点击，强制执行选择');
-                    this.selectOption(targetOption);
-                    return;
-                }
-                
-                // 短暂延迟后执行选择，确保不与click事件冲突
-                setTimeout(() => {
-                    this.selectOption(targetOption);
-                }, 50);
-            }
+            this.handleOptionInteraction(e, 'mousedown');
+        });
+        
+        // 增加触摸事件支持
+        this.menu.addEventListener('touchstart', (e) => {
+            this.handleOptionInteraction(e, 'touch');
         });
         
         // 点击外部关闭
@@ -186,6 +162,35 @@ class CustomDropdown {
         }
     }
     
+    // 统一的选项交互处理方法
+    handleOptionInteraction(e, eventType) {
+        // 寻找最近的dropdown-option元素
+        let targetOption = e.target;
+        while (targetOption && !targetOption.classList.contains('dropdown-option')) {
+            if (targetOption === this.menu) break;
+            targetOption = targetOption.parentElement;
+        }
+        
+        if (targetOption && targetOption.classList.contains('dropdown-option')) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const optionText = targetOption.textContent.trim();
+            const optionValue = targetOption.dataset.value;
+            const allOptions = Array.from(this.menu.querySelectorAll('.dropdown-option'));
+            const optionIndex = allOptions.indexOf(targetOption);
+            
+            console.log(`${eventType}事件 - 选项: "${optionText}", 值: "${optionValue}", 位置: ${optionIndex + 1}`);
+            
+            // 立即执行选择，不延迟
+            this.selectOption(targetOption);
+            
+            return true; // 表示处理成功
+        }
+        
+        return false; // 表示未找到有效选项
+    }
+    
     scheduleClose(event) {
         this.clearCloseTimer();
         this.closeTimer = setTimeout(() => {
@@ -193,78 +198,17 @@ class CustomDropdown {
         }, 300); // 300ms延迟关闭
     }
     
-    // 增强的安全区域检测算法
+    // 简化的安全区域检测算法 - 仅检测基本区域，避免干扰点击
     isInSafeTriangle(mouseX, mouseY) {
         if (!this.isOpen) return false;
         
-        const triggerRect = this.trigger.getBoundingClientRect();
         const menuRect = this.menu.getBoundingClientRect();
         
-        // 扩展安全区域边距
-        const margin = 20;
-        const expandedMenuRect = {
-            left: menuRect.left - margin,
-            right: menuRect.right + margin,
-            top: menuRect.top - margin,
-            bottom: menuRect.bottom + margin
-        };
-        
-        // 1. 首先检查是否在扩展的矩形区域内
-        if (mouseX >= expandedMenuRect.left && 
-            mouseX <= expandedMenuRect.right && 
-            mouseY >= expandedMenuRect.top && 
-            mouseY <= expandedMenuRect.bottom) {
-            return true;
-        }
-        
-        // 2. 检查多个三角形安全区域
-        const triggerCenterX = triggerRect.left + triggerRect.width / 2;
-        const triggerCenterY = triggerRect.bottom;
-        
-        // 主三角形：触发器中心到菜单顶部两角
-        const mainTriangle = this.isPointInTriangle(
-            { x: mouseX, y: mouseY },
-            { x: triggerCenterX, y: triggerCenterY },
-            { x: menuRect.left - margin, y: menuRect.top },
-            { x: menuRect.right + margin, y: menuRect.top }
-        );
-        
-        // 侧边三角形：触发器两角到菜单对应边
-        const leftTriangle = this.isPointInTriangle(
-            { x: mouseX, y: mouseY },
-            { x: triggerRect.left, y: triggerCenterY },
-            { x: menuRect.left - margin, y: menuRect.top },
-            { x: menuRect.left - margin, y: menuRect.bottom }
-        );
-        
-        const rightTriangle = this.isPointInTriangle(
-            { x: mouseX, y: mouseY },
-            { x: triggerRect.right, y: triggerCenterY },
-            { x: menuRect.right + margin, y: menuRect.top },
-            { x: menuRect.right + margin, y: menuRect.bottom }
-        );
-        
-        // 底部三角形：为高度很大的菜单提供底部安全区域
-        const bottomTriangle = this.isPointInTriangle(
-            { x: mouseX, y: mouseY },
-            { x: triggerCenterX, y: triggerCenterY },
-            { x: menuRect.left - margin, y: menuRect.bottom },
-            { x: menuRect.right + margin, y: menuRect.bottom }
-        );
-        
-        return mainTriangle || leftTriangle || rightTriangle || bottomTriangle;
-    }
-    
-    // 判断点是否在三角形内（使用重心坐标法）
-    isPointInTriangle(p, a, b, c) {
-        const denom = (b.y - c.y) * (a.x - c.x) + (c.x - b.x) * (a.y - c.y);
-        if (Math.abs(denom) < 0.000001) return false; // 防止除零
-        
-        const alpha = ((b.y - c.y) * (p.x - c.x) + (c.x - b.x) * (p.y - c.y)) / denom;
-        const beta = ((c.y - a.y) * (p.x - c.x) + (a.x - c.x) * (p.y - c.y)) / denom;
-        const gamma = 1 - alpha - beta;
-        
-        return alpha >= 0 && beta >= 0 && gamma >= 0;
+        // 只检测菜单的直接区域，不使用复杂的三角形算法
+        return (mouseX >= menuRect.left && 
+                mouseX <= menuRect.right && 
+                mouseY >= menuRect.top && 
+                mouseY <= menuRect.bottom);
     }
     
     open() {

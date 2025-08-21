@@ -174,14 +174,117 @@
     transform: translateY(-1px);
 }
 
-/* 筛选容器 */
-.filter-container {
+/* 平铺标签筛选容器 */
+.filter-tags-container {
+    margin-top: 15px;
+    padding: 0;
+    position: relative;
+    overflow: visible;
+}
+
+.filter-tags {
     display: flex;
-    gap: 15px;
     flex-wrap: wrap;
-    justify-content: flex-end; /* 改为右对齐 */
+    gap: 10px;
+    justify-content: flex-start;
     align-items: center;
 }
+
+/* 平铺标签样式 */
+.filter-tag {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    min-width: 60px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* 激活状态 */
+.filter-tag.active {
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 0.9) 0%, 
+        rgba(99, 102, 241, 0.8) 100%);
+    color: white;
+    border-color: rgba(59, 130, 246, 0.6);
+    box-shadow: 
+        0 4px 20px rgba(59, 130, 246, 0.4),
+        0 2px 8px rgba(59, 130, 246, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+/* 失活状态 */
+.filter-tag.inactive {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 悬停效果 */
+.filter-tag:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 
+        0 6px 25px rgba(59, 130, 246, 0.3),
+        0 3px 12px rgba(0, 0, 0, 0.15);
+}
+
+.filter-tag.active:hover {
+    background: linear-gradient(135deg, 
+        rgba(59, 130, 246, 1) 0%, 
+        rgba(99, 102, 241, 0.9) 100%);
+    box-shadow: 
+        0 8px 30px rgba(59, 130, 246, 0.5),
+        0 4px 16px rgba(59, 130, 246, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.filter-tag.inactive:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* 点击效果 */
+.filter-tag:active {
+    transform: translateY(0) scale(0.98);
+    transition: all 0.1s ease-out;
+}
+
+/* 标签动画进入效果 */
+.filter-tag {
+    animation: tagFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes tagFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* 为不同的标签添加延迟动画 */
+.filter-tag:nth-child(1) { animation-delay: 0.05s; }
+.filter-tag:nth-child(2) { animation-delay: 0.1s; }
+.filter-tag:nth-child(3) { animation-delay: 0.15s; }
+.filter-tag:nth-child(4) { animation-delay: 0.2s; }
+.filter-tag:nth-child(5) { animation-delay: 0.25s; }
+.filter-tag:nth-child(6) { animation-delay: 0.3s; }
+.filter-tag:nth-child(7) { animation-delay: 0.35s; }
+.filter-tag:nth-child(8) { animation-delay: 0.4s; }
 
 .sort-select, .status-filter, .category-filter, .extra-filter {
     padding: 8px 12px;
@@ -607,6 +710,47 @@
     border-radius: 6px;
 }
 
+/* 平铺标签移动端样式 */
+@media (max-width: 768px) {
+    .filter-tags-container {
+        margin-top: 12px;
+    }
+    
+    .filter-tags {
+        gap: 8px;
+        justify-content: center; /* 移动端居中显示 */
+    }
+    
+    .filter-tag {
+        padding: 6px 12px;
+        font-size: 13px;
+        min-width: 50px;
+        border-radius: 16px;
+    }
+    
+    /* 移动端悬停效果简化 */
+    .filter-tag:hover {
+        transform: scale(1.02);
+        box-shadow: 
+            0 4px 15px rgba(59, 130, 246, 0.2),
+            0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* 小屏手机优化 */
+@media (max-width: 480px) {
+    .filter-tags {
+        gap: 6px;
+    }
+    
+    .filter-tag {
+        padding: 5px 10px;
+        font-size: 12px;
+        min-width: 45px;
+        border-radius: 14px;
+    }
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
     /* 确保页面不会横向滚动 */
@@ -622,6 +766,7 @@
         max-width: 100%;
         box-sizing: border-box;
         overflow-x: hidden;
+        overflow-y: visible !important; /* 确保垂直方向不被剪裁 */
     }
     
     .search-container {
@@ -775,10 +920,10 @@
 .dropdown-menu {
     position: absolute;
     top: 100%;
-    left: auto;
-    right: -10px; /* 改为从右侧展开 */
+    left: 0; /* 改为从左侧展开，避免被相邻元素遮挡 */
+    right: auto;
     min-width: 180px; /* 设置最小宽度 */
-    z-index: 10000; /* 提高图层优先级，确保在标签页按钮之上 */
+    z-index: 99999; /* 超高优先级，确保在所有元素之上 */
     margin-top: 4px;
     border-radius: 10px;
     border: 2px solid rgba(255, 255, 255, 0.6);
@@ -843,17 +988,15 @@
     font-size: 14px;
     z-index: 1; /* 确保选项层级正确 */
     user-select: none; /* 防止文本选择干扰点击 */
+    /* 确保所有选项都有相同的点击区域 */
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    min-height: 40px; /* 确保足够的点击目标尺寸 */
+    line-height: 20px; /* 保持文本居中 */
+    pointer-events: auto; /* 强制启用点击事件 */
 }
 
-/* 特别针对第二个选项的修复 */
-.dropdown-option:nth-child(2) {
-    position: relative;
-    z-index: 10; /* 更高的层级 */
-    pointer-events: auto; /* 强制启用点击事件 */
-    display: block; /* 确保正常显示 */
-    margin: 0; /* 重置边距 */
-    background-clip: padding-box; /* 确保背景不被遮挡 */
-}
 
 .dropdown-option:last-child {
     border-bottom: none;
@@ -863,8 +1006,8 @@
     background: linear-gradient(135deg, 
         rgba(59, 130, 246, 0.3) 0%, 
         rgba(236, 72, 153, 0.2) 100%);
-    /* 移除transform，避免位置偏移影响点击区域 */
-    padding-left: 16px;
+    /* 使用margin代替padding，避免改变点击区域 */
+    margin-left: 4px;
     color: white;
     box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
     /* 确保hover状态下的点击区域正确 */

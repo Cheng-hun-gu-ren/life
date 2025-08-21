@@ -2594,10 +2594,10 @@ body[style*="background-image"] {
 .btn-submit {
     flex: 2;
     padding: 12px 24px;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: #facc15;  /* 黄色背景 */
     border: none;
     border-radius: var(--radius-md);
-    color: white;
+    color: #1f2937;  /* 深色文字确保可读性 */
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 600;
@@ -2606,6 +2606,7 @@ body[style*="background-image"] {
 }
 
 .btn-submit:hover:not(:disabled) {
+    background: #f59e0b;  /* 悬停时稍微深一点的黄色 */
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
 }
@@ -2648,17 +2649,17 @@ body[style*="background-image"] {
 
 .btn-close {
     padding: 12px 24px;
-    background: var(--primary-color);
+    background: #facc15;  /* 黄色背景 */
     border: none;
     border-radius: var(--radius-md);
-    color: white;
+    color: #1f2937;  /* 深色文字确保可读性 */
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 600;
 }
 
 .btn-close:hover {
-    background: var(--secondary-color);
+    background: #f59e0b;  /* 悬停时稍微深一点的黄色 */
     transform: translateY(-2px);
 }
 

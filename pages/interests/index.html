@@ -139,54 +139,10 @@
                         <button id="clearSearchBtn" class="clear-btn" style="display: none;">✕</button>
                     </div>
                     
-                    <div class="filter-container">
-                        <div class="custom-dropdown" id="sortSelect">
-                            <div class="dropdown-trigger">
-                                <span class="dropdown-label">默认排序</span>
-                                <span class="dropdown-arrow">▼</span>
-                            </div>
-                            <div class="dropdown-menu">
-                                <div class="dropdown-option" data-value="id-asc">默认排序</div>
-                                <div class="dropdown-option" data-value="title-asc">标题 A-Z</div>
-                                <div class="dropdown-option" data-value="title-desc">标题 Z-A</div>
-                                <div class="dropdown-option" data-value="rating-desc">评分从高到低</div>
-                                <div class="dropdown-option" data-value="rating-asc">评分从低到高</div>
-                                <div class="dropdown-option" data-value="date-desc">最新优先</div>
-                                <div class="dropdown-option" data-value="date-asc">最早优先</div>
-                            </div>
-                        </div>
-                        
-                        <div class="custom-dropdown" id="statusFilter">
-                            <div class="dropdown-trigger">
-                                <span class="dropdown-label">全部状态</span>
-                                <span class="dropdown-arrow">▼</span>
-                            </div>
-                            <div class="dropdown-menu">
-                                <div class="dropdown-option" data-value="all">全部状态</div>
-                                <!-- 动态选项，根据当前tab显示不同内容 -->
-                            </div>
-                        </div>
-                        
-                        <div class="custom-dropdown" id="categoryFilter">
-                            <div class="dropdown-trigger">
-                                <span class="dropdown-label">全部分类</span>
-                                <span class="dropdown-arrow">▼</span>
-                            </div>
-                            <div class="dropdown-menu">
-                                <div class="dropdown-option" data-value="all">全部分类</div>
-                                <!-- 动态选项，根据当前tab显示不同内容 -->
-                            </div>
-                        </div>
-                        
-                        <div class="custom-dropdown" id="extraFilter">
-                            <div class="dropdown-trigger">
-                                <span class="dropdown-label">全部使用场景</span>
-                                <span class="dropdown-arrow">▼</span>
-                            </div>
-                            <div class="dropdown-menu">
-                                <div class="dropdown-option" data-value="all">全部使用场景</div>
-                                <!-- 动态选项：Books=推荐等级, Movies=情绪标签, Music=使用场景 -->
-                            </div>
+                    <!-- 平铺标签筛选器 -->
+                    <div class="filter-tags-container">
+                        <div class="filter-tags" id="filterTags">
+                            <!-- 标签将由JavaScript动态生成 -->
                         </div>
                     </div>
                 </div>
@@ -411,7 +367,7 @@
     
     <!-- API模块 - 必须在main.js之前加载 -->
     <script src="../../js/api.js"></script>
-    <script src="../../js/custom-dropdown.js"></script>
+    <script src="../../js/tag-filter.js"></script>
     <script src="../../js/main.js"></script>
     <script src="../../js/search.js"></script>
     <script src="../../js/animations.js"></script>
@@ -422,17 +378,65 @@
     <script src="../../js/mobile-gestures.js"></script>
     <script src="../../js/qrcode.js"></script>
     <script>
+        // 筛选变化处理函数
+        function handleFilterChange(currentTab, activeTags) {
+            console.log('🏷️ 筛选变化:', currentTab, activeTags);
+            
+            // 根据当前tab重新渲染对应内容
+            switch (currentTab) {
+                case 'books':
+                    renderBooks(activeTags);
+                    break;
+                case 'movies':
+                    renderMovies(activeTags);
+                    break;
+                case 'music':
+                    renderMusic(activeTags);
+                    break;
+            }
+        }
+        
+        // 增强tab切换函数，触发标签筛选器更新
+        function initTabs() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+                    
+                    // 移除所有激活状态
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // 激活当前tab
+                    button.classList.add('active');
+                    document.getElementById(`${tabId}-content`).classList.add('active');
+                    
+                    // 触发tab切换事件
+                    document.dispatchEvent(new CustomEvent('tabChanged', {
+                        detail: { tab: tabId }
+                    }));
+                    
+                    console.log('📋 Tab切换到:', tabId);
+                });
+            });
+        }
+        
         // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', async function() {
             try {
                 // 先加载数据（调整子页面路径）
                 await loadSubPageData();
                 
-                // 初始化自定义下拉菜单
-                if (window.DropdownManager) {
-                    window.DropdownManager.init('.custom-dropdown', {
-                        hoverDelay: 300,
-                        autoClose: true
+                // 初始化标签筛选器
+                if (window.TagFilterManager) {
+                    window.TagFilterManager.init('filterTags', handleFilterChange);
+                    
+                    // 监听tab切换事件
+                    document.addEventListener('tabChanged', (e) => {
+                        window.TagFilterManager.switchTab(e.detail.tab);
+                        console.log('🔄 标签筛选器响应tab切换:', e.detail.tab);
                     });
                 }
                 
@@ -445,7 +449,7 @@
                 // 初始化页面功能
                 initTabs();
                 
-                // 渲染内容
+                // 渲染内容（使用默认全激活状态）
                 renderBooks();
                 renderMovies(); 
                 renderMusic();

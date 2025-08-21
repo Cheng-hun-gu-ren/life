@@ -390,8 +390,26 @@ html {
     .main-container {
         min-height: 100vh;
         overflow-x: hidden;
+        overflow-y: scroll; /* 强制显示垂直滚动条 */
         -webkit-overflow-scrolling: touch;
         overscroll-behavior-y: contain;
+    }
+    
+    /* 手机端滚动条样式 - 永久可见 */
+    .main-container::-webkit-scrollbar {
+        width: 8px;
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .main-container::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 4px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .main-container::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
     }
     
     /* 为内容容器启用滚动 */

@@ -206,7 +206,7 @@ function initMobileMenu() {
 }
 
 // 渲染书籍 - 使用分页
-function renderBooks() {
+function renderBooks(activeTags = null) {
     if (!booksData) return;
     
     // 如果SearchManager可用且已初始化，使用分页渲染
@@ -221,7 +221,12 @@ function renderBooks() {
     const container = document.getElementById('books-container');
     if (!container) return;
     
-    const allBooks = [...(booksData.currentReading || []), ...(booksData.recentlyFinished || [])].sort((a, b) => a.id - b.id);
+    let allBooks = [...(booksData.currentReading || []), ...(booksData.recentlyFinished || [])].sort((a, b) => a.id - b.id);
+    
+    // 应用标签筛选
+    if (activeTags && activeTags.length > 0 && window.TagFilterManager) {
+        allBooks = allBooks.filter(book => window.TagFilterManager.matchesActiveTags(book, 'books'));
+    }
     
     container.innerHTML = allBooks.map(book => {
         // 优先使用数据库中的封面图片URL
@@ -247,7 +252,7 @@ function renderBooks() {
 }
 
 // 渲染电影 - 使用分页
-function renderMovies() {
+function renderMovies(activeTags = null) {
     if (!moviesData) return;
     
     // 如果SearchManager可用且已初始化，使用分页渲染
@@ -262,7 +267,12 @@ function renderMovies() {
     const container = document.getElementById('movies-container');
     if (!container) return;
     
-    const movies = moviesData.recentWatched || [];
+    let movies = moviesData.recentWatched || [];
+    
+    // 应用标签筛选
+    if (activeTags && activeTags.length > 0 && window.TagFilterManager) {
+        movies = movies.filter(movie => window.TagFilterManager.matchesActiveTags(movie, 'movies'));
+    }
     
     container.innerHTML = movies.sort((a, b) => a.id - b.id).map(movie => {
         // 优先使用数据库中的海报图片URL
@@ -290,7 +300,7 @@ function renderMovies() {
 }
 
 // 渲染音乐 - 使用分页
-function renderMusic() {
+function renderMusic(activeTags = null) {
     if (!musicData) return;
     
     // 如果SearchManager可用且已初始化，使用分页渲染
@@ -307,7 +317,12 @@ function renderMusic() {
     const container = document.getElementById('music-container');
     if (!container) return;
     
-    const music = musicData.currentListening || [];
+    let music = musicData.currentListening || [];
+    
+    // 应用标签筛选
+    if (activeTags && activeTags.length > 0 && window.TagFilterManager) {
+        music = music.filter(song => window.TagFilterManager.matchesActiveTags(song, 'music'));
+    }
     
     container.innerHTML = music.sort((a, b) => a.id - b.id).map(song => {
         // 优先使用数据库中的专辑封面URL
