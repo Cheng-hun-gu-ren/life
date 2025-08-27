@@ -363,7 +363,7 @@ const LifeAPI = {
                     recentWatched: moviesResponse.data || []
                 },
                 music: {
-                    currentListening: musicResponse.data || []
+                    currentListening: Array.isArray(musicResponse.data) ? musicResponse.data : (musicResponse.data ? [musicResponse.data] : [])
                 },
                 marathon: await this.formatMarathonData(marathonResponse.data || [])
             };

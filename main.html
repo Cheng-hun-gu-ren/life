@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/chatbot.css">
 </head>
 <body>
     <!-- 顶部导航栏 -->
@@ -162,8 +163,22 @@
         </div>
     </div>
 
+    <!-- 智能聊天机器人 -->
+    <div class="chatbot-fab" id="chatbotFab">
+        <div class="fab-icon">🤖</div>
+        <div class="fab-text">AI助手</div>
+    </div>
+    
+    <div class="chatbot-modal" id="chatbotModal">
+        <div class="chatbot-modal-content">
+            <div id="chatbotContainer"></div>
+        </div>
+    </div>
+
     <!-- API模块 - 必须在main.js之前加载 -->
     <script src="js/api.js"></script>
+    <script src="js/rag-api.js"></script>
+    <script src="js/chatbot.js"></script>
     <script src="js/main.js"></script>
     <script src="js/animations.js"></script>
     <script src="js/music.js"></script>
@@ -187,7 +202,61 @@
             // }
             
             initPage();
+            initChatbot();
         });
+        
+        // 初始化聊天机器人
+        function initChatbot() {
+            const chatbotFab = document.getElementById('chatbotFab');
+            const chatbotModal = document.getElementById('chatbotModal');
+            const chatbotContainer = document.getElementById('chatbotContainer');
+            let chatbot = null;
+            let isModalOpen = false;
+            
+            // FAB点击事件
+            chatbotFab.addEventListener('click', function() {
+                if (isModalOpen) {
+                    closeChatbotModal();
+                } else {
+                    openChatbotModal();
+                }
+            });
+            
+            // 模态框外部点击关闭
+            chatbotModal.addEventListener('click', function(e) {
+                if (e.target === chatbotModal) {
+                    closeChatbotModal();
+                }
+            });
+            
+            // 打开聊天机器人模态框
+            function openChatbotModal() {
+                chatbotModal.classList.add('active');
+                chatbotFab.classList.add('active');
+                isModalOpen = true;
+                
+                // 延迟初始化聊天机器人，确保DOM已经显示
+                setTimeout(() => {
+                    if (!chatbot) {
+                        chatbot = new ChatBot('chatbotContainer');
+                    }
+                }, 100);
+            }
+            
+            // 关闭聊天机器人模态框
+            function closeChatbotModal() {
+                chatbotModal.classList.remove('active');
+                chatbotFab.classList.remove('active');
+                isModalOpen = false;
+            }
+            
+            // ESC键关闭
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && isModalOpen) {
+                    closeChatbotModal();
+                }
+            });
+        }
     </script>
 </body>
 </html>
