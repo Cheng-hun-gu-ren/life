@@ -136,8 +136,37 @@ npx serve .
 
 - **后端**: Node.js + Express API服务器
 - **数据库**: PostgreSQL with pgvector扩展
-- **AI服务**: Google Gemini API
+- **AI服务**: 阿里云通义千问 (Tongyi Qianwen) API
 - **向量搜索**: 基于embedding的语义相似度匹配
+
+#### 🔑 通义千问API集成详情
+- **服务平台**: 阿里云百练平台 (DashScope)
+- **API Base URL**: `https://dashscope.aliyuncs.com/compatible-mode/v1`
+- **Embedding模型**: `text-embedding-v2` - 用于生成文本向量
+- **Chat模型**: `qwen-turbo` - 用于智能问答和对话生成
+- **API Key**: `sk-46e993f19101460ba7a092bc72dfeeeb`
+
+#### 📍 RAG系统后端文件结构
+```
+/var/www/life-backend/
+├── services/
+│   ├── embeddingService.js      # 通义千问Embedding服务
+│   ├── ragService.js           # RAG智能问答服务
+│   └── vectorSearchService.js  # 向量搜索服务
+├── routes/
+│   └── rag.js                  # RAG API路由
+└── scripts/
+    └── regenerate-embeddings.js # 批量生成embedding脚本
+```
+
+#### 🚀 RAG API端点
+- `POST /api/rag/chat` - 智能问答对话
+- `POST /api/rag/search` - 语义搜索
+- `GET /api/rag/recommend` - 智能推荐
+- `GET /api/rag/similar/:type/:id` - 查找相似内容
+- `POST /api/rag/embedding` - 生成embedding
+- `GET /api/rag/stats` - 系统统计
+- `GET /api/rag/health` - 健康检查
 
 ## 📊 页面功能
 
