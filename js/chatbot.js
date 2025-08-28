@@ -10,14 +10,14 @@ class ChatBot {
         this.messages = [];
         this.isProcessing = false;
         this.suggestions = [
-            "他最近读了什么书？",
-            "他平时喜欢看什么类型的电影？",
-            "他有什么音乐推荐吗？", 
-            "他的阅读品味怎么样？",
-            "他对哪些电影印象深刻？",
-            "他最喜欢的音乐风格是什么？",
-            "能介绍一下他的文化兴趣吗？",
-            "他会推荐哪些经典作品？"
+            "最近在读什么好书吗？",
+            "平时喜欢看什么类型的电影？",
+            "有什么音乐推荐给我吗？", 
+            "你的阅读品味怎么样？",
+            "哪些电影给你印象最深刻？",
+            "你最喜欢什么风格的音乐？",
+            "能聊聊你的文化兴趣吗？",
+            "有什么经典作品想推荐的？"
         ];
         
         this.init();
@@ -39,10 +39,10 @@ class ChatBot {
         this.container.innerHTML = `
             <div class="chatbot-wrapper">
                 <div class="chatbot-header">
-                    <div class="chatbot-avatar">🤖</div>
+                    <div class="chatbot-avatar">😊</div>
                     <div class="chatbot-info">
-                        <h3>智能助手</h3>
-                        <p class="chatbot-status">在线 - 基于您的个人数据</p>
+                        <h3>晨昏故人</h3>
+                        <p class="chatbot-status">在线 - 随时聊聊我的兴趣爱好</p>
                     </div>
                     <button class="chatbot-close" aria-label="关闭">×</button>
                 </div>
@@ -165,15 +165,15 @@ class ChatBot {
      * 显示欢迎消息
      */
     showWelcomeMessage() {
-        const welcomeMessage = `你好！我是这里的智能向导 🤖
+        const welcomeMessage = `嗨朋友！很高兴遇见你 😊
 
-我可以为您介绍网站主人的：
-• 阅读品味和书籍推荐
-• 电影爱好和观影感悟
-• 音乐偏好和收听体验
-• 个人兴趣和文化见解
+我是这里的主人，一个喜欢阅读、看电影和听音乐的人。想和你分享一些我的：
+• 📚 最近读过的好书和阅读感悟
+• 🎬 喜欢的电影类型和观影体验  
+• 🎵 音乐偏好和私人歌单推荐
+• 🌟 其他兴趣爱好和文化见解
 
-想了解他在哪方面的品味呢？`;
+想聊聊哪个话题呢？就像老朋友一样随意聊吧！`;
         
         this.addMessage('bot', welcomeMessage);
     }
@@ -355,17 +355,38 @@ class ChatBot {
      * 处理相关内容点击
      */
     handleRelatedContentClick(type, id, element) {
-        const questions = {
-            'book': `他对这本书有什么看法？能详细介绍一下吗？`,
-            'movie': `他觉得这部电影有什么特别之处？为什么会喜欢？`,
-            'music': `他为什么会喜欢这首歌？有什么特别的感受吗？`
+        const questionPools = {
+            'book': [
+                '你觉得这本书怎么样？为什么会推荐？',
+                '这本书有什么特别吸引你的地方？',
+                '你从这本书中获得了什么感悟？',
+                '这本书的哪个部分最打动你？',
+                '你对这本书有什么看法？能详细介绍一下吗？'
+            ],
+            'movie': [
+                '你觉得这部电影有什么特别之处？为什么会喜欢？',
+                '这部电影给你留下了什么印象？',
+                '你会怎么评价这部电影？',
+                '这部电影的哪个情节最让你难忘？',
+                '你对这部电影有什么独特的见解吗？'
+            ],
+            'music': [
+                '你为什么喜欢这首歌？有什么特别的感受吗？',
+                '这首歌的什么地方最打动你？',
+                '你觉得这首歌适合在什么时候听？',
+                '这首歌给你带来什么样的情感体验？',
+                '你对这首歌有什么特别的回忆或感悟吗？'
+            ]
         };
         
         // 获取内容名称
         const nameElement = element.querySelector('.item-name');
         const contentName = nameElement ? nameElement.textContent.trim() : '';
         
-        const baseQuestion = questions[type] || '能详细介绍一下这个内容吗？';
+        // 随机选择一个问题
+        const questions = questionPools[type] || ['你对这个内容有什么看法？能详细介绍一下吗？'];
+        const randomIndex = Math.floor(Math.random() * questions.length);
+        const baseQuestion = questions[randomIndex];
         
         // 在问题前加上内容名称
         const question = contentName ? `${contentName} ${baseQuestion}` : baseQuestion;
