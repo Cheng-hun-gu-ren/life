@@ -1,107 +1,133 @@
 /* 
- * 智能聊天机器人样式
- * 包含FAB按钮和模态框样式
+ * 智能聊天机器人样式 - 毛玻璃风格
+ * 与网站整体设计风格保持一致
  */
 
-/* ========== FAB按钮样式 ========== */
+/* ========== FAB按钮样式 - 毛玻璃风格 ========== */
 .chatbot-fab {
     position: fixed;
     bottom: 30px;
     right: 30px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-xl);
+    
+    /* 毛玻璃效果 */
+    background: var(--card-background);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    
+    color: var(--text-color);
     cursor: pointer;
-    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: var(--shadow-lg);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: 2px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
     overflow: hidden;
+    
+    /* 发光效果 */
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .chatbot-fab:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+    transform: translateY(-4px) scale(1.05);
+    background: var(--card-hover);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        0 0 20px rgba(102, 126, 234, 0.3);
 }
 
 .chatbot-fab.active {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+    background: rgba(236, 72, 153, 0.15);
+    border-color: rgba(236, 72, 153, 0.4);
+    color: #ec4899;
+    box-shadow: 
+        0 12px 40px rgba(236, 72, 153, 0.2),
+        0 0 0 1px rgba(236, 72, 153, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .fab-icon {
-    font-size: 28px;
+    font-size: 24px;
     transition: all 0.3s ease;
+    line-height: 1;
+    opacity: 0.9;
 }
 
 .fab-text {
-    position: absolute;
-    left: -80px;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 8px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    white-space: nowrap;
-    opacity: 0;
-    transform: translateX(10px);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    opacity: 0.8;
     transition: all 0.3s ease;
-    pointer-events: none;
+    text-transform: uppercase;
+}
+
+.chatbot-fab:hover .fab-icon {
+    opacity: 1;
+    transform: scale(1.1);
 }
 
 .chatbot-fab:hover .fab-text {
     opacity: 1;
-    transform: translateX(0);
 }
 
-/* 脉冲动画效果 */
+/* 呼吸发光效果 */
 .chatbot-fab::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: inherit;
-    animation: pulse 2s infinite;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.5), rgba(236, 72, 153, 0.5));
+    opacity: 0;
     z-index: -1;
+    animation: breathingGlow 3s ease-in-out infinite;
 }
 
-@keyframes pulse {
-    0% {
+@keyframes breathingGlow {
+    0%, 100% {
+        opacity: 0;
         transform: scale(1);
-        opacity: 1;
     }
     50% {
-        transform: scale(1.2);
-        opacity: 0.7;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
+        opacity: 0.3;
+        transform: scale(1.02);
     }
 }
 
-/* ========== 模态框样式 ========== */
+/* ========== 模态框样式 - 毛玻璃风格 ========== */
 .chatbot-modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
     z-index: 10000;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(4px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* 背景毛玻璃效果 */
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .chatbot-modal.active {
@@ -112,11 +138,28 @@
 .chatbot-modal-content {
     position: relative;
     width: 90%;
-    max-width: 400px;
-    height: 80vh;
+    max-width: 420px;
+    height: 75vh;
     max-height: 600px;
-    transform: scale(0.9) translateY(20px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: 500px;
+    border-radius: var(--radius-lg);
+    
+    /* 毛玻璃容器效果 */
+    background: var(--card-background);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    
+    transform: scale(0.9) translateY(40px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* 多层阴影效果 */
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    
+    overflow: hidden;
 }
 
 .chatbot-modal.active .chatbot-modal-content {
@@ -127,9 +170,135 @@
 #chatbotContainer {
     width: 100%;
     height: 100%;
-    border-radius: 16px;
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    
+    /* 内部背景 */
+    background: rgba(255, 255, 255, 0.02);
+    
+    /* 内部边框发光 */
+    position: relative;
+}
+
+#chatbotContainer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 聊天窗口内部样式 */
+.chatbot-header {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chatbot-header h3 {
+    color: var(--text-color);
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    opacity: 0.9;
+}
+
+.chatbot-close {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-sm);
+    color: var(--text-color);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 18px;
+}
+
+.chatbot-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.chatbot-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.chatbot-input-area {
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+}
+
+.chatbot-input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    color: var(--text-color);
+    font-size: 14px;
+    resize: none;
+    min-height: 44px;
+    max-height: 120px;
+    transition: all 0.3s ease;
+}
+
+.chatbot-input:focus {
+    outline: none;
+    border-color: rgba(102, 126, 234, 0.5);
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+}
+
+.chatbot-input::placeholder {
+    color: var(--text-muted-color);
+    opacity: 0.7;
+}
+
+.chatbot-send {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+    border: 1px solid rgba(102, 126, 234, 0.4);
+    border-radius: var(--radius-sm);
+    color: #667eea;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 18px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.chatbot-send:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+    border-color: rgba(102, 126, 234, 0.6);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
 /* ========== 移动端适配 ========== */
@@ -139,27 +308,38 @@
         height: 56px;
         bottom: 20px;
         right: 20px;
+        gap: 1px;
     }
     
     .fab-icon {
-        font-size: 24px;
+        font-size: 20px;
     }
     
     .fab-text {
-        left: -70px;
-        font-size: 11px;
-        padding: 6px 10px;
+        font-size: 9px;
     }
     
     .chatbot-modal-content {
         width: 95%;
-        height: 85vh;
+        height: 80vh;
         max-height: none;
+        border-radius: var(--radius-md);
     }
     
-    /* 移动端时隐藏脉冲动画以提升性能 */
-    .chatbot-fab::before {
-        display: none;
+    #chatbotContainer {
+        border-radius: var(--radius-md);
+    }
+    
+    .chatbot-header {
+        padding: 14px 16px;
+    }
+    
+    .chatbot-messages {
+        padding: 16px;
+    }
+    
+    .chatbot-input-area {
+        padding: 12px 16px;
     }
 }
 
@@ -169,30 +349,36 @@
         height: 100vh;
         max-height: 100vh;
         border-radius: 0;
+        border: none;
     }
     
     #chatbotContainer {
         border-radius: 0;
     }
+    
+    #chatbotContainer::before {
+        border-radius: 0;
+    }
 }
 
-/* ========== 深色模式支持 ========== */
+/* ========== 深色模式增强 ========== */
 @media (prefers-color-scheme: dark) {
     .chatbot-fab {
-        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.6);
-    }
-    
-    .chatbot-fab:hover {
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.7);
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.6),
+            0 0 0 1px rgba(255, 255, 255, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.25);
     }
     
     .chatbot-modal {
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(0, 0, 0, 0.6);
     }
     
-    .fab-text {
-        background: rgba(255, 255, 255, 0.9);
-        color: #333;
+    .chatbot-modal-content {
+        box-shadow: 
+            0 25px 50px rgba(0, 0, 0, 0.7),
+            0 0 0 1px rgba(255, 255, 255, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.25);
     }
 }
 
@@ -202,7 +388,10 @@
     .chatbot-modal,
     .chatbot-modal-content,
     .fab-icon,
-    .fab-text {
+    .fab-text,
+    .chatbot-input,
+    .chatbot-send,
+    .chatbot-close {
         transition: none;
         animation: none;
     }
@@ -212,10 +401,382 @@
     }
 }
 
+/* ========== 高对比度支持 ========== */
+@media (prefers-contrast: high) {
+    .chatbot-fab {
+        border-width: 2px;
+        background: rgba(255, 255, 255, 0.15);
+    }
+    
+    .chatbot-input {
+        border-width: 2px;
+        background: rgba(255, 255, 255, 0.12);
+    }
+    
+    .chatbot-send {
+        border-width: 2px;
+    }
+}
+
 /* ========== 打印样式 ========== */
 @media print {
     .chatbot-fab,
     .chatbot-modal {
         display: none !important;
     }
+}
+
+/* ========== 聊天窗口内容样式 ========== */
+.chatbot-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: var(--text-color);
+    font-family: var(--font-sans);
+}
+
+.chatbot-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin-right: 12px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.chatbot-info h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-color);
+    opacity: 0.95;
+}
+
+.chatbot-status {
+    margin: 0;
+    font-size: 12px;
+    color: var(--text-muted-color);
+    opacity: 0.8;
+    font-weight: 400;
+}
+
+/* 消息样式 */
+.message {
+    margin-bottom: 16px;
+    display: flex;
+    align-items: flex-start;
+    animation: messageSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.message.user {
+    flex-direction: row-reverse;
+}
+
+.message-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.message.user .message-avatar {
+    background: rgba(102, 126, 234, 0.2);
+    color: #667eea;
+    margin-left: 12px;
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+.message.bot .message-avatar {
+    background: rgba(236, 72, 153, 0.15);
+    color: #ec4899;
+    margin-right: 12px;
+    border-color: rgba(236, 72, 153, 0.3);
+}
+
+.message-content {
+    flex: 1;
+    max-width: calc(100% - 44px);
+    min-width: 0;
+}
+
+.message-bubble {
+    padding: 12px 16px;
+    border-radius: 16px;
+    position: relative;
+    word-wrap: break-word;
+    line-height: 1.5;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    /* 多层阴影 */
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.message.user .message-bubble {
+    background: rgba(102, 126, 234, 0.12);
+    color: var(--text-color);
+    border-color: rgba(102, 126, 234, 0.2);
+    margin-left: auto;
+}
+
+.message.bot .message-bubble {
+    background: var(--card-background);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+.message-text {
+    margin-bottom: 0;
+}
+
+.message-time {
+    font-size: 11px;
+    opacity: 0.6;
+    margin-top: 6px;
+    text-align: right;
+    color: var(--text-muted-color);
+}
+
+.message.user .message-time {
+    text-align: left;
+}
+
+/* 相关内容推荐 */
+.related-content {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.related-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 8px;
+    opacity: 0.9;
+}
+
+.related-items {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.related-item {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-sm);
+    padding: 6px 10px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    max-width: 180px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-align: left;
+}
+
+.related-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.item-type {
+    font-weight: 600;
+    color: var(--accent-color);
+    font-size: 10px;
+}
+
+.item-name {
+    color: var(--text-color);
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.item-similarity {
+    color: var(--text-muted-color);
+    font-size: 9px;
+    opacity: 0.8;
+}
+
+/* 建议问题 */
+.chatbot-suggestions {
+    padding: 12px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.suggestions-title {
+    font-size: 12px;
+    color: var(--text-color);
+    margin-bottom: 8px;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+.suggestion-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.suggestion-chip {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-sm);
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    color: var(--text-color);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.suggestion-chip:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+}
+
+/* 输入区域提示 */
+.input-hint {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px 16px;
+    font-size: 11px;
+    color: var(--text-muted-color);
+    opacity: 0.8;
+}
+
+.char-count {
+    font-weight: 500;
+}
+
+.hint-text {
+    font-style: italic;
+}
+
+/* 打字指示器 */
+.typing-message .message-bubble {
+    background: var(--card-background);
+    border-color: var(--border-color);
+}
+
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted-color);
+    font-size: 13px;
+}
+
+.typing-dots {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+}
+
+.typing-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--text-muted-color);
+    animation: typingBounce 1.4s infinite ease-in-out;
+    opacity: 0.7;
+}
+
+.typing-dot:nth-child(2) { 
+    animation-delay: 0.2s; 
+}
+
+.typing-dot:nth-child(3) { 
+    animation-delay: 0.4s; 
+}
+
+/* 发送按钮动画 */
+.sending-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 动画定义 */
+@keyframes messageSlideIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(15px) scale(0.98);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes typingBounce {
+    0%, 60%, 100% { 
+        transform: translateY(0); 
+        opacity: 0.7;
+    }
+    30% { 
+        transform: translateY(-6px); 
+        opacity: 1;
+    }
+}
+
+/* 滚动条样式 */
+.chatbot-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chatbot-messages::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+}
+
+.chatbot-messages::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    transition: background 0.3s ease;
+}
+
+.chatbot-messages::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ========== 焦点可见性 ========== */
+.chatbot-fab:focus-visible,
+.chatbot-input:focus-visible,
+.chatbot-send:focus-visible,
+.chatbot-close:focus-visible,
+.suggestion-chip:focus-visible,
+.related-item:focus-visible {
+    outline: 2px solid rgba(102, 126, 234, 0.8);
+    outline-offset: 2px;
 }

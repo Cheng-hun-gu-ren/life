@@ -1,6 +1,7 @@
 /**
- * 智能聊天机器人组件
+ * 智能聊天机器人组件 - 毛玻璃风格版本
  * 提供RAG智能问答功能的用户界面
+ * 与网站整体设计风格保持一致
  */
 
 class ChatBot {
@@ -9,12 +10,14 @@ class ChatBot {
         this.messages = [];
         this.isProcessing = false;
         this.suggestions = [
-            "推荐几本关于心理学的书籍",
-            "有什么治愈系的音乐推荐吗？",
-            "想看一部让人深思的电影", 
-            "最近读了什么有趣的书？",
-            "有没有适合放松的歌曲？",
-            "推荐一些经典的电影台词"
+            "他最近读了什么书？",
+            "他平时喜欢看什么类型的电影？",
+            "他有什么音乐推荐吗？", 
+            "他的阅读品味怎么样？",
+            "他对哪些电影印象深刻？",
+            "他最喜欢的音乐风格是什么？",
+            "能介绍一下他的文化兴趣吗？",
+            "他会推荐哪些经典作品？"
         ];
         
         this.init();
@@ -30,7 +33,7 @@ class ChatBot {
     }
     
     /**
-     * 创建聊天界面
+     * 创建聊天界面 - 毛玻璃风格
      */
     createChatInterface() {
         this.container.innerHTML = `
@@ -41,7 +44,7 @@ class ChatBot {
                         <h3>智能助手</h3>
                         <p class="chatbot-status">在线 - 基于您的个人数据</p>
                     </div>
-                    <button class="chatbot-minimize" aria-label="最小化">−</button>
+                    <button class="chatbot-close" aria-label="关闭">×</button>
                 </div>
                 
                 <div class="chatbot-messages" id="chatbot-messages">
@@ -53,23 +56,23 @@ class ChatBot {
                 </div>
                 
                 <div class="chatbot-input-area">
-                    <div class="input-wrapper">
-                        <input 
-                            type="text" 
-                            id="chatbot-input" 
-                            placeholder="问我关于书籍、电影、音乐的任何问题..." 
-                            maxlength="500"
-                        />
-                        <button id="chatbot-send" class="send-button" aria-label="发送">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="input-hint">
-                        <span class="char-count">0/500</span>
-                        <span class="hint-text">支持语音输入和智能推荐</span>
-                    </div>
+                    <textarea 
+                        id="chatbot-input" 
+                        class="chatbot-input"
+                        placeholder="问我关于书籍、电影、音乐的任何问题..." 
+                        maxlength="500"
+                        rows="1"
+                    ></textarea>
+                    <button id="chatbot-send" class="chatbot-send" aria-label="发送">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="input-hint">
+                    <span class="char-count">0/500</span>
+                    <span class="hint-text">支持智能推荐和上下文对话</span>
                 </div>
             </div>
         `;
@@ -81,354 +84,22 @@ class ChatBot {
         this.charCount = this.container.querySelector('.char-count');
         
         this.renderSuggestions();
-        this.applyChatbotStyles();
+        this.setupAutoResize();
     }
     
     /**
-     * 应用聊天机器人样式
+     * 设置输入框自动调整高度
      */
-    applyChatbotStyles() {
-        if (document.getElementById('chatbot-styles')) return;
-        
-        const styles = document.createElement('style');
-        styles.id = 'chatbot-styles';
-        styles.textContent = `
-            .chatbot-wrapper {
-                display: flex;
-                flex-direction: column;
-                height: 600px;
-                background: white;
-                border-radius: 16px;
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-                overflow: hidden;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            }
+    setupAutoResize() {
+        this.inputField.addEventListener('input', () => {
+            // 重置高度以获取正确的scrollHeight
+            this.inputField.style.height = 'auto';
             
-            .chatbot-header {
-                display: flex;
-                align-items: center;
-                padding: 16px 20px;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
-            }
-            
-            .chatbot-avatar {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.2);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 20px;
-                margin-right: 12px;
-            }
-            
-            .chatbot-info h3 {
-                margin: 0;
-                font-size: 16px;
-                font-weight: 600;
-            }
-            
-            .chatbot-status {
-                margin: 0;
-                font-size: 12px;
-                opacity: 0.9;
-            }
-            
-            .chatbot-minimize {
-                margin-left: auto;
-                background: none;
-                border: none;
-                color: white;
-                font-size: 20px;
-                cursor: pointer;
-                padding: 4px 8px;
-                border-radius: 4px;
-                transition: background-color 0.2s;
-            }
-            
-            .chatbot-minimize:hover {
-                background: rgba(255, 255, 255, 0.2);
-            }
-            
-            .chatbot-messages {
-                flex: 1;
-                overflow-y: auto;
-                padding: 16px;
-                background: #f8f9fa;
-            }
-            
-            .message {
-                margin-bottom: 16px;
-                display: flex;
-                align-items: flex-start;
-                animation: messageSlideIn 0.3s ease-out;
-            }
-            
-            .message.user {
-                flex-direction: row-reverse;
-            }
-            
-            .message-avatar {
-                width: 32px;
-                height: 32px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 14px;
-                flex-shrink: 0;
-            }
-            
-            .message.user .message-avatar {
-                background: #007bff;
-                color: white;
-                margin-left: 8px;
-            }
-            
-            .message.bot .message-avatar {
-                background: linear-gradient(135deg, #667eea, #764ba2);
-                color: white;
-                margin-right: 8px;
-            }
-            
-            .message-content {
-                flex: 1;
-                max-width: 80%;
-            }
-            
-            .message-bubble {
-                padding: 12px 16px;
-                border-radius: 18px;
-                position: relative;
-                word-wrap: break-word;
-                line-height: 1.4;
-            }
-            
-            .message.user .message-bubble {
-                background: #007bff;
-                color: white;
-                margin-left: auto;
-            }
-            
-            .message.bot .message-bubble {
-                background: white;
-                color: #333;
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            }
-            
-            .message-time {
-                font-size: 11px;
-                opacity: 0.6;
-                margin-top: 4px;
-                text-align: right;
-            }
-            
-            .message.user .message-time {
-                text-align: left;
-            }
-            
-            .related-content {
-                margin-top: 12px;
-            }
-            
-            .related-title {
-                font-size: 12px;
-                font-weight: 600;
-                color: #666;
-                margin-bottom: 8px;
-            }
-            
-            .related-items {
-                display: flex;
-                gap: 8px;
-                flex-wrap: wrap;
-            }
-            
-            .related-item {
-                background: #f0f2ff;
-                border: 1px solid #e0e6ff;
-                border-radius: 8px;
-                padding: 6px 10px;
-                font-size: 11px;
-                cursor: pointer;
-                transition: all 0.2s;
-                max-width: 200px;
-            }
-            
-            .related-item:hover {
-                background: #e0e6ff;
-                border-color: #c0ccff;
-            }
-            
-            .related-item .item-type {
-                display: inline-block;
-                font-weight: 600;
-                margin-right: 4px;
-            }
-            
-            .related-item .item-name {
-                display: block;
-                color: #333;
-                font-weight: 500;
-            }
-            
-            .related-item .item-similarity {
-                display: block;
-                color: #666;
-                font-size: 10px;
-            }
-            
-            .chatbot-suggestions {
-                padding: 12px 16px;
-                border-top: 1px solid #eee;
-                background: white;
-            }
-            
-            .suggestions-title {
-                font-size: 12px;
-                color: #666;
-                margin-bottom: 8px;
-                font-weight: 600;
-            }
-            
-            .suggestion-chips {
-                display: flex;
-                gap: 6px;
-                flex-wrap: wrap;
-            }
-            
-            .suggestion-chip {
-                background: #f8f9fa;
-                border: 1px solid #dee2e6;
-                border-radius: 12px;
-                padding: 4px 10px;
-                font-size: 12px;
-                cursor: pointer;
-                transition: all 0.2s;
-                white-space: nowrap;
-            }
-            
-            .suggestion-chip:hover {
-                background: #e9ecef;
-                border-color: #adb5bd;
-            }
-            
-            .chatbot-input-area {
-                padding: 16px;
-                background: white;
-                border-top: 1px solid #eee;
-            }
-            
-            .input-wrapper {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
-            
-            #chatbot-input {
-                flex: 1;
-                border: 1px solid #ddd;
-                border-radius: 24px;
-                padding: 10px 16px;
-                outline: none;
-                transition: border-color 0.2s;
-                font-size: 14px;
-            }
-            
-            #chatbot-input:focus {
-                border-color: #667eea;
-            }
-            
-            .send-button {
-                width: 40px;
-                height: 40px;
-                border: none;
-                border-radius: 50%;
-                background: linear-gradient(135deg, #667eea, #764ba2);
-                color: white;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: transform 0.2s;
-            }
-            
-            .send-button:hover:not(:disabled) {
-                transform: scale(1.05);
-            }
-            
-            .send-button:disabled {
-                opacity: 0.6;
-                cursor: not-allowed;
-            }
-            
-            .input-hint {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-top: 6px;
-                font-size: 11px;
-                color: #666;
-            }
-            
-            .typing-indicator {
-                display: flex;
-                align-items: center;
-                padding: 12px 16px;
-                background: white;
-                border-radius: 18px;
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-                margin-bottom: 16px;
-            }
-            
-            .typing-dots {
-                display: flex;
-                gap: 4px;
-                margin-left: 8px;
-            }
-            
-            .typing-dot {
-                width: 6px;
-                height: 6px;
-                border-radius: 50%;
-                background: #999;
-                animation: typingBounce 1.4s infinite;
-            }
-            
-            .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-            .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-            
-            @keyframes messageSlideIn {
-                from { opacity: 0; transform: translateY(10px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-            
-            @keyframes typingBounce {
-                0%, 60%, 100% { transform: translateY(0); }
-                30% { transform: translateY(-10px); }
-            }
-            
-            .chatbot-messages::-webkit-scrollbar {
-                width: 4px;
-            }
-            
-            .chatbot-messages::-webkit-scrollbar-track {
-                background: #f1f1f1;
-            }
-            
-            .chatbot-messages::-webkit-scrollbar-thumb {
-                background: #c1c1c1;
-                border-radius: 2px;
-            }
-            
-            .chatbot-messages::-webkit-scrollbar-thumb:hover {
-                background: #a1a1a1;
-            }
-        `;
-        
-        document.head.appendChild(styles);
+            // 设置新高度，限制在1-4行之间
+            const maxHeight = parseFloat(getComputedStyle(this.inputField).lineHeight) * 4;
+            const newHeight = Math.min(this.inputField.scrollHeight, maxHeight);
+            this.inputField.style.height = newHeight + 'px';
+        });
     }
     
     /**
@@ -440,55 +111,85 @@ class ChatBot {
             this.sendMessage();
         });
         
-        // 输入框回车
-        this.inputField.addEventListener('keypress', (e) => {
+        // 输入框回车（Shift+Enter换行，Enter发送）
+        this.inputField.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 this.sendMessage();
             }
         });
         
-        // 字符计数
+        // 字符计数和输入状态
         this.inputField.addEventListener('input', (e) => {
             const length = e.target.value.length;
             this.charCount.textContent = `${length}/500`;
             
+            // 根据字符数量改变颜色
             if (length > 450) {
-                this.charCount.style.color = '#ff4757';
+                this.charCount.style.color = '#ef4444';
             } else if (length > 400) {
-                this.charCount.style.color = '#ffa502';
+                this.charCount.style.color = '#f59e0b';
             } else {
-                this.charCount.style.color = '#666';
+                this.charCount.style.color = 'var(--text-muted-color)';
             }
+            
+            // 控制发送按钮状态
+            this.sendButton.style.opacity = length > 0 ? '1' : '0.6';
         });
         
-        // 最小化按钮
-        this.container.querySelector('.chatbot-minimize').addEventListener('click', () => {
-            this.toggleMinimize();
-        });
+        // 关闭按钮
+        const closeBtn = this.container.querySelector('.chatbot-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                this.closeChatbot();
+            });
+        }
+    }
+    
+    /**
+     * 关闭聊天机器人
+     */
+    closeChatbot() {
+        const modal = document.getElementById('chatbotModal');
+        const fab = document.getElementById('chatbotFab');
+        
+        if (modal) {
+            modal.classList.remove('active');
+        }
+        if (fab) {
+            fab.classList.remove('active');
+        }
     }
     
     /**
      * 显示欢迎消息
      */
     showWelcomeMessage() {
-        const welcomeMessage = "你好！我是基于您个人数据的智能助手 🤖\n\n我可以帮您：\n• 推荐书籍、电影、音乐\n• 回答关于您收藏的问题\n• 发现相似的内容\n• 根据心情推荐合适的内容\n\n请问您想了解什么呢？";
+        const welcomeMessage = `你好！我是这里的智能向导 🤖
+
+我可以为您介绍网站主人的：
+• 阅读品味和书籍推荐
+• 电影爱好和观影感悟
+• 音乐偏好和收听体验
+• 个人兴趣和文化见解
+
+想了解他在哪方面的品味呢？`;
         
         this.addMessage('bot', welcomeMessage);
     }
     
     /**
-     * 渲染建议问题
+     * 渲染建议问题 - 毛玻璃风格
      */
     renderSuggestions() {
         const shuffled = [...this.suggestions].sort(() => Math.random() - 0.5);
-        const displaySuggestions = shuffled.slice(0, 4);
+        const displaySuggestions = shuffled.slice(0, 3);
         
         this.suggestionsContainer.innerHTML = `
             <div class="suggestions-title">💡 试试问我这些问题：</div>
             <div class="suggestion-chips">
                 ${displaySuggestions.map(suggestion => 
-                    `<div class="suggestion-chip" data-suggestion="${suggestion}">${suggestion}</div>`
+                    `<button class="suggestion-chip" data-suggestion="${suggestion}" type="button">${suggestion}</button>`
                 ).join('')}
             </div>
         `;
@@ -498,7 +199,9 @@ class ChatBot {
             chip.addEventListener('click', (e) => {
                 const suggestion = e.target.getAttribute('data-suggestion');
                 this.inputField.value = suggestion;
-                this.sendMessage();
+                this.inputField.focus();
+                // 触发input事件以更新字符计数
+                this.inputField.dispatchEvent(new Event('input'));
             });
         });
     }
@@ -516,7 +219,10 @@ class ChatBot {
         // 添加用户消息
         this.addMessage('user', message);
         this.inputField.value = '';
+        this.inputField.style.height = 'auto';
         this.charCount.textContent = '0/500';
+        this.charCount.style.color = 'var(--text-muted-color)';
+        this.sendButton.style.opacity = '0.6';
         
         // 隐藏建议
         this.suggestionsContainer.style.display = 'none';
@@ -546,22 +252,24 @@ class ChatBot {
                 }
                 
             } else {
-                this.addMessage('bot', '抱歉，我现在无法处理您的问题，请稍后再试。');
+                this.addMessage('bot', '抱歉，我现在无法处理您的问题，请稍后再试。💭');
             }
             
         } catch (error) {
             console.error('❌ 发送消息失败:', error);
             this.hideTypingIndicator();
             
-            let errorMessage = '抱歉，出现了一些技术问题。';
+            let errorMessage = '抱歉，出现了一些技术问题。🔧';
             if (error.message.includes('timeout')) {
-                errorMessage = '响应时间过长，请尝试简化您的问题。';
+                errorMessage = '响应时间过长，请尝试简化您的问题。⏱️';
             } else if (error.message.includes('rate limit')) {
-                errorMessage = '请求过于频繁，请稍后再试。';
+                errorMessage = '请求过于频繁，请稍后再试。⚡';
             }
             
             this.addMessage('bot', errorMessage);
-            RAGErrorHandler.handleNetworkError(error);
+            if (window.RAGErrorHandler) {
+                RAGErrorHandler.handleNetworkError(error);
+            }
         } finally {
             this.isProcessing = false;
             this.updateSendButton(false);
@@ -569,7 +277,7 @@ class ChatBot {
     }
     
     /**
-     * 添加消息到聊天界面
+     * 添加消息到聊天界面 - 毛玻璃风格
      */
     addMessage(sender, content, relatedContent = null) {
         const messageId = 'msg_' + Date.now();
@@ -583,7 +291,8 @@ class ChatBot {
         messageElement.id = messageId;
         
         const avatar = sender === 'user' ? '👤' : '🤖';
-        const formattedContent = content.replace(/\\n/g, '\\n').replace(/\\n/g, '<br>');
+        // 处理换行符
+        const formattedContent = content.replace(/\n/g, '<br>');
         
         let relatedContentHtml = '';
         if (relatedContent && relatedContent.length > 0) {
@@ -591,11 +300,11 @@ class ChatBot {
                 const typeEmoji = this.getTypeEmoji(item.type);
                 const similarity = Math.round(item.similarity * 100);
                 return `
-                    <div class="related-item" data-type="${item.type}" data-id="${item.id}">
+                    <button class="related-item" data-type="${item.type}" data-id="${item.id}" type="button">
                         <span class="item-type">${typeEmoji} ${this.getTypeDisplayName(item.type)}</span>
                         <span class="item-name">${item.name}</span>
                         <span class="item-similarity">相似度: ${similarity}%</span>
-                    </div>
+                    </button>
                 `;
             }).join('');
             
@@ -611,7 +320,7 @@ class ChatBot {
             <div class="message-avatar">${avatar}</div>
             <div class="message-content">
                 <div class="message-bubble">
-                    ${formattedContent}
+                    <div class="message-text">${formattedContent}</div>
                     ${relatedContentHtml}
                 </div>
                 <div class="message-time">${time}</div>
@@ -627,7 +336,7 @@ class ChatBot {
                 item.addEventListener('click', (e) => {
                     const type = e.currentTarget.getAttribute('data-type');
                     const id = e.currentTarget.getAttribute('data-id');
-                    this.handleRelatedContentClick(type, id);
+                    this.handleRelatedContentClick(type, id, e.currentTarget);
                 });
             });
         }
@@ -645,32 +354,49 @@ class ChatBot {
     /**
      * 处理相关内容点击
      */
-    handleRelatedContentClick(type, id) {
+    handleRelatedContentClick(type, id, element) {
         const questions = {
-            'book': `给我详细介绍一下这本书的内容和您的读后感`,
-            'movie': `这部电影有什么特别之处吗？您最喜欢哪个部分？`,
-            'music': `这首歌为什么打动您？能分享一下听歌时的感受吗？`
+            'book': `他对这本书有什么看法？能详细介绍一下吗？`,
+            'movie': `他觉得这部电影有什么特别之处？为什么会喜欢？`,
+            'music': `他为什么会喜欢这首歌？有什么特别的感受吗？`
         };
         
-        const question = questions[type] || '能详细介绍一下这个内容吗？';
+        // 获取内容名称
+        const nameElement = element.querySelector('.item-name');
+        const contentName = nameElement ? nameElement.textContent.trim() : '';
+        
+        const baseQuestion = questions[type] || '能详细介绍一下这个内容吗？';
+        
+        // 在问题前加上内容名称
+        const question = contentName ? `${contentName} ${baseQuestion}` : baseQuestion;
+        
         this.inputField.value = question;
-        this.sendMessage();
+        this.inputField.focus();
+        // 触发input事件以更新字符计数和按钮状态
+        this.inputField.dispatchEvent(new Event('input'));
     }
     
     /**
-     * 显示打字指示器
+     * 显示打字指示器 - 毛玻璃风格
      */
     showTypingIndicator() {
         const indicator = document.createElement('div');
-        indicator.className = 'typing-indicator';
+        indicator.className = 'message bot typing-message';
         indicator.id = 'typing-indicator';
+        
         indicator.innerHTML = `
             <div class="message-avatar">🤖</div>
-            正在思考中...
-            <div class="typing-dots">
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
+            <div class="message-content">
+                <div class="message-bubble">
+                    <div class="typing-indicator">
+                        <span>正在思考中</span>
+                        <div class="typing-dots">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         `;
         
@@ -697,12 +423,13 @@ class ChatBot {
         
         if (isProcessing) {
             this.sendButton.innerHTML = `
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="3" fill="currentColor">
-                        <animate attributeName="r" values="3;6;3" dur="1s" repeatCount="indefinite"/>
-                        <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite"/>
-                    </circle>
-                </svg>
+                <div class="sending-spinner">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="3" fill="currentColor">
+                            <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/>
+                        </circle>
+                    </svg>
+                </div>
             `;
         } else {
             this.sendButton.innerHTML = `
@@ -723,28 +450,12 @@ class ChatBot {
     }
     
     /**
-     * 切换最小化状态
-     */
-    toggleMinimize() {
-        const wrapper = this.container.querySelector('.chatbot-wrapper');
-        const isMinimized = wrapper.style.height === '60px';
-        
-        if (isMinimized) {
-            wrapper.style.height = '600px';
-            this.container.querySelector('.chatbot-minimize').textContent = '−';
-        } else {
-            wrapper.style.height = '60px';
-            this.container.querySelector('.chatbot-minimize').textContent = '+';
-        }
-    }
-    
-    /**
      * 获取类型表情符号
      */
     getTypeEmoji(type) {
         const emojiMap = {
             'book': '📚',
-            'movie': '🎬',
+            'movie': '🎬', 
             'music': '🎵'
         };
         return emojiMap[type] || '📄';
@@ -778,6 +489,17 @@ class ChatBot {
      */
     getChatHistory() {
         return [...this.messages];
+    }
+    
+    /**
+     * 销毁实例
+     */
+    destroy() {
+        if (this.container) {
+            this.container.innerHTML = '';
+        }
+        this.messages = [];
+        this.isProcessing = false;
     }
 }
 

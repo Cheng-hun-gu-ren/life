@@ -349,7 +349,7 @@ const LifeAPI = {
             const [booksResponse, moviesResponse, musicResponse, marathonResponse] = await Promise.all([
                 this.getBooks(),
                 this.getMovies(),
-                this.getCurrentMusic(),
+                this.getMusic(),  // 修复: 使用 getMusic() 而不是 getCurrentMusic()
                 this.getMarathons()
             ]);
 
