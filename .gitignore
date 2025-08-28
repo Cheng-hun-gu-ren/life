@@ -16,3 +16,9 @@ Thumbs.db
 # 临时文件
 *.tmp
 *.temp
+
+# Claude Code 个人配置
+.claude/
+
+# 包含敏感信息的配置文件
+rag_config.json

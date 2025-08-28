@@ -1,0 +1,28 @@
+{
+  "api_base": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+  "embedding_model": "text-embedding-v2",
+  "chat_model": "qwen-turbo",
+  "api_key": "your-api-key-here",
+  "api_endpoints": {
+    "chat": "http://localhost:3000/api/rag/chat",
+    "search": "http://localhost:3000/api/rag/search",
+    "health": "http://localhost:3000/api/rag/health",
+    "recommend": "http://localhost:3000/api/rag/recommend",
+    "stats": "http://localhost:3000/api/rag/stats"
+  },
+  "performance_thresholds": {
+    "max_response_time_ms": 2000,
+    "min_success_rate": 90,
+    "min_quality_score": 70
+  },
+  "monitoring": {
+    "enabled": true,
+    "test_queries": [
+      "推荐几本关于心理学的书籍",
+      "有什么治愈系的音乐推荐吗？",
+      "想看一部让人深思的电影",
+      "最近读了什么有趣的书？",
+      "介绍一下你的教育背景"
+    ]
+  }
+}

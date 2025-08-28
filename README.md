@@ -78,6 +78,14 @@ life-homepage/
 │   ├── schools/           # 学校图片 (新增)
 │   ├── qrcodes/           # 二维码图片 (新增)
 │   └── README.md          # 图片说明文档
+├── subagent-configs.md      # Claude Code Subagent配置文档
+├── rag_config.example.json   # RAG配置文件模板 
+├── scripts/                  # ML工程师专用脚本
+│   └── ml_hooks/            # 自动化hooks脚本
+│       ├── experiment_tracker.py      # 实验追踪
+│       ├── rag_performance_monitor.py # RAG性能监控
+│       ├── data_quality_monitor.py    # 数据质量检查
+│       └── README.md                  # Hooks系统说明
 └── README.md              # 项目说明文档
 ```
 
@@ -463,6 +471,7 @@ images/marathon/scene-赛事-X.jpg # 现场照片
 - **字体**: Google Fonts (Nunito)
 - **图标**: 自定义SVG图标 + Emoji
 - **后端API**: Node.js + Express + MySQL + PostgreSQL
+- **ML工程师工具**: Claude Code Hooks + 专业化Subagents
 - **部署**: 静态前端 + API服务器
 
 ## 🌐 部署信息
@@ -517,7 +526,7 @@ images/marathon/scene-赛事-X.jpg # 现场照片
 - **二维码弹窗功能**: 微信和公众号二维码快速展示
 - **个性化内容**: 校训采用主页字体风格，体验内容散文化
 
-### 阶段8: RAG智能问答系统集成 (最新完成) 🚀
+### 阶段8: RAG智能问答系统集成 (已完成) 🚀
 
 - **RAG架构实现**: 集成Retrieval-Augmented Generation技术
 - **双数据库支持**: MySQL业务数据 + PostgreSQL向量搜索
@@ -525,6 +534,15 @@ images/marathon/scene-赛事-X.jpg # 现场照片
 - **语义搜索功能**: 基于向量相似度的智能内容检索
 - **个性化推荐**: 根据用户兴趣和心情的智能推荐系统
 - **API架构升级**: 传统API + RAG API的双轨制架构
+
+### 阶段9: ML工程师开发环境优化 (最新完成) 🔬
+
+- **Claude Code Hooks系统**: 专为ML工程师设计的自动化hooks
+- **实验追踪自动化**: 自动记录模型调参和训练实验
+- **RAG性能监控**: 实时监控RAG系统API性能和响应质量
+- **数据质量检查**: 持续监控数据文件完整性和质量指标
+- **Subagent配置**: 精选8个ML相关的专业化AI助手
+- **自动化文档**: hooks自动更新README实验指标和性能数据
 
 ### 当前状态
 
@@ -545,6 +563,50 @@ images/marathon/scene-赛事-X.jpg # 现场照片
 ## 🤝 贡献
 
 这是个人项目，主要用于展示个人生活动态。如有建议或发现问题，欢迎交流。
+
+## 🔬 ML工程师开发环境
+
+### Hooks系统使用
+
+本项目配置了专为ML工程师设计的Claude Code Hooks系统，自动化常见的ML开发流程：
+
+#### 自动化功能
+- **实验追踪**: 每次文件修改后自动记录实验类型和参数变更
+- **RAG性能监控**: 命令执行后自动检测RAG系统性能
+- **数据质量检查**: 持续监控数据文件的完整性和质量
+
+#### 使用方法
+1. 在Claude Code中进行正常的开发工作
+2. Hooks会在后台自动运行监控脚本
+3. 查看自动更新的README实验指标部分
+4. 检查 `experiments/`、`rag_performance/`、`data_quality/` 目录下的详细日志
+
+### Subagent配置
+
+项目包含8个专业化AI助手配置：
+- `ml-trainer` - 大模型训练专家
+- `data-scientist` - 数据分析专家  
+- `mlops-engineer` - ML运维专家
+- `rag-specialist` - RAG技术专家
+- `code-archaeologist` - 代码历史分析
+- `git-master` - Git版本控制
+- `perf-optimizer` - 性能优化
+- `infra-architect` - 基础设施设计
+
+### 配置文件
+
+#### RAG配置
+复制 `rag_config.example.json` 为 `rag_config.json` 并填入实际的API密钥：
+
+```bash
+cp rag_config.example.json rag_config.json
+# 编辑 rag_config.json 填入你的API密钥
+```
+
+#### Claude Code配置
+- Subagent配置已保存在 `subagent-configs.md`
+- Hooks配置已应用到用户级别，在任何项目中都会生效
+- 将 `scripts/ml_hooks/` 复制到其他ML项目中即可使用相同的监控功能
 
 ## 📄 许可证
 

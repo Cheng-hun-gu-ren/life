@@ -512,9 +512,9 @@
         z-index: 10001;
         pointer-events: none;
         
-        /* 淡入淡出动画 */
-        animation: hintFadeInOut 4s ease-in-out;
-        animation-delay: 1s;
+        /* 淡入淡出动画 - 2秒后自动淡出 */
+        animation: hintFadeInOut 2.5s ease-in-out;
+        animation-delay: 0.5s;
     }
     
     /* 优化聊天区域的安全边距 */
@@ -531,8 +531,8 @@
 /* 提示动画 */
 @keyframes hintFadeInOut {
     0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
-    20% { opacity: 0.9; transform: translateX(-50%) translateY(0); }
-    80% { opacity: 0.9; transform: translateX(-50%) translateY(0); }
+    30% { opacity: 0.9; transform: translateX(-50%) translateY(0); }
+    70% { opacity: 0.9; transform: translateX(-50%) translateY(0); }
     100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
 }
 
