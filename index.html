@@ -408,6 +408,14 @@
             }, 800);
         }
 
+        // 跳转到后台上传页
+        function goToAdminUpload() {
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = '/admin-upload.html';
+            }, 800);
+        }
+
         // Create floating particles
         function createFloatingParticles() {
             const particleCount = 5;
@@ -519,6 +527,10 @@
             const avatarRect = avatar.getBoundingClientRect();
             const avatarCenterX = avatarRect.left + avatarRect.width / 2;
             const avatarCenterY = avatarRect.top + avatarRect.height / 2;
+
+            avatar.addEventListener('click', () => {
+                goToAdminUpload();
+            });
 
             document.addEventListener('mousemove', (e) => {
                 const { clientX, clientY } = e;
