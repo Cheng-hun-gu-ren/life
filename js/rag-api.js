@@ -8,8 +8,10 @@ const RAG_CONFIG = {
     // 继承基础API配置
     baseURL: (() => {
         const isHTTPS = window.location.protocol === 'https:';
-        const isDomain = window.location.hostname === 'life.chenggao.top';
-        
+        const hostname = window.location.hostname;
+        // 支持多个域名：chenhun.me 和 chenggao.top
+        const isDomain = hostname.includes('chenhun.me') || hostname.includes('chenggao.top');
+
         if (isDomain && isHTTPS) {
             return 'https://api.chenhun.me';
         } else if (isDomain) {

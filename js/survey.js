@@ -7,8 +7,10 @@ class SurveyManager {
     }
 
     getApiBaseUrl() {
-        const isDomain = window.location.hostname === 'life.chenggao.top';
-        
+        const hostname = window.location.hostname;
+        // 支持多个域名：chenhun.me 和 chenggao.top
+        const isDomain = hostname.includes('chenhun.me') || hostname.includes('chenggao.top');
+
         if (isDomain) {
             console.log('🔄 Survey: 使用API子域名');
             return 'https://api.chenhun.me';

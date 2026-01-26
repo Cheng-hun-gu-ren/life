@@ -152,8 +152,10 @@ const DetailsDataManager = {
     // 获取API基础URL - 与api.js保持一致
     getApiBaseUrl() {
         const isHTTPS = window.location.protocol === 'https:';
-        const isDomain = window.location.hostname === 'life.chenggao.top';
-        
+        const hostname = window.location.hostname;
+        // 支持多个域名：chenhun.me 和 chenggao.top
+        const isDomain = hostname.includes('chenhun.me') || hostname.includes('chenggao.top');
+
         if (isDomain && isHTTPS) {
             console.log('🔒 Details HTTPS环境: 使用HTTPS API');
             return 'https://api.chenhun.me';

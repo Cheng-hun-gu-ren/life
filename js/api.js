@@ -8,10 +8,12 @@ const API_CONFIG = {
     // 智能API地址选择 - 解决Mixed Content问题
     baseURL: (() => {
         const isHTTPS = window.location.protocol === 'https:';
-        const isDomain = window.location.hostname === 'life.chenggao.top';
-        
-        console.log(`🌐 检测到访问环境: ${window.location.protocol}//${window.location.hostname}`);
-        
+        const hostname = window.location.hostname;
+        // 支持多个域名：chenhun.me 和 chenggao.top
+        const isDomain = hostname.includes('chenhun.me') || hostname.includes('chenggao.top');
+
+        console.log(`🌐 检测到访问环境: ${window.location.protocol}//${hostname}`);
+
         if (isDomain && isHTTPS) {
             // HTTPS域名环境: 使用HTTPS API避免Mixed Content
             console.log('🔒 HTTPS环境: 使用HTTPS API');
