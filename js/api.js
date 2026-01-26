@@ -15,11 +15,11 @@ const API_CONFIG = {
         if (isDomain && isHTTPS) {
             // HTTPS域名环境: 使用HTTPS API避免Mixed Content
             console.log('🔒 HTTPS环境: 使用HTTPS API');
-            return 'https://api.chenggao.top';
+            return 'https://api.chenhun.me';
         } else if (isDomain) {
             // HTTP域名环境: 使用HTTP API
             console.log('🔄 HTTP域名环境: 使用HTTP API');
-            return 'http://api.chenggao.top';
+            return 'http://api.chenhun.me';
         } else {
             // 本地开发环境: 直接使用IP和端口
             console.log('💻 本地开发环境: 使用服务器IP');
