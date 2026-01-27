@@ -13,9 +13,9 @@ const RAG_CONFIG = {
         const isDomain = hostname.includes('chenhun.me') || hostname.includes('chenggao.top');
 
         if (isDomain && isHTTPS) {
-            return 'https://api.chenhun.me';
+            return 'https://api.chenggao.top';
         } else if (isDomain) {
-            return 'http://api.chenhun.me';
+            return 'http://api.chenggao.top';
         } else {
             return 'http://47.115.72.85:3001';
         }

@@ -158,10 +158,10 @@ const DetailsDataManager = {
 
         if (isDomain && isHTTPS) {
             console.log('🔒 Details HTTPS环境: 使用HTTPS API');
-            return 'https://api.chenhun.me';
+            return 'https://api.chenggao.top';
         } else if (isDomain) {
             console.log('🔄 Details HTTP环境: 使用HTTP API');
-            return 'http://api.chenhun.me';
+            return 'http://api.chenggao.top';
         } else {
             console.log('💻 Details 本地开发环境: 使用服务器IP');
             return 'http://47.115.72.85:3001';

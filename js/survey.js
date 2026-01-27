@@ -13,7 +13,7 @@ class SurveyManager {
 
         if (isDomain) {
             console.log('🔄 Survey: 使用API子域名');
-            return 'https://api.chenhun.me';
+            return 'https://api.chenggao.top';
         } else {
             console.log('💻 Survey: 本地开发环境');
             return 'http://47.115.72.85:3001';
