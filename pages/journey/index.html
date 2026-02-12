@@ -256,8 +256,8 @@
                             <p><strong>天气：</strong>${race.weather}</p>
                         </div>
                         ${race.certificate ? `<div class="race-images">
-                            <img src="../../${race.certificate}" alt="比赛证书" class="race-image" onerror="this.style.display='none'">
-                            ${race.medal ? `<img src="../../${race.medal}" alt="奖牌" class="race-image" onerror="this.style.display='none'">` : ''}
+                            <img src="${race.certificate.startsWith('http') ? race.certificate : '../../' + race.certificate}" alt="比赛证书" class="race-image" onerror="this.style.display='none'">
+                            ${race.medal ? `<img src="${race.medal.startsWith('http') ? race.medal : '../../' + race.medal}" alt="奖牌" class="race-image" onerror="this.style.display='none'">` : ''}
                         </div>` : ''}
                     </div>
                     <div class="race-experience">
