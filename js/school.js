@@ -4,7 +4,7 @@ const schoolData = {
         name: '哈尔滨工业大学（威海）',
         motto: '规格严格，功夫到家',
         website: 'https://www.hitwh.edu.cn',
-        image: '../../images/schools/哈工大威海.jpg',
+        image: 'https://personl-website.oss-cn-shenzhen.aliyuncs.com/life-images-upload/schools/hit-weihai.jpg',
         imageSource: '哈尔滨工业大学威海 公众号',
         experience: `威海的海，常年托着云卷云舒。校园沿海而建，西门出去走不远就是金沙滩。北方小城没有喧嚣，四季分明，夏天不热，冬天蛮冷哈哈哈。冬天会下雪，白茫茫一片很漂亮。大三在校内与室友合租了一处校内的大房子，极大提升了就读体验。感觉这里生活很慢（也有可能是我大学不爱学习的缘故），安逸自然。
         
@@ -17,7 +17,7 @@ const schoolData = {
         name: '香港中文大学（深圳）',
         motto: '博文约礼',
         website: 'https://www.cuhk.edu.cn',
-        image: '../../images/schools/港中深.png',
+        image: 'https://personl-website.oss-cn-shenzhen.aliyuncs.com/life-images-upload/schools/cuhk-shenzhen.png',
         imageSource: '香港中文大学深圳 公众号',
         experience: `深圳的风，比威海更温热。港中深校园宽敞明亮，基础设施极为齐全，健身房和游泳馆总有人挥洒汗水，图书馆、咖啡馆、自习空间层出不穷。校园绿化也做得很好，常常可见曲径通幽的小角落，湖水与绿植相映成趣。我白天很少在校园，入夜后却总会发现天猫超市里灯火通明，有人自习有人游戏，仿佛没有常规夜的概念，我也是夜猫子，很自然地就融入了进去。
 
