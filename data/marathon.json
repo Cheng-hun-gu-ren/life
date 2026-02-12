@@ -1,6 +1,23 @@
 {
   "races": [
     {
+      "id": 3,
+      "name": "黄冈半程马拉松",
+      "date": "2025-01-12",
+      "location": "黄冈",
+      "distance": "半程马拉松（21.0975公里）",
+      "time": "1:44:30",
+      "ranking": 125,
+      "totalParticipants": 3000,
+      "weather": "晴天，8°C",
+      "experience": "2025年的第一场半马，天气寒冷但心情激动。在长江边奔跑，感受着冬日暖阳，完成了新年的第一个目标。",
+      "certificate": "images/marathon/certificate-黄冈半马-2025.jpg",
+      "medal": null,
+      "photos": [
+        "images/marathon/certificate-黄冈半马-2025.jpg"
+      ]
+    },
+    {
       "id": 1,
       "name": "烟台长岛马拉松",
       "date": "2023-05-03",
@@ -36,5 +53,10 @@
         "images/marathon/scene-2023-2.jpg"
       ]
     }
-  ]
+  ],
+  "statistics": {
+    "totalRaces": 3,
+    "totalDistance": "73.1",
+    "monthlyDistance": "55"
+  }
 }
