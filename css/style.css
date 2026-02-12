@@ -79,7 +79,9 @@ body {
     text-align: center;
 }
 
-.icp-info a {
+.icp-info a,
+.icp-info a:visited,
+.icp-info a:active {
     color: var(--text-muted-color);
     font-size: 0.875rem;
     font-weight: 400;
