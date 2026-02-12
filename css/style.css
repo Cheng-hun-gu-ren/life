@@ -79,16 +79,17 @@ body {
     text-align: center;
 }
 
-.icp-info p {
+.icp-info a {
     color: var(--text-muted-color);
     font-size: 0.875rem;
     font-weight: 400;
     letter-spacing: 0.5px;
     opacity: 0.8;
     transition: opacity 0.3s ease;
+    text-decoration: none;
 }
 
-.icp-info:hover p {
+.icp-info a:hover {
     opacity: 1;
 }
 
